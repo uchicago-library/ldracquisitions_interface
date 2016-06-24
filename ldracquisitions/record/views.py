@@ -71,11 +71,8 @@ def makeAnAccession():
 @acquisition.route('/list')
 def listRecords():
     from ..__init__ import app
-    from .controllers.acquisitionretriever import AcquisitionRetriever
     app.logger.info("entering list acquisition records page")
-    retriever = AcquisitionRetriever()
-    retriever.run_browse()
-    return render_template('list.html', result=retriever.result,
+    return render_template('list.html', result=[],
                            pageTitle='Un-Accessioned Acquisitions',
                            pageAction='Browsing New Acquisitions')
 

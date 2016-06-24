@@ -25,6 +25,8 @@ app.config['DATABASE_NAME'] = creader.get('Database', 'db_name')
 app.config['DATABASE_HOST'] = creader.get('Database', 'db_host')
 app.config['DATABASE_USER'] = creader.get('Database', 'db_user')
 app.config['DATABASE_PASS'] = creader.get('Database', 'db_pass')
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://{}:{}@{}/{}".\
 format(app.config['DATABASE_USER'],
        app.config['DATABASE_PASS'],
@@ -44,4 +46,21 @@ loghandler.setFormatter(logformatter)
 app.logger.setLevel(logging.DEBUG)
 app.logger.addHandler(loghandler)
 
+@app.template_filter('strfdate')
+def format_date(date, fmt=None):
+    date_format = '%b %d, %Y'
+    return date.strftime(date_format)
+
+@app.template_filter('capfirst')
+def capfirst(s):
+    return s[0].upper()+s[1:]
+
+@app.template_filter('makePretty')
+def makePretty(s):
+    if '_' in s:
+        parts = s.split('_')
+        parts = [x[0].upper()+x[1:].lower() for x in parts]
+        return ' '.join(parts)
+    else:
+        return s[0].upper()+s[1:].lower()
 
