@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask_wtf.csrf import CsrfProtect
 import logging
@@ -7,6 +6,13 @@ from logging.handlers import RotatingFileHandler
 from uchicagoldrtoolsuite.core.lib.confreader import ConfReader
 
 from .record.views import acquisition
+
+__author__ = "Tyler Danstrom"
+__email__ = "tdanstrom@uchicago.edu"
+__company__ = "The University of Chicago Library"
+__copyright__ = "Copyright University of Chicago, 2016"
+__publication__ = ""
+__version__ = "0.0.1dev"
 
 creader = ConfReader()
 
