@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LDR Acquisitions</title>
+<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                    
+                </button> 
+                <a class="navbar-brand" href="index.html">LDR Acquisitions</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="list.html">List Acquisitions</a></li>
+                    <li><a href="list2.html">List Accessions</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+				<form method="post" action="/create.html">
+					<fieldset class="form-group">
+						<legend>Creating an Acquisition</legend>
+						
+						<div class="form-group row">
+							<label for="accession-id">Accession Identifier</label>
+							<input type="text" class="form-control" id="accession-id" class="form-control"/>
+						</div>
+						
+						<div class="form-group row">
+							<label for="collection-title">Collection Title</label>
+							<input type="text" class="form-control" id="collection-title" class="form-control"/>					
+						</div>
+						
+						<div class="form-group row">
+							<label for="organization">Organization</label>
+							<input type="text" class="form-control" id="organization" class="form-control"/>					
+						</div>
+						
+						<div class="form-group row">
+							<label for="summary">Summary</label>
+							<textarea type="text" id="summary" class="form-control">
+							</textarea>
+						</div>
+						
+<!--
+						<div class="form-group row">
+							<label for="restriction-1-code">Restriction Code</label>
+							<select id="restriction-1-code" class="form-control">
+								<option id="O">O</option>
+								<option id="OU">OU</option>
+								<option id="DR-##">DR-##</option>
+								<option id="R-DA">R-DA</option>
+								<option id="OO">OO</option>
+								<option id="R-30">R-30</option>
+								<optin id="R-50">R-50</option>
+								<option id="R-80">R-80</option>
+								<option id="R-##D">R-##D</option>
+								<option id="R-X">R-X</option>
+								<option id="R-P30">R-P30</option>
+								<option id="MR-">MR-</opiton>
+								<option id="R-S">R-S</option>
+								<option id="R-C">R-C</option>
+							</select>
+						
+						<label for="restriction-1-comment">Comment</label>
+						
+						<textarea type="text" id="restriction-1-comment" class="form-control">
+						</textarea>	
+						
+						</div>
+						
+-->
+                        <div class="form-group row">
+						  <button type="submit" class="btn btn-primary">
+						  Save
+						  </button>                        
+                        </div>
+
+						
+					</fieldset>
+					
+				</form>
+			</div>
+            <div class="col-lg-4">
+                <h3>Donors <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <dl>
+                    <dt>Tonya Marcus</dt> 
+                    <dd>tmarcus@test.com, 555-455-5445</dd>
+                    <dt>Leopold Vaughn</dt>
+                    <dd>lvaughn@test.com, 555-055-0550</dd>
+                </dl>
+                <h3>Sources <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <dl id="sources-list">
+                    <dt>Fred Johnson</dt>
+                    <dd>fjohnson@test.com, 555-055-5511</dd>
+                </dl>
+                <h3>Restrictions <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <dl id="restrictions-list">
+                    <dt>R-##D</dt>
+                    <dd>at least 1000 years or death of donor</dd>
+                </dl>
+                <h3>Physical Media <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <dl id="physmedia-list">
+                    <dt>floppy</dt>
+                    <dd>quantity: 12</dd>
+                    <dt>cd</dt>
+                    <dd>quantity: 4</dd>
+                </dl> 
+                <h3>Is this a mixed acquisition?</h3>
+                <p>Yes it is.</p>
+            </div>
+    	</div>
+</body>
+
+
+
+</body>
+</html>
