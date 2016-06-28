@@ -35,24 +35,60 @@
 				<form method="post" action="/create.html">
 					<fieldset class="form-group">
 						<legend>Creating an Acquisition</legend>
-						
+                        
+                        
 						<div class="form-group row">
 							<label for="accession-id">Accession Identifier</label>
 							<input type="text" class="form-control" id="accession-id" class="form-control"/>
 						</div>
+
+                        <div class="form-group row">
+                        
+                            <label>
+                                <input type="checkbox" id="receipt-letter-required"/> Receipt Letter Information Required
+                            </label>
+                        </div>
+                        <div class="form-group row">
+                            <label>
+                                <input type="checkbox" id="receipt-letter-sent"/>
+                                Receipt Letter Information Sent
+                            </label>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label>
+                                <input type="checkbox" id="gift-acknowledgement-required"/>
+                                Gift Acknowledgement Information Required
+                            </label>
+                        </div>
+                        <div class="form-group row">
+                            <label>
+                                <input type="checkbox" id="gift-acknowledgement-sent"/>
+                                Gift Acknowledgement Information Received
+                            </label>
+                        </div>
+                                                                                            
+                        
+
 						
 						<div class="form-group row">
 							<label for="collection-title">Collection Title</label>
-							<input type="text" class="form-control" id="collection-title" class="form-control"/>					
+							<input type="text" class="form-control" id="collection-title"/>					
 						</div>
 						
 						<div class="form-group row">
 							<label for="organization">Organization</label>
-							<input type="text" class="form-control" id="organization" class="form-control"/>					
+							<input type="text" class="form-control" id="organization"/>					
 						</div>
-						
+
 						<div class="form-group row">
-							<label for="summary">Summary</label>
+							<label for="summary">Origin Descriptiont</label>
+							<textarea type="text" id="summary" class="form-control">
+							</textarea>
+						</div>
+                        
+						<div class="form-group row">
+							<label for="summary">Administrative Comment</label>
 							<textarea type="text" id="summary" class="form-control">
 							</textarea>
 						</div>
@@ -125,6 +161,11 @@
                 <p>Yes it is.</p>
             </div>
     	</div>
+        <footer>
+            <p class="text-center">
+            &copy; University of Chicago, 2016
+            </p>
+        </footer>
 </body>
 
 
