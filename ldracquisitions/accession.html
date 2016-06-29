@@ -40,108 +40,129 @@
                     <legend>Creating an Accession</legend>
                     
 						<div class="form-group row">
-							<label for="accession-id">Accession Identifier</label>
-							<input type="text" class="form-control" id="accession-id" class="form-control"/>
+                            <div class="col-sm-5">
+				                <label for="accession-id">Accession Identifier</label>
+                                <input type="text" class="form-control" id="accession-id" class="form-control" placeholder="2001-001"/>                            
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="ead-id">EAD Identifier</label>
+                                <input type="text" class="form-control" id="accession-id" class="form-control" placeholder="ICU.SPCL.FOO"/>
+                            </div>
 						</div>
-
-						<div class="form-group row">
-							<label for="ead-id">EAD Identifier</label>
-							<input type="text" class="form-control" id="accession-id" class="form-control"/>
-						</div>
-                    
                         <div class="form-group row">
-                            <label for="summary">Summary</label>
-                            <textarea class="form-control" id="summary">
+                            <div class="col-sm-5">
+				                <label for="collection-title">
+                                Collection Title
+                                </label>
+                                <select id="collection-title" class="form-control">
+                                    <option id="col1">Collection 1</option>
+                                    <option id="col2">Collection 2</option>
+                                    <option id="col3">Collection 3</option>
+                                    <option id="col4">Collection 4</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="span-date">Span Date</label>
+                                <div id="span-date-errors"></div>
+							     <input type="text" class="form-control" id="span-date"/>				
+                            </div>
+						</div>                
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                            <label for="summary">Description</label>
+                            <div id="summary-errors">
+                            </div>
+                            <textarea class="form-control" id="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project">
                             </textarea>
+                            </div>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="public-access-restriction"/> Should the public access it?
+                                </label>                            
+                            </div>
+                            <div class="col-sm-5">
+                            <div id="public-discovery-errors">
+                            </div>                            
+                            <label>
+                                <input type="checkbox" id="public-discovery-restriction"/> Should the public discover it?
+                            </label>                            
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5">
+                                <div id="receipt-letter-required-errors">
+                                </div>                        
+                                <label>
+                                    <input type="checkbox" id="receipt-letter-required"/> Receipt Letter Required
+                                </label>                            
+                            </div>
+                            <div class="col-sm-5">
+                            
+                                <div id="receipt-letter-sent-errors"></div>
+                                <label>
+                                    <input type="checkbox" id="receipt-letter-sent"/>
+                                    Receipt Letter Sent
+                                </label>  
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="rgift-acknowledgement-required"/>
+                                    Gift Acknowledgement Required
+                                </label>                        
+                            </div>
+                            <div class="col-sm-5">
+                                <div id="gift-acknowledgement-received-errors"></div>                            
+                                <label>
+                                    <input type="checkbox" id="gift-acknowledgement-received"/>
+                                    Gift Acknowledgement Received
+                                </label>
+                            </div>
+                        </div>
+						<div class="form-group row">
+                            <div class="col-sm-5">
+                                <label for="collection-title">Fiscal Year</label>
+				                <input type="text" class="form-control" id="fiscal-year"/>	                            
+                            </div>
+				            <div class="col-sm-5">
+                            	<label for="organization">Organization</label>
+							     <input type="text" class="form-control" id="organization"/>	
+                            </div>
+						</div>
+									
+						<div class="form-group row">
+				            <div class="col-sm-5">
+                                <label for="prc">PRC</label>
+							     <input type="text" id="prc" class="form-control"/>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="accession-type">Type</label>
+                                <input type="text" id="accession-type" class="form-control"/>
+                            </div>    
+						</div>
 
-                        <div class="form-group row">
-                        
-                            <label>
-                                <input type="checkbox" id="public-access-restriction"/> Should the public be able to access this material?
-                            </label>
-                        </div>
-                    
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="public-discovery-restriction"/> Should the public be able to discover this material?
-                            </label>
-                        </div>
-                    
-                        <div class="form-group row">
-                        
-                            <label>
-                                <input type="checkbox" id="receipt-letter-required"/> Receipt Letter Information Required
-                            </label>
-                        </div>
-                    
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="receipt-letter-sent"/>
-                                Receipt Letter Information Sent
-                            </label>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="rgift-acknowledgement-required"/>
-                                Gift Acknowledgement Information Required
-                            </label>
-                        </div>
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="gift-acknowledgement-received"/>
-                                Gift Acknowledgement Information Received
-                            </label>
-                        </div>
-                    
 						<div class="form-group row">
-							<label for="collection-title">Fiscal Year</label>
-							<input type="text" class="form-control" id="fiscal-year"/>					
-						</div>
-						
-						<div class="form-group row">
-							<label for="collection-title">Collection Title</label>
-							<input type="text" class="form-control" id="collection-title"/>					
-						</div>
-                    
-						<div class="form-group row">
-							<label for="span-date">Span Date</label>
-							<input type="text" class="form-control" id="span-date"/>					
-						</div>						
-						<div class="form-group row">
-							<label for="organization">Organization</label>
-							<input type="text" class="form-control" id="organization"/>					
-						</div>
-
-						<div class="form-group row">
+                            <div class="col-sm-10">
 							<label for="origin-description">Origin Description</label>
 							<textarea type="text" id="origin-description" class="form-control">
 							</textarea>
+                            </div>
 						</div>
-					
                         <div class="form-group row">
-							<label for="accession-type">Type</label>
-							<textarea type="text" id="accession-type" class="form-control">
-							</textarea>
+                            <div class="col-sm-10">
+                                <label for="accession-rights">Rights</label><textarea type="text" id="accession-rights" class="form-control">
+							</textarea>                            
+                            </div>
 						</div>
-                    
-                        <div class="form-group row">
-							<label for="accession-type">PRC</label>
-							<textarea type="text" id="prc" class="form-control">
-							</textarea>
-						</div>                    
-
-                        <div class="form-group row">
-							<label for="accession-rights">Rights</label>
-							<textarea type="text" id="accession-rights" class="form-control">
-							</textarea>
-						</div>
-                    
 						<div class="form-group row">
+                            <div class="col-sm-10">
 							<label for="accession-access-description">Access Description</label>
 							<textarea type="text" id="access-description" class="form-control">
 							</textarea>
+                            </div>
 						</div>						
                     
 						<div class="form-group row">
@@ -161,7 +182,7 @@
                         </div>
 						
                         <div class="form-group row">
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <button id="save-accession" type="submit" class="btn btn-primary btn-sm">
                             Save
                             </button>
                         </div>
@@ -170,7 +191,11 @@
             </form>
         </div>
         <div class="col-lg-3">
-                <h3>Donors <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <h3>Donors 
+                    <a href="donor.html" target="_blank" type="button" class="btn btn-primary btn-sm">
+                        add
+                    </a>
+                </h3>
                 <dl id="donors-list">
                     <dt>Tonya Marcus 
                         <button class="btn btn-warning btn-sm">
@@ -191,7 +216,11 @@
                     </dt>
                     <dd>lvaughn@test.com, 555-055-0550</dd>
                 </dl>
-                <h3>Sources <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <h3>Sources 
+                    <a href="source.html" target="_blank" ="button" class="btn btn-primary btn-sm">
+                        add
+                    </a>
+                </h3>
                 <dl id="sources-list">
                     <dt>Fred Johnson 
                         <a class="btn btn-warning btn-sm">edit</a> /
@@ -199,7 +228,11 @@
                     </dt>
                     <dd>fjohnson@test.com, 555-055-5511</dd>
                 </dl>
-                  <h3>Restrictions <button role="button" class="btn btn-primary btn-sm">add</button></h3>
+                  <h3>Restrictions 
+                      <a href="restriction.html" target="_blank" role="button" class="btn btn-primary btn-sm">
+                          add
+                      </a>
+                </h3>
                 <dl id="restrictions-list">
                     <dt>R-##D
                         <a class="btn btn-warning btn-sm">
@@ -211,7 +244,11 @@
                     </dt>
                     <dd>at least 1000 years or death of donor</dd>
                 </dl>
-                <h3>Physical Media <button type="button" class="btn btn-primary btn-sm">add</button></h3>
+                <h3>Physical Media 
+                    <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-sm">
+                        add
+                    </a>
+                </h3>
                 <dl id="physmedia-list">
                     <dt>floppy 
                         <a class="btn btn-warning btn-sm">
