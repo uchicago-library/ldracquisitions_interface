@@ -9,8 +9,8 @@ The acquisitions interface is a Javascript/Python-Flask application for allowing
 As extra information, there is:
 
 1. an about page describing 
-  1a. how each type of user should use the site
-  1b.  a FAQ list
+    - how each type of user should use the site
+    - a FAQ list
 2. a list of accession records
 
 # Types of Forms
