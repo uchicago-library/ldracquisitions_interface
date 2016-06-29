@@ -35,54 +35,66 @@
 					<fieldset class="form-group">
 						<legend>Creating an Acquisition</legend>              
 						<div class="form-group row">
-							<label for="accession-id">Accession Identifier</label>
-							<input type="text" class="form-control" id="accession-id" class="form-control"/>
+                            <div class="col-sm-5">
+				                <label for="accession-id">Accession Identifier</label>
+                                <input type="text" class="form-control" id="accession-id" class="form-control" placeholder="2010-010"/>  
+                            </div>
+                            <div class="col-sm-5">
+				                <label for="collection-title">Collection Title</label>
+                                <input type="text" class="form-control" id="collection-title" placeholder="The Mary J Brainerd Collection"/>	                            
+                            </div>
 						</div>
                         <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="receipt-letter-required"/> Receipt Letter Information Required
-                            </label>
-                        </div>
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="receipt-letter-sent"/>
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="receipt-letter-required"/> Receipt Letter Information Required
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="receipt-letter-sent"/>
                                 Receipt Letter Information Sent
-                            </label>
+                                </label>                            
+                            </div>
                         </div>
                         <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="gift-acknowledgement-required"/>
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="gift-acknowledgement-required"/>
                                 Gift Acknowledgement Information Required
-                            </label>
-                        </div>
-                        <div class="form-group row">
-                            <label>
-                                <input type="checkbox" id="gift-acknowledgement-sent"/>
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <label>
+                                    <input type="checkbox" id="gift-acknowledgement-sent"/>
                                 Gift Acknowledgement Information Received
-                            </label>
+                                </label>
+                            </div>
                         </div>
 						<div class="form-group row">
-							<label for="collection-title">Collection Title</label>
-							<input type="text" class="form-control" id="collection-title"/>					
-						</div>
-						<div class="form-group row">
+                            <div class="col-sm-10">
 							<label for="organization">Organization</label>
-							<input type="text" class="form-control" id="organization"/>					
+							<input type="text" class="form-control" id="organization" placeholder="Special Collections Research Center"/>		
+                            </div>
 						</div>
 						<div class="form-group row">
-							<label for="summary">Origin Descriptiont</label>
-							<textarea type="text" id="summary" class="form-control">
-							</textarea>
+                            <div class="col-sm-10">
+							<label for="summary">Origin Description</label>
+							<textarea type="text" id="summary" class="form-control" placeholder="A description of the origin of the material"></textarea>
+                            </div>
 						</div>
 						<div class="form-group row">
+                            <div class="col-sm-10">
 							<label for="summary">Administrative Comment</label>
-							<textarea type="text" id="summary" class="form-control">
-							</textarea>
+							<textarea type="text" id="summary" class="form-control" placeholder="Anything that you think the DAS should know"></textarea>
+                            </div>
 						</div>
                         <div id="sav-acquisition" class="form-group row">
-						  <button type="submit" class="btn btn-primary">
-						  Save
-						  </button>                        
+                            <div class="col-sm-10">
+						      <button type="submit" class="btn btn-primary">
+						      Save
+						      </button>
+                            </div>
                         </div>
 					</fieldset>
 				</form>

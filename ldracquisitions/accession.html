@@ -8,7 +8,8 @@
 <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
 </head>
     <body>
-    <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="scripting.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js">
     </script>
@@ -35,7 +36,7 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-            <form method="post" action="/accession.html">
+            <form method="post" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
                     
@@ -64,7 +65,7 @@
                             <div class="col-sm-5">
                                 <label for="span-date">Span Date</label>
                                 <div id="span-date-errors"></div>
-							     <input type="text" class="form-control" id="span-date"/>				
+							     <input type="text" class="form-control" id="span-date" placeholder="2010-06 through 2011-07"/>				
                             </div>
 						</div>                
                         <div class="form-group row">
@@ -72,8 +73,7 @@
                             <label for="summary">Description</label>
                             <div id="summary-errors">
                             </div>
-                            <textarea class="form-control" id="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project">
-                            </textarea>
+                            <textarea class="form-control" id="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -125,66 +125,66 @@
 						<div class="form-group row">
                             <div class="col-sm-5">
                                 <label for="collection-title">Fiscal Year</label>
-				                <input type="text" class="form-control" id="fiscal-year"/>	                            
+				                <input type="text" class="form-control" id="fiscal-year" placeholder="2006-2007"/>	                            
                             </div>
 				            <div class="col-sm-5">
                             	<label for="organization">Organization</label>
-							     <input type="text" class="form-control" id="organization"/>	
+							     <input type="text" class="form-control" id="organization" placeholder="Special Collections"/>	
                             </div>
 						</div>
 									
 						<div class="form-group row">
 				            <div class="col-sm-5">
                                 <label for="prc">PRC</label>
-							     <input type="text" id="prc" class="form-control"/>
+							     <input type="text" id="prc" class="form-control" placeholder="P or R or C"/>
                             </div>
                             <div class="col-sm-5">
                                 <label for="accession-type">Type</label>
-                                <input type="text" id="accession-type" class="form-control"/>
+                                <input type="text" id="accession-type" class="form-control" placeholder="Ar or CJA"/>
                             </div>    
 						</div>
 
 						<div class="form-group row">
                             <div class="col-sm-10">
 							<label for="origin-description">Origin Description</label>
-							<textarea type="text" id="origin-description" class="form-control">
-							</textarea>
+							<textarea type="text" id="origin-description" class="form-control" placeholder="Describe the origin of the material"></textarea>
                             </div>
 						</div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <label for="accession-rights">Rights</label><textarea type="text" id="accession-rights" class="form-control">
-							</textarea>                            
+                                <label for="accession-rights">Rights</label><textarea type="text" id="accession-rights" class="form-control" placeholder="Describe the legal rights that correspoind to the material"></textarea>                            
                             </div>
 						</div>
 						<div class="form-group row">
                             <div class="col-sm-10">
 							<label for="accession-access-description">Access Description</label>
-							<textarea type="text" id="access-description" class="form-control">
-							</textarea>
+							<textarea type="text" id="access-description" class="form-control" placeholder="Describe the access restrictions for the material"></textarea>
                             </div>
 						</div>						
                     
 						<div class="form-group row">
+                            <div class="col-sm-10">
 							<label for="admin-comments">Administrative Comment</label>
-							<textarea type="text" id="admin-comments" class="form-control">
-							</textarea>
+							<textarea type="text" id="admin-comments" class="form-control" placeholder="Write anything that you think that the DAS should know"></textarea>
+                            </div>
 						</div>
                     
                         <div class="form-group row">
-                            <label for="files-staged-date">Files Staged Date</label>
-                            <input type="text" id="files-staged-date" class="form-control"/>
+                            <div class="col-sm-5">
+                                <label for="files-staged-date">Files Staged Date</label>
+                                <input type="text" id="files-staged-date" class="form-control"/>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="files-received-date">Files Received Date</label>
+                                <input type="text" class="form-control" id="files-received-date"/>                            
+                            </div>
                         </div>
-                    
                         <div class="form-group row">
-                            <label for="files-received-date">Files Received Date</label>
-                            <input type="text" class="form-control" id="files-received-date"/>
-                        </div>
-						
-                        <div class="form-group row">
+                            <div class="col-sm-10">
                             <button id="save-accession" type="submit" class="btn btn-primary btn-sm">
                             Save
                             </button>
+                            </div>
                         </div>
 
                 </fieldset>
