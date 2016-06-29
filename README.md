@@ -1,6 +1,17 @@
 # Introduction
 
-The acquisitions interface is a Javascript/Python-Flask application for allowing workers to add acquisitions and accession records into the ldr.
+The acquisitions interface is a Javascript/Python-Flask application for allowing workers to add acquisitions and accession records into the ldr. In order to facilitate that purpose it has three major sections
+
+1. An acquisition form submission page
+2. An accession form submission page
+3. A list of accessions
+
+As extra information, there is:
+
+1. an about page describing 
+  1a. how each type of user should use the site
+  1b.  a FAQ list
+2. a list of accession records
 
 # Types of Forms
 ## Acquisition Record
