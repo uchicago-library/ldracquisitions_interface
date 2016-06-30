@@ -34,18 +34,42 @@ It has the following fields:
 
 * accession identifier = must be four numerals followed by a dash followed by three numerals
 * collection title = must be a string ending with the word "Collection"
-* receipt letter info required = must be either True or False
-* receipt letter info sent = must be either True or False
-* gift acknowledgement info required = must be either True or False
-* gift acknowledgement info received = must be either True or False
+* receipt letter info required = may be True, default is False
+* receipt letter info sent = may be an ISO-0601 formatted date
+* gift acknowledgement info required = may be True, default is False
+* gift acknowledgement info received = may be an ISO-8601 formatted date
 * organization = must be a department in the university. Will most commonly be Special Collections Research Center
 * origin description = may be 1 or more sentences
 * administrative comment = may be 1 or more sentences.
-* a list of donors for the material = must be 1 or more individuals, each with a first name, a last name, an email address, a phone number, and a mailing address
-* a list of sources for the material = must be 1 or more individuals, each with a first name, a last name, an email address, a phone number, and a mailing address
-* a list of restrictions applied to the material = must be 1 or more lines each with a formal SPCL restriction code and a description of why that code was applied
-* a list of the physical media and how much of each that medium that holds the resource originally = may be 1 or more lines each with a descriptor label (e.g., floppy disk, cd, thumb drive) and a number reflecting the amount of that descriptor that was in the accession
-* whether it is a mixed acquisition = must be True or False
+* a list of donors for the material = must be 1 or more individuals, 
+    * a first name
+    * a last name
+    * an email address
+    * a phone number
+    * a mailing address 
+        * street address
+        * unit number
+        * city
+        * state
+        * zipcode
+* a list of sources for the material = must be 1 or more individuals, 
+    * a first name
+    * a last name
+    * an email address
+    * a phone number
+    * a mailing address
+        * street address
+        * unit number
+        * city
+        * state
+        * zipcode    
+* a list of restrictions applied to the material = must be 1 or more lines 
+    * a formal SPCL restriction code 
+    * a description of why that code was applied
+* a list of the physical media and how much of each that medium that holds the resource originally = may be 1 or more lines 
+    * a descriptor (e.g., floppy disk, cd, thumb drive)
+    * a number reflecting the amount of that descriptor that was in the accession
+* whether it is a mixed acquisition = must be Yes or No
 
 ### Description of actions performed by the user
 
@@ -81,12 +105,12 @@ It has the following fields:
 * should the public access it = must be True or False
 * should the public discover it = must be True or False
 * fiscal year = must be a year with four numerals followed by a dash followed by a year with four numerals
-* organization = must be a department in the university of Chicago
-* prc = must be either "P" or "R" or "C"
-* type = must be a formal SPCL type designation
+* organization = must be a department in the University of Chicago
+* prc = must be either "P" or "R" or "C" (may be obsolete)
+* type = must be a formal SPCL type designation (may be obsolete)
 * origin description = must be 1 or more sentences
 * rights = must be 1 or more sentences
-* access description = must be 1 or mroe sentences
+* access description = may be 1 or more sentences
 * files staged date = must be an ISO-8601 formatted date
 * files received date = must be an ISO-8601 formatted date
 
