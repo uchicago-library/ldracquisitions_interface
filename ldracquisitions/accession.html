@@ -6,17 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css"/>
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-3.0.0.min.js"></script>
-    <script type="text/javascript" src="static/jquery/jquery-ui.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
+    <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
+    <script type="text/javascript">
+      $(function() {
+          $('input[name="span-date"]').daterangepicker({'viewMode':'years'});
+      });
 
-    <script type="text/javascript" src="scripting.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js">
+      $(function() {
+          $('input[name="files-staged-date"]').daterangepicker({'singleDatePicker':true,'showDropDowns':true});
+      });
+
+      $(function() {
+          $('input[name="files-received-date"]').daterangepicker({'singleDatePicker':true,'showDropDowns':true});
+      });
+
+      $(function() {
+          $('input[name="fiscal-year"]').daterangepicker({'viewMode':"years","minViewMode":'years'});
+      });
+      ${document).ready(function() {
+          $("accession-form").formValidate({
+
+          })
+      });
     </script>
-
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">
@@ -46,11 +66,11 @@
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label for="accession-id">Accession Identifier</label>
-                            <input type="text" class="form-control" id="accession-id" class="form-control" placeholder="2001-001" />
+                            <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" />
                         </div>
                         <div class="col-sm-5">
                             <label for="ead-id">EAD Identifier</label>
-                            <input type="text" class="form-control" id="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" />
+                            <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -58,12 +78,12 @@
                             <label for="collection-title">
                                 Collection Title
                             </label>
-                            <input id="collection-title" type="text" class="form-control" placeholder="Brainerd, Mary J. Digital Collection." />
+                            <input type="text" class="form-control" name='collection-title' placeholder="Brainerd, Mary J. Digital Collection." />
                         </div>
                         <div class="col-sm-5">
                             <label for="span-date">Span Date</label>
                             <div id="span-date-errors"></div>
-                            <input type="text" class="form-control" id="span-date" placeholder="2010-06 through 2011-07" />
+                            <input type="text" class="form-control" name='span-date' placeholder="2010-06 through 2011-07" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -71,20 +91,20 @@
                             <label for="summary">Description</label>
                             <div id="summary-errors">
                             </div>
-                            <textarea class="form-control" id="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project"></textarea>
+                            <textarea class="form-control" name="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label>
-                                <input type="checkbox" id="public-access-restriction" /> Should the public access it?
+                                <input type="checkbox" name="public-access-restriction" /> Should the public access it?
                             </label>
                         </div>
                         <div class="col-sm-5">
                             <div id="public-discovery-errors">
                             </div>
                             <label>
-                                <input type="checkbox" id="public-discovery-restriction" /> Should the public discover it?
+                                <input type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
                             </label>
                         </div>
                     </div>
@@ -93,91 +113,91 @@
                             <div id="receipt-letter-required-errors">
                             </div>
                             <label>
-                                <input type="checkbox" id="receipt-letter-required" /> Receipt Letter Required
+                                <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
                             </label>
                         </div>
                         <div class="col-sm-5">
 
                             <div id="receipt-letter-sent-errors"></div>
                             <label>
-                                <input type="checkbox" id="receipt-letter-sent" /> Receipt Letter Sent
+                                <input type="checkbox" name="receipt-letter-sent" /> Receipt Letter Sent
                             </label>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label>
-                                <input type="checkbox" id="rgift-acknowledgement-required" /> Gift Acknowledgement Required
+                                <input type="checkbox" name="rgift-acknowledgement-required" /> Gift Acknowledgement Required
                             </label>
                         </div>
                         <div class="col-sm-5">
                             <div id="gift-acknowledgement-received-errors"></div>
                             <label>
-                                <input type="checkbox" id="gift-acknowledgement-received" /> Gift Acknowledgement Received
+                                <input type="checkbox" name="gift-acknowledgement-received" /> Gift Acknowledgement Received
                             </label>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label for="collection-title">Fiscal Year</label>
-                            <input type="text" class="form-control" id="fiscal-year" placeholder="2006-2007" />
+                            <input type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
                         </div>
                         <div class="col-sm-5">
                             <label for="organization">Organization</label>
-                            <input type="text" class="form-control" id="organization" placeholder="Special Collections" />
+                            <input type="text" class="form-control" name="organization" placeholder="Special Collections" />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label for="prc">PRC</label>
-                            <input type="text" id="prc" class="form-control" placeholder="P or R or C" />
+                            <input type="text" name="prc" class="form-control" placeholder="P or R or C" />
                         </div>
                         <div class="col-sm-5">
                             <label for="accession-type">Type</label>
-                            <input type="text" id="accession-type" class="form-control" placeholder="Ar or CJA" />
+                            <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-10">
                             <label for="origin-description">Origin Description</label>
-                            <textarea type="text" id="origin-description" class="form-control" placeholder="Describe the origin of the material"></textarea>
+                            <textarea type="text" name="origin-description" class="form-control" placeholder="Describe the origin of the material"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
                             <label for="accession-rights">Rights</label>
-                            <textarea type="text" id="accession-rights" class="form-control" placeholder="Describe the legal rights that correspoind to the material"></textarea>
+                            <textarea type="text" name="accession-rights" class="form-control" placeholder="Describe the legal rights that correspoind to the material"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
                             <label for="accession-access-description">Access Description</label>
-                            <textarea type="text" id="access-description" class="form-control" placeholder="Describe the access restrictions for the material"></textarea>
+                            <textarea type="text" name="access-description" class="form-control" placeholder="Describe the access restrictions for the material"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-10">
                             <label for="admin-comments">Administrative Comment</label>
-                            <textarea type="text" id="admin-comments" class="form-control" placeholder="Write anything that you think that the DAS should know"></textarea>
+                            <textarea type="text" name="admin-comments" class="form-control" placeholder="Write anything that you think that the DAS should know"></textarea>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <label for="files-staged-date">Files Staged Date</label>
-                            <input type="text" id="files-staged-date" class="form-control" />
+                            <input type="text" name="files-staged-date" class="form-control" />
                         </div>
                         <div class="col-sm-5">
                             <label for="files-received-date">Files Received Date</label>
-                            <input type="text" class="form-control" id="files-received-date" />
+                            <input type="text" class="form-control" name="files-received-date" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
-                            <button id="save-accession" type="submit" class="btn btn-primary btn-sm">
+                            <button name="save-accession" type="submit" class="btn btn-primary btn-sm">
                                 Save
                             </button>
                         </div>
