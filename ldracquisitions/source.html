@@ -1,97 +1,99 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE-edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LDR Acquisitions</title>
-<link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LDR Acquisitions</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
 </head>
+
 <body>
 
-    
+
     <div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<form method="post" action="/create.html">
-					<fieldset class="form-group">
-						<legend>Adding a Source</legend>
-						<div class="form-group row">
+        <div class="row">
+            <div class="col-lg-12">
+                <form method="post" action="/create.html">
+                    <fieldset class="form-group">
+                        <legend>Adding a Source</legend>
+                        <div class="form-group row">
                             <div class="col-sm-5">
-				                <label for="first-name">Source's first name</label>
+                                <label for="first-name">Source's first name</label>
                                 <div id="first-name-errors"></div>
-                                <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane"/>
+                                <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane" />
                             </div>
                             <div class="col-sm-5">
                                 <label for="last-name">Source's last name</label>
                                 <div id="last-name-errors"></div>
-                                <input type="text" class="form-control" id="last-name" placeholder="Smith"/>
+                                <input type="text" class="form-control" id="last-name" placeholder="Smith" />
                             </div>
-						</div>						
-						<div class="form-group row">
+                        </div>
+                        <div class="form-group row">
                             <div class="col-sm-5">
                                 <label for="organization">Source's phone Number</label>
                                 <div id="organization-errors"></div>
-				                <input type="text" class="form-control" id="phone-number" placeholder="555-505-5445"/>
+                                <input type="text" class="form-control" id="phone-number" placeholder="555-505-5445" />
                             </div>
                             <div class="col-sm-5">
                                 <label for="summary">Source's email address</label>
                                 <div id="summary-errors"></div>
-				                <input type="text" id="summary" class="form-control" placeholder="jsmith@test.com">      
+                                <input type="text" id="summary" class="form-control" placeholder="jsmith@test.com">
                             </div>
-						</div>
+                        </div>
 
-						<div class="form-group row">
+                        <div class="form-group row">
 
-						</div>
-                        
+                        </div>
+
                         <fieldset>
                             <legend>Source's Address</legend>
-						    <div class="form-group row">
+                            <div class="form-group row">
                                 <div class="col-sm-3">
                                     <div id="street-address-errors">
                                     </div>
-							         <input type="text" id="street-address" class="form-control" placeholder="1100 East 57th St"/>
+                                    <input type="text" id="street-address" class="form-control" placeholder="1100 East 57th St" />
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" id="unit-number" class="form-control" placeholder="Room 220"/>
+                                    <input type="text" id="unit-number" class="form-control" placeholder="Room 220" />
                                 </div>
-						    </div>
-                            
+                            </div>
+
                             <div class="form-group row">
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="city" placeholder="Chicago"/>
+                                    <input type="text" class="form-control" id="city" placeholder="Chicago" />
                                 </div>
                                 <div class="col-sm-1">
-                                <input type="text" class="form-control" id="state" placeholder='IL'/>
+                                    <input type="text" class="form-control" id="state" placeholder='IL' />
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="zipcode" placeholder="60637"/>                                
+                                    <input type="text" class="form-control" id="zipcode" placeholder="60637" />
                                 </div>
 
-                                
+
                             </div>
-                            
+
                         </fieldset>
-						
+
                         <div class="form-group row">
-						  <button id="save-source" type="submit" class="btn btn-primary">
-						  Save
-						  </button>                        
+                            <button id="save-source" type="submit" class="btn btn-primary">
+                                Save
+                            </button>
                         </div>
 
-						
-					</fieldset>
-					
-				</form>
-			 </div>
+
+                    </fieldset>
+
+                </form>
             </div>
-    	</div>
-        <footer>
-            <p class="text-center">
+        </div>
+    </div>
+    <footer>
+        <p class="text-center">
             &copy; University of Chicago, 2016
-            </p>
-        </footer>
+        </p>
+    </footer>
 </body>
 
 </html>
