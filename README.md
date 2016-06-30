@@ -42,33 +42,33 @@ It has the following fields:
 * origin description = may be 1 or more sentences
 * administrative comment = may be 1 or more sentences.
 * a list of donors for the material = must be 1 or more individuals, 
-    * a first name
-    * a last name
-    * an email address
-    * a phone number
-    * a mailing address 
+    a. a first name
+    b. a last name
+    c. an email address
+    d. a phone number
+    e. a mailing address 
         * street address
         * unit number
         * city
         * state
         * zipcode
 * a list of sources for the material = must be 1 or more individuals, 
-    * a first name
-    * a last name
-    * an email address
-    * a phone number
-    * a mailing address
+    a. a first name
+    b. a last name
+    c. an email address
+    d. a phone number
+    e. a mailing address
         * street address
         * unit number
         * city
         * state
         * zipcode    
 * a list of restrictions applied to the material = must be 1 or more lines 
-    * a formal SPCL restriction code 
-    * a description of why that code was applied
+    a. a formal SPCL restriction code 
+    b. a description of why that code was applied
 * a list of the physical media and how much of each that medium that holds the resource originally = may be 1 or more lines 
-    * a descriptor (e.g., floppy disk, cd, thumb drive)
-    * a number reflecting the amount of that descriptor that was in the accession
+    a. a descriptor (e.g., floppy disk, cd, thumb drive)
+    b. a number reflecting the amount of that descriptor that was in the accession
 * whether it is a mixed acquisition = must be Yes or No
 
 ### Description of actions performed by the user
