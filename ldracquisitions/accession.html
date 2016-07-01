@@ -6,36 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
 </head>
 
 <body>
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
+    <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-      $(function() {
-          $('input[name="span-date"]').daterangepicker({'viewMode':'years'});
-      });
+        $(function () {
+            $('input[name="fiscal-year"]').daterangepicker({
+                'singleDatePicker': true
+            });
+        });
 
-      $(function() {
-          $('input[name="files-staged-date"]').daterangepicker({'singleDatePicker':true,'showDropDowns':true});
-      });
+        $(function () {
+            $('input[name="span-date"]').daterangepicker({
+                'viewMode': 'years',
+                'minViewMode': 'years'
+            });
+        });
 
-      $(function() {
-          $('input[name="files-received-date"]').daterangepicker({'singleDatePicker':true,'showDropDowns':true});
-      });
+        $(function () {
+            $('input[name="gift-acknowledgement-received"]').daterangepicker({
+                'singleDatePicker': true
+            });
+        });
 
-      $(function() {
-          $('input[name="fiscal-year"]').daterangepicker({'viewMode':"years","minViewMode":'years'});
-      });
-      ${document).ready(function() {
-          $("accession-form").formValidate({
+        $(function () {
+            $('input[name="receipt-letter-sent"]').daterangepicker({
+                'singleDatePicker': true
+            });
+        });
 
-          })
-      });
+        $(function () {
+            $('input[name="files-staged-date"]').daterangepicker({
+                'singleDatePicker': true
+            });
+        });
+
+        $(function () {
+            $('input[name="files-received-date"]').daterangepicker({
+                'singleDatePicker': true
+            });
+        });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -59,232 +76,288 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-            <form method="post" action="/accession.html" form="form-horizontal">
+            <form method="post" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
-
-                    <div class="form-group row">
+                    <div class="row">
                         <div class="col-sm-5">
-                            <label for="accession-id">Accession Identifier</label>
-                            <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" />
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="ead-id">EAD Identifier</label>
-                            <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label for="collection-title">
-                                Collection Title
-                            </label>
-                            <input type="text" class="form-control" name='collection-title' placeholder="Brainerd, Mary J. Digital Collection." />
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="span-date">Span Date</label>
-                            <div id="span-date-errors"></div>
-                            <input type="text" class="form-control" name='span-date' placeholder="2010-06 through 2011-07" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <label for="summary">Description</label>
-                            <div id="summary-errors">
+                            <div class="form-group">
+                                < <label for="accession-id">Accession Identifier</label>
+                                    <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
+                                    <div class="help-block with-errors"></div>
                             </div>
-                            <textarea class="form-control" name="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label>
-                                <input type="checkbox" name="public-access-restriction" /> Should the public access it?
-                            </label>
                         </div>
                         <div class="col-sm-5">
-                            <div id="public-discovery-errors">
+                            <div class="form-group">
+                                <label for="ead-id">EAD Identifier</label>
+                                <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
+                                <div class="help-block with-errors"></div>
                             </div>
-                            <label>
-                                <input type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
-                            </label>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="row">
                         <div class="col-sm-5">
-                            <div id="receipt-letter-required-errors">
+                            <div class="form-group">
+                                <label for="collection-title">
+                                    Collection Title
+                                </label>
+                                <input type="text" class="form-control" name='collection-title' placeholder="Brainerd, Mary J. Digital Collection." required/>
+                                <div class="help-block with-errors"></div>
                             </div>
-                            <label>
-                                <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
-                            </label>
                         </div>
                         <div class="col-sm-5">
-
-                            <div id="receipt-letter-sent-errors"></div>
-                            <label>
-                                <input type="checkbox" name="receipt-letter-sent" /> Receipt Letter Sent
-                            </label>
+                            <div class="form-group">
+                                <label for="start-span-date">Span Date</label>
+                                <input type="text" class="form-control" name='span-date' required/>
+                                <div class="help-block with-errors"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label>
-                                <input type="checkbox" name="rgift-acknowledgement-required" /> Gift Acknowledgement Required
-                            </label>
-                        </div>
-                        <div class="col-sm-5">
-                            <div id="gift-acknowledgement-received-errors"></div>
-                            <label>
-                                <input type="checkbox" name="gift-acknowledgement-received" /> Gift Acknowledgement Received
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label for="collection-title">Fiscal Year</label>
-                            <input type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="organization">Organization</label>
-                            <input type="text" class="form-control" name="organization" placeholder="Special Collections" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label for="prc">PRC</label>
-                            <input type="text" name="prc" class="form-control" placeholder="P or R or C" />
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="accession-type">Type</label>
-                            <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
+                    <div class="row">
                         <div class="col-sm-10">
-                            <label for="origin-description">Origin Description</label>
-                            <textarea type="text" name="origin-description" class="form-control" placeholder="Describe the origin of the material"></textarea>
+                            <div class="form-group">
+                                <label for="summary">Description</label>
+                                <textarea class="form-control" name="summary" placeholder="This accession contains video files and Word Perfect files retrieved as part of the floppy disk project" required></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <label for="accession-rights">Rights</label>
-                            <textarea type="text" name="accession-rights" class="form-control" placeholder="Describe the legal rights that correspoind to the material"></textarea>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="public-access-restriction" /> Should the public access it?
+                                </label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
+                                </label>
+                                <div class="help-block with-errors"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div id="receipt-letter-required-errors">
+                                </div>
+                                <label>
+                                    <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
+                                </label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div id="receipt-letter-sent-errors"></div>
+                                <label for="receipt-letter-sent">Receipt Letter Sent</label>
+                                <input type="text" name="receipt-letter-sent" class="form-control" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Required
+                                </label>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div id="gift-acknowledgement-received-errors"></div>
+                                <label for="gift-acknowledgement-received">Gift Acknowledgement Received</label>
+                                <input type="text" name="gift-acknowledgement-received" class="form-control" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="collection-title">Fiscal Year</label>
+                                <input type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="organization">Organization</label>
+                                <input type="text" class="form-control" name="organization" placeholder="Special Collections" />
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="prc">PRC</label>
+                                <input type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="accession-type">Type</label>
+                                <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" required/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-10">
-                            <label for="accession-access-description">Access Description</label>
-                            <textarea type="text" name="access-description" class="form-control" placeholder="Describe the access restrictions for the material"></textarea>
+                            <div class="form-group">
+                                <label for="origin-description">Origin Description</label>
+                                <textarea type="text" name="origin-description" class="form-control" placeholder="Describe the origin of the material" required></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label for="accession-rights">Rights</label>
+                                <textarea type="text" name="accession-rights" class="form-control" placeholder="Describe the legal rights that correspoind to the material" required></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label for="accession-access-description">Access Description</label>
+                                <textarea type="text" name="access-description" class="form-control" placeholder="Describe the access restrictions for the material" required></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label for="admin-comments">Administrative Comment</label>
+                                <textarea type="text" name="admin-comments" class="form-control" placeholder="Write anything that you think that the DAS should know"></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="files-staged-date">Files Staged Date</label>
+                                <input type="text" name="files-staged-date" class="form-control" required/>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="files-received-date">Files Received Date</label>
+                                <input type="text" class="form-control" name="files-received-date" required/>
+                                <div class="help-block with-errors"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <label for="admin-comments">Administrative Comment</label>
-                            <textarea type="text" name="admin-comments" class="form-control" placeholder="Write anything that you think that the DAS should know"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-5">
-                            <label for="files-staged-date">Files Staged Date</label>
-                            <input type="text" name="files-staged-date" class="form-control" />
-                        </div>
-                        <div class="col-sm-5">
-                            <label for="files-received-date">Files Received Date</label>
-                            <input type="text" class="form-control" name="files-received-date" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
+                    <div class="row">
                         <div class="col-sm-10">
                             <button name="save-accession" type="submit" class="btn btn-primary btn-sm">
                                 Save
                             </button>
                         </div>
                     </div>
-
                 </fieldset>
             </form>
         </div>
         <div class="col-lg-3">
-            <h3>Donors
-                    <a href="donor.html" target="_blank" type="button" class="btn btn-primary btn-sm">
+            <div class="row">
+                <h3>Donors
+                    <a href="donor.html" target="_blank" type="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
-            <dl id="donors-list">
-                <dt>Tonya Marcus
-                        <button class="btn btn-warning btn-sm">
+                <dl id="donors-list">
+                    <dt>Tonya Marcus
+                        <button class="btn btn-warning btn-xs">
                         edit
                         </button>
-                        <button class="btn btn-danger btn-sm">
+                        <button class="btn btn-danger btn-xs">
                         remove
                         </button>
                     </dt>
-                <dd>tmarcus@test.com, 555-455-5445</dd>
-                <dt>Leopold Vaughn
-                        <button class="btn btn-warning btn-sm">
+                    <dd>tmarcus@test.com, 555-455-5445</dd>
+                    <dt>Leopold Vaughn
+                        <button class="btn btn-warning btn-xs">
                         edit
                         </button>
-                        <button class="btn btn-danger btn-sm">
+                        <button class="btn btn-danger btn-xs">
                         remove
                         </button>
                     </dt>
-                <dd>lvaughn@test.com, 555-055-0550</dd>
-            </dl>
-            <h3>Sources
-                    <a href="source.html" target="_blank" ="button" class="btn btn-primary btn-sm">
+                    <dd>lvaughn@test.com, 555-055-0550</dd>
+                </dl>
+            </div>
+            <div class="row">
+                <h3>Sources
+                    <a href="source.html" target="_blank" role="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
-            <dl id="sources-list">
-                <dt>Fred Johnson
-                        <a class="btn btn-warning btn-sm">edit</a> /
-                        <a class="btn btn-danger btn-sm">remove</a>
+                <dl id="sources-list">
+                    <dt>Fred Johnson
+                        <a class="btn btn-warning btn-xs">edit</a>
+                        <a class="btn btn-danger btn-xs">remove</a>
                     </dt>
-                <dd>fjohnson@test.com, 555-055-5511</dd>
-            </dl>
-            <h3>Restrictions
-                      <a href="restriction.html" target="_blank" role="button" class="btn btn-primary btn-sm">
+                    <dd>fjohnson@test.com, 555-055-5511</dd>
+                </dl>
+                <h3>Restrictions
+                      <a href="restriction.html" target="_blank" role="button" class="btn btn-primary btn-xs">
                           add
                       </a>
                 </h3>
-            <dl id="restrictions-list">
-                <dt>R-##D
-                        <a class="btn btn-warning btn-sm">
+                <dl id="restrictions-list">
+                    <dt>R-##D
+                        <a class="btn btn-warning btn-xs">
                         edit
                         </a>
-                        <a class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-xs">
                         remove
                         </a>
                     </dt>
-                <dd>at least 1000 years or death of donor</dd>
-            </dl>
-            <h3>Physical Media
-                    <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-sm">
+                    <dd>at least 1000 years or death of donor</dd>
+                </dl>
+            </div>
+            <div class="row">
+                <h3>Physical Media
+                    <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
-            <dl id="physmedia-list">
-                <dt>floppy
-                        <a class="btn btn-warning btn-sm">
+                <dl id="physmedia-list">
+                    <dt>floppy
+                        <a class="btn btn-warning btn-xs">
                         edit
                         </a>
-                        <a class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-xs">
                         remove
                         </a>
                     </dt>
-                <dd>quantity: 12</dd>
-                <dt>cd
-                        <a class="btn btn-warning btn-sm">
+                    <dd>quantity: 12</dd>
+                    <dt>cd
+                        <a class="btn btn-warning btn-xs">
                         edit
                         </a>
-                        <a class="btn btn-danger btn-sm">
+                        <a class="btn btn-danger btn-xs">
                         remove
                         </a>
                     </dt>
-                <dd>quantity: 4</dd>
-            </dl>
+                    <dd>quantity: 4</dd>
+                </dl>
+            </div>
         </div>
     </div>
     <footer>

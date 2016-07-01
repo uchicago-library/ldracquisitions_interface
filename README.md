@@ -8,14 +8,14 @@ The acquisitions interface is a Javascript/Python-Flask application for allowing
 
 As extra information, there is:
 
-1. an about page describing 
+1. an about page describing
     - how each type of user should use the site
     - a FAQ list
 2. a list of accession records
 
 # Major Responsibilities
 
-1. Be a location for SPCL users to enter data about new resources about to be added to the LDR 
+1. Be a location for SPCL users to enter data about new resources about to be added to the LDR
 2. Be a location for SPCL users to review data about resource that have been added to the LDR
 3. Feed data entered by SPCL users into a central database of information about resources in the LDR
 
@@ -41,18 +41,7 @@ It has the following fields:
 * organization = must be a department in the university. Will most commonly be Special Collections Research Center
 * origin description = may be 1 or more sentences
 * administrative comment = may be 1 or more sentences.
-* a list of donors for the material = must be 1 or more individuals, 
-    a. a first name
-    b. a last name
-    c. an email address
-    d. a phone number
-    e. a mailing address 
-        * street address
-        * unit number
-        * city
-        * state
-        * zipcode
-* a list of sources for the material = must be 1 or more individuals, 
+* a list of donors for the material = must be 1 or more individuals,
     a. a first name
     b. a last name
     c. an email address
@@ -62,11 +51,22 @@ It has the following fields:
         * unit number
         * city
         * state
-        * zipcode    
-* a list of restrictions applied to the material = must be 1 or more lines 
-    a. a formal SPCL restriction code 
+        * zipcode
+* a list of sources for the material = must be 1 or more individuals,
+    a. a first name
+    b. a last name
+    c. an email address
+    d. a phone number
+    e. a mailing address
+        * street address
+        * unit number
+        * city
+        * state
+        * zipcode
+* a list of restrictions applied to the material = must be 1 or more lines
+    a. a formal SPCL restriction code
     b. a description of why that code was applied
-* a list of the physical media and how much of each that medium that holds the resource originally = may be 1 or more lines 
+* a list of the physical media and how much of each that medium that holds the resource originally = may be 1 or more lines
     a. a descriptor (e.g., floppy disk, cd, thumb drive)
     b. a number reflecting the amount of that descriptor that was in the accession
 * whether it is a mixed acquisition = must be Yes or No
@@ -83,7 +83,7 @@ It has the following fields:
 8. Enter the name of the organization that is creating this record
 9. Enter a description of the origin of the resources. Was this from the Universaty Administration? From IT Services? What are the issues around this origin?
 10. Enter any extra information that the user thinks the DAS neesd to know
-11. Add 1 or more donors 
+11. Add 1 or more donors
 12. Add 1 or more sources
 13. Add 1 or more restrictions
 14. Add 1 or more physical media components
@@ -92,7 +92,7 @@ It has the following fields:
 
 ### Introduction
 
-The accession record is the one that the Digital Accession Specialist creates. It is the complete record that is stored in the LDR system for every single deposit of resources. 
+The accession record is the one that the Digital Accession Specialist creates. It is the complete record that is stored in the LDR system for every single deposit of resources.
 
 Its main purpose is to be a historical record of the deposit when it first arrived at the LDR and to provide useful statistics about the LDR's contents.
 
