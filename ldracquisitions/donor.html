@@ -15,81 +15,87 @@
 </head>
 
 <body>
-
-
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <form method="post" action="/create.html">
                     <fieldset class="form-group">
                         <legend>Adding a Donor</legend>
-                        <div class="form-group row">
+                        <div class="row">
                             <div class="col-sm-5">
-                                <label for="first-name">Donor's first name</label>
-                                <div id="first-name-errors"></div>
-                                <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane" />
+                                <div class="form-group">
+                                    <label for="first-name">Donor's first name</label>
+                                    <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane" />
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                             <div class="col-sm-5">
-                                <label for="last-name">Donor's last name</label>
-                                <div id="last-name-errors"></div>
-                                <input type="text" class="form-control" id="last-name" placeholder="Smith" />
+                                <div class="form-group">
+                                    <label for="last-name">Donor's last name</label>
+                                    <input type="text" class="form-control" id="last-name" placeholder="Smith" />
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="row">
                             <div class="col-sm-5">
-                                <label for="organization">Donor's phone Number</label>
-                                <div id="organization-errors"></div>
-                                <input type="text" class="form-control" id="phone-number" placeholder="555-505-5445" />
+                                <div class="form-group">
+                                    <label for="organization">Donor's phone Number</label>
+                                    <input type="text" class="form-control" id="phone-number" placeholder="555-505-5445" />
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
                             <div class="col-sm-5">
                                 <label for="summary">Donor's email address</label>
-                                <div id="summary-errors"></div>
                                 <input type="text" id="summary" class="form-control" placeholder="jsmith@test.com">
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-
-                        </div>
-
                         <fieldset>
                             <legend>Donor's Address</legend>
-                            <div class="form-group row">
-                                <div class="col-sm-3">
-                                    <div id="street-address-errors">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input type="text" id="street-address" class="form-control" placeholder="1100 East 57th St" />
+                                        <div class="help-block with-errors"></div>
                                     </div>
-                                    <input type="text" id="street-address" class="form-control" placeholder="1100 East 57th St" />
                                 </div>
-                                <div class="col-sm-2">
-                                    <input type="text" id="unit-number" class="form-control" placeholder="Room 220" />
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" id="unit-number" class="form-control" placeholder="Room 220" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="city" placeholder="Chicago" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="state" placeholder='IL' />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="city" placeholder="Chicago" />
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="zipcode" placeholder="60637" />
+                                        <div class="help-block with-erorrs"></div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control" id="state" placeholder='IL' />
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="zipcode" placeholder="60637" />
-                                </div>
-
-
                             </div>
-
                         </fieldset>
-
-                        <div class="form-group row">
-                            <button id="save-source" type="submit" class="btn btn-primary">
-                                Save
-                            </button>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <button id="save-source" type="submit" class="btn btn-primary">
+                                    Save
+                                </button>
+                            </div>
                         </div>
-
-
                     </fieldset>
-
                 </form>
             </div>
         </div>
