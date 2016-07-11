@@ -19,6 +19,16 @@ As extra information, there is:
 2. Be a location for SPCL users to review data about resource that have been added to the LDR
 3. Feed data entered by SPCL users into a central database of information about resources in the LDR
 
+# Pages in the Application
+
+1. first page : the choice between all-digital or partially physical acquisition
+2. acquisition form page
+3. accession form page
+4. donor form page
+5. source form page
+6. physical media form page
+7. list of acquisitions
+8. list of accessions
 
 # Types of Forms
 
