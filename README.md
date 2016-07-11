@@ -141,3 +141,52 @@ It has the following fields:
 22. Modify or leave as-is the sources for this accession
 23. Modify or leave as-is the restrictions for this accesion
 24. Modify or leave as-is the physical media associated with this accession
+
+## Donor and Source Forms
+
+### Introduction
+
+Either of these forms are reached from the accession or acquisition form. Clicking on the link for a new donor or a new source from either of those pages opens up a new window with the appropriate form.
+
+They have the following fields
+
+* first name 
+* last name
+* phone number
+* email address
+* mailing street number and name
+* unit number
+* city
+* state
+* zipcode
+
+### Description of actions performed by user
+
+1. Enter the donor/source's first name
+2. Enter the donor/source's last name
+3. Enter the donor/source's phone number
+4. If ther donor/source has more than one phone number, click on the "add" button next to the label for "Phone number" and fill in the form field that appears
+4. Enter the donor/source's email address
+5. If ther donor/source has more than one email, click on the "add" button next to the label for "Email address" and fill in the form field that appears
+6. Fill in the mailing address including street number and name, if there is a unit number, the city, state and zip code.
+7. If there is more than one mailing address, click on the "add button" next to "Address" and fill in the form fields that appear
+8. Click "Save"
+9. If the form is complete, the window will close and the Accession/Acquisition Form Page from which you temporarily were navigated away will reload the appropriate data list for Donor or Source.
+
+## Physical Media Form
+
+### Introduction
+
+This form is reached from the accession or acquisition form. Clicking on the link will open a new window with the appropriate form.
+
+It has the following fields
+
+* media descriptor
+* quantity of the media
+
+### Description of actions performed by user
+
+1. Enter the descriptor label
+3. Enter the quanity of the physical media present
+8. Click "Save"
+9. If the form is complete, the window will close and the Accession/Acquisition Form Page from which you temporarily were navigated away will reload the physical media data list.
