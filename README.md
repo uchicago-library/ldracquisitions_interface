@@ -214,4 +214,4 @@ Possibility to install this interface into Wagtail. This would require
 - would need to develop a form for the acquisition and accession in wagtail [see wagtail doc for forms](http://docs.wagtail.io/en/v1.5.2/reference/contrib/forms.html?highlight=form)
 - wagtail has an api that can be extended [see api doc](http://docs.wagtail.io/en/v1.5.2/reference/contrib/api/usage.html)
 
-Of potentila use, though I don't see the immediate use case right now, is that wagtail has a read-onlyAPI [see the api doc](http://docs.wagtail.io/en/v1.5.2/reference/contrib/api/usage.html)
+Of potential use, though I don't see the immediate use case right now, is that wagtail has a read-onlyAPI [see the api doc](http://docs.wagtail.io/en/v1.5.2/reference/contrib/api/usage.html)
