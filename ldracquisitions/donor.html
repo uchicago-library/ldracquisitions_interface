@@ -46,7 +46,7 @@
                                     <label for="phone-number-1">
                                     Donor's phone Number <a href="#newPhoneNumber" class="btn btn-sm" role="button">add</a>
                                     </label>
-                                    <input type="text" class="form-control" name="phone-number-1" placeholder="555-505-5445" required/>
+                                    <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" title="It should be a valid US phone that looks similar to 123-123-1234." class="form-control" name="phone-number-1" placeholder="555-505-5445" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                 Donor's email address <a href="#newEmail" class="btn btn-sm" role="button">add</a>
 
                                 </label>
-                                <input type="text" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
+                                <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
                                 <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -91,13 +91,13 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="address-1-state" placeholder='IL' required/>
+                                        <input type="text" pattern="\w{2}" title="It should be valid United States postal code for a particular state" class="form-control" name="address-1-state" placeholder='IL' required/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="address-1-zipcode" placeholder="60637" required/>
+                                        <input type="text" pattern="\d{5}([-]\d{4})?" class="form-control" name="address-1-zipcode" placeholder="60637" required/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>

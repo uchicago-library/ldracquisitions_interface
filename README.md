@@ -200,3 +200,18 @@ It has the following fields
 3. Enter the quanity of the physical media present
 8. Click "Save"
 9. If the form is complete, the window will close and the Accession/Acquisition Form Page from which you temporarily were navigated away will reload the physical media data list.
+
+# Research on implementing this interface in Wagtail
+
+Possibility to install this interface into Wagtail. This would require
+
+- developing a custom wagtail page type for the accession and acquisition forms
+- develop a streamfield for listing ajax items
+    * would have to be able to list acquisitions with the required data
+    * would have to be able to list accessions with the required data
+- all custom page types and streamfields be useable by everyone who has write access to the library website [see wagtail doc for streamfileds and block types](http://docs.wagtail.io/en/v1.5.2/topics/streamfield.html?highlight=streamfield)
+- a wagtail page type would need to be developed to hold the form and various data lists that need to be on the page for each form (see [wagtail doc for page blocks](http://docs.wagtail.io/en/v1.5.2/topics/pages.html?highlight=page%20type)
+- would need to develop a form for the acquisition and accession in wagtail [see wagtail doc for forms](http://docs.wagtail.io/en/v1.5.2/reference/contrib/forms.html?highlight=form)
+- wagtail has an api that can be extended [see api doc](http://docs.wagtail.io/en/v1.5.2/reference/contrib/api/usage.html)
+
+Of potentila use, though I don't see the immediate use case right now, is that wagtail has a read-onlyAPI [see the api doc](http://docs.wagtail.io/en/v1.5.2/reference/contrib/api/usage.html)

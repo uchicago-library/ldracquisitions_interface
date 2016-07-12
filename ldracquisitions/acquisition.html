@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css"/>
 
 </head>
 
@@ -17,16 +18,14 @@
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"/>
 
         $(function () {
-            $('input[name="gift-acknowledgement-received"]').daterangepicker({'singleDatePicker': true
-            });
+            $('input[name="gift-acknowledgement-received"]').daterangepicker({'singleDatePicker': true});
         });
 
         $(function () {
-            $('input[name="receipt-letter-sent"]').daterangepicker({'singleDatePicker': true
-            });
+            $('input[name="receipt-letter-sent"]').daterangepicker({'singleDatePicker': true});
         });
     </script>
     <nav class="navbar navbar-default navbar">
@@ -57,14 +56,14 @@
                         <legend>Creating an Acquisition</legend>
                         <div class="row">
                             <div class="col-sm-5">
-                                <div class="form-group col">
+                                <div class="form-group">
                                     <label for="accession-id">Accession Identifier</label>
-                                    <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2010-010" pattern="[0-9]{4}-[0-9]{3}" / required>
+                                    <input type="text" pattern="\d{4}-\d{3}" title="It should be a valid SPCL accession identifier that looks like 2016-001" class="form-control" name="accession-id" class="form-control" placeholder="2010-010" pattern="[0-9]{4}-[0-9]{3}" / required>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="col-sm-5">
-                                <div class="form-group col">
+                                <div class="form-group">
                                     <label for="collection-title">Collection Title</label>
                                     <input type="text" class="form-control" name="collection-title" placeholder="The Mary J Brainerd Collection" required/>
                                     <div class="help-block with-errors"></div>
@@ -75,7 +74,7 @@
                             <div class="col-sm-5">
                                 <div class="form-group col">
                                     <label>
-                                        <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Information Required
+                                        <input data-toggle="toggle" type="checkbox" name="receipt-letter-required"/> Receipt Letter Information Required
                                     </label>
                                 </div>
                             </div>
@@ -91,7 +90,7 @@
                             <div class="col-sm-5">
                                 <div class="form-group col">
                                     <label>
-                                        <input type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Information Required
+                                        <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required"/> Gift Acknowledgement Information Required
                                     </label>
                                 </div>
                             </div>
