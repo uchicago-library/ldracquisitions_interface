@@ -6,52 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
-    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-datepicker-1.6.1-dist/css/bootstrap-datepicker3.css"/>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css"/>
     <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
+
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
-    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
-    <script type="text/javascript" src="static/misc/bootstrap-datepicker-1.6.1-dist/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
+    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"/>
     <script type="text/javascript">
+            $(function() {
+                $('input[name="span-date"]').daterangepicker();
+            });
 
-        $(input['name="fiscal-year"]').data("DateTimePicker").function({
-            'minViewMode':"year"
-        });
+            $(function() {
+                $('input[name="gift-acknowledgement-received"]').daterangepicker({
+                    'singleDatePicker': true
+                });
+            });
 
+            $(function() {
+                $('input[name="receipt-letter-sent"]').daterangepicker({
+                    'singleDatePicker': true
+                });
+            });
 
-    // $(function() {
-    //     $('input[name="span-date"]').daterangepicker();
-    // });
+            $(function() {
+                $('input[name="files-staged-date"]').daterangepicker({
+                    'singleDatePicker': true
+                });
+            });
 
-    // $(function() {
-    //     $('input[name="gift-acknowledgement-received"]').daterangepicker({
-    //         'singleDatePicker': true
-    //     });
-    // });
-
-    // $(function() {
-    //     $('input[name="receipt-letter-sent"]').daterangepicker({
-    //         'singleDatePicker': true
-    //     });
-    // });
-
-    // $(function() {
-    //     $('input[name="files-staged-date"]').daterangepicker({
-    //         'singleDatePicker': true
-    //     });
-    // });
-
-    // $(function() {
-    //     $('input[name="files-received-date"]').daterangepicker({
-    //         'singleDatePicker': true
-    //     });
-    // });
+            $(function() {
+                $('input[name="files-received-date"]').daterangepicker({
+                    'singleDatePicker': true
+                });
+            });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -75,7 +70,7 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-            <form method="post" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
+            <form method="post" data-toggle="validator" id="accessionForm" role="form" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
                     <div class="row">
@@ -177,17 +172,17 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-5">
-                                <div class="form-group">
-                                <div class="input-append-date id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                                    <input class="span2" size="16" type="text"/>
-                                    <span class="add-on"><i class="icon-th"></i></span>
-                                </div>
+                            <div class="form-group">
+                                <div id="gift-acknowledgement-received-errors"></div>
+                                <label for="fiscal-year">Fiscal Year</label>
+                                <input type="text" name="fiscal-year" class="form-control" />                       
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="organization">Organization</label>
-                                <input type="text" class="form-control" name="organization" placeholder="Special Collections" />
+                                <input type="text" name="organization" class="form-control" />
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -195,15 +190,15 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="prc">PRC</label>
-                                <input type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
+                                <label for="accession-type">Type</label>
+                                <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA or Ms" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="accession-type">Type</label>
-                                <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA or Ms" required/>
+                                <label for="prc">PRC</label>
+                                <input type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
