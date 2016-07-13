@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css"/>
     <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
 
 </head>
@@ -16,6 +17,7 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
+    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
@@ -75,7 +77,7 @@
                             <div class="col-sm-5">
                                 <div class="form-group col">
                                     <label>
-                                        <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Information Required
+                                        <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Information Required
                                     </label>
                                 </div>
                             </div>
@@ -91,7 +93,7 @@
                             <div class="col-sm-5">
                                 <div class="form-group col">
                                     <label>
-                                        <input type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Information Required
+                                        <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Information Required
                                     </label>
                                 </div>
                             </div>

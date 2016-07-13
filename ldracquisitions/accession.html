@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css"/>
+    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-combobox.css"/>
     <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
 </head>
 
@@ -15,8 +17,13 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
+    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
+    <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
+        $(function() {
+            $('.combobox').combobox();
+        })
         $(function () {
             $('input[name="fiscal-year"]').daterangepicker({
                 'singleDatePicker': true
@@ -82,15 +89,15 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                < <label for="accession-id">Accession Identifier</label>
-                                    <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
+                                <label for="accession-id">Accession Identifier</label>
+                                    <input pattern="\d{4}-\d{3}" title="must look similar to 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
                                     <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="ead-id">EAD Identifier</label>
-                                <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
+                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -101,7 +108,12 @@
                                 <label for="collection-title">
                                     Collection Title
                                 </label>
-                                <input type="text" class="form-control" name='collection-title' placeholder="Brainerd, Mary J. Digital Collection." required/>
+                                <select class="form-control combobox" name='collection-title' required>
+                                    <option></option>
+                                    <option value="1">Mary J Brainerd</option>
+                                    <option value="2">Test Collection</option>
+                                    <option valu="3">The Magic Digital Collection</option>
+                                </select>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -126,7 +138,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" name="public-access-restriction" /> Should the public access it?
+                                    <input data-toggle="toggle" type="checkbox" name="public-access-restriction" /> Should the public access it?
                                 </label>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -134,7 +146,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
+                                    <input data-toggle="toggle" type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
                                 </label>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -146,7 +158,7 @@
                                 <div id="receipt-letter-required-errors">
                                 </div>
                                 <label>
-                                    <input type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
+                                    <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
                                 </label>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -164,7 +176,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Required
+                                    <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Required
                                 </label>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -198,14 +210,14 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="prc">PRC</label>
-                                <input type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
+                                <input pattern="^P|R|C$" title="must be either P or R or C" type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="accession-type">Type</label>
-                                <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" required/>
+                                <input pattern="^Ar|CJA|Ms$" title="must be either Ar or CJA or Ms" type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
