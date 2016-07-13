@@ -191,18 +191,6 @@ It has the following fields
 8. Click "Save"
 9. If the form is complete, the window will close and the Accession/Acquisition Form Page from which you temporarily were navigated away will reload the physical media data list.
 
-
-# Javascript platforms being used
-
-* [bootstrap](http://getbootstrap.com/)
-* [jQuery](https://jquery.com/)
-
-## 3rd party Javascript plugins being used
-
-* [bootstrap-datepicker-1.6.1](http://www.eyecon.ro/bootstrap-datepicker/)
-* [daterangepicker](https://www.facilities.umd.edu/Style%20Library/FM%20Publishing/JQuery/daterangepicker/website/index.html)
-* [bootstrap validator](https://github.com/1000hz/bootstrap-validator)
-
 # Research on implementing this interface in Wagtail
 
 Possibility to install this interface into Wagtail. This would require
