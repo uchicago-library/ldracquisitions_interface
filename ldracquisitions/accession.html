@@ -7,27 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css"/>
-    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
     <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css"/>
     <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-combobox.css"/>
     <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
 </head>
 
 <body>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
-    <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"/>
     <script type="text/javascript">
-
-        $(function() {
-                $('input[name="span-date"]').daterangepicker();
-        
+    
         $(function() {
             $('.combobox').combobox();
         })
@@ -42,30 +36,31 @@
                 'viewMode': 'years',
                 'minViewMode': 'years'
             });
+        });
 
-            $(function() {
-                $('input[name="gift-acknowledgement-received"]').daterangepicker({
-                    'singleDatePicker': true
-                });
+        $(function () {
+            $('input[name="gift-acknowledgement-received"]').daterangepicker({
+                'singleDatePicker': true
             });
+        });
 
-            $(function() {
-                $('input[name="receipt-letter-sent"]').daterangepicker({
-                    'singleDatePicker': true
-                });
+        $(function () {
+            $('input[name="receipt-letter-sent"]').daterangepicker({
+                'singleDatePicker': true
             });
+        });
 
-            $(function() {
-                $('input[name="files-staged-date"]').daterangepicker({
-                    'singleDatePicker': true
-                });
+        $(function () {
+            $('input[name="files-staged-date"]').daterangepicker({
+                'singleDatePicker': true
             });
+        });
 
-            $(function() {
-                $('input[name="files-received-date"]').daterangepicker({
-                    'singleDatePicker': true
-                });
+        $(function () {
+            $('input[name="files-received-date"]').daterangepicker({
+                'singleDatePicker': true
             });
+        });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -89,23 +84,22 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-            <form method="post" data-toggle="validator" id="accessionForm" role="form" action="/accession.html" form="form-horizontal">
+        
+            <form method="post" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="accession-id">Accession Identifier</label>
-                                <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
-                                <div class="help-block with-errors"></div>
-
+                                    <input pattern="\d{4}-\d{3}" title="must look similar to 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
+                                    <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="ead-id">EAD Identifier</label>
-                                <input type="text" pattern="ICU.SPCL.\w{3,}" title="It sould be a valid SPCL EAD identifier that looks like ICU.SPCL.TEST" class="form-control" name="ead-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
-
+                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -127,7 +121,7 @@
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="span-date">Span Date</label>
+                                <label for="start-span-date">Span Date</label>
                                 <input type="text" class="form-control" name='span-date' required/>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -163,6 +157,8 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
+                                <div id="receipt-letter-required-errors">
+                                </div>
                                 <label>
                                     <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
                                 </label>
@@ -199,16 +195,15 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <div id="gift-acknowledgement-received-errors"></div>
-                                <label for="fiscal-year">Fiscal Year</label>
-                                <input type="text" name="fiscal-year" class="form-control" />                       
+                                <label for="collection-title">Fiscal Year</label>
+                                <input type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="organization">Organization</label>
-                                <input type="text" name="organization" class="form-control" />
+                                <input type="text" class="form-control" name="organization" placeholder="Special Collections" />
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -281,6 +276,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-sm-10">
                             <button name="save-accession" type="submit" class="btn btn-primary btn-sm">
@@ -301,19 +297,19 @@
                 <dl id="donors-list">
                     <dt>Tonya Marcus
                         <button class="btn btn-warning btn-xs">
-                            edit
+                        edit
                         </button>
                         <button class="btn btn-danger btn-xs">
-                            remove
+                        remove
                         </button>
                     </dt>
                     <dd>tmarcus@test.com, 555-455-5445</dd>
                     <dt>Leopold Vaughn
                         <button class="btn btn-warning btn-xs">
-                            edit
+                        edit
                         </button>
                         <button class="btn btn-danger btn-xs">
-                            remove
+                        remove
                         </button>
                     </dt>
                     <dd>lvaughn@test.com, 555-055-0550</dd>
