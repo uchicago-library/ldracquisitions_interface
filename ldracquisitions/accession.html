@@ -24,8 +24,10 @@
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"/>
     <script type="text/javascript">
-            $(function() {
+
+        $(function() {
                 $('input[name="span-date"]').daterangepicker();
+        
         $(function() {
             $('.combobox').combobox();
         })
@@ -96,15 +98,14 @@
                                 <label for="accession-id">Accession Identifier</label>
                                 <input type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
                                 <div class="help-block with-errors"></div>
-                                    <input pattern="\d{4}-\d{3}" title="must look similar to 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
-                                    <div class="help-block with-errors"></div>
+
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="ead-id">EAD Identifier</label>
                                 <input type="text" pattern="ICU.SPCL.\w{3,}" title="It sould be a valid SPCL EAD identifier that looks like ICU.SPCL.TEST" class="form-control" name="ead-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
-                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
+
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -215,9 +216,6 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="accession-type">Type</label>
-                                <input type="text" name="accession-type" class="form-control" placeholder="Ar or CJA or Ms" required/>
-=======
                                 <label for="prc">PRC</label>
                                 <input pattern="^P|R|C$" title="must be either P or R or C" type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
                                 <div class="help-block with-errors"></div>
@@ -225,8 +223,6 @@
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="prc">PRC</label>
-                                <input type="text" name="prc" class="form-control" placeholder="P or R or C" required/>
                                 <label for="accession-type">Type</label>
                                 <input pattern="^Ar|CJA|Ms$" title="must be either Ar or CJA or Ms" type="text" name="accession-type" class="form-control" placeholder="Ar or CJA" required/>
                                 <div class="help-block with-errors"></div>
