@@ -19,25 +19,46 @@
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
+
+    $(document).ready(function() {
+        console.log(document.URL);
+    });
+    $(document).ready(function(){
+        var physmediaDefined = localStorage.getItem('physmediaInfo');
+        var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
+        for (var i=0; i<arrayPhysmediaDefined.length; i++) {
+            data_object = arrayPhysmediaDefined[i];
+            var label = data_object['physmedia-label']
+            var qty = data_object['physmedia-quantity']
+            var dt = document.createElement('dt');
+            dt.appendChild(document.createTextNode(label));
+            var dd = document.createElement('dd');
+            dd.appendChild(document.createTextNode(qty));
+            document.getElementById("physmedia-list").appendChild(dt);
+            document.getElementById("physmedia-list").appendChild(dd);
+        }
+
+    });
+    $(document).ready(function() {
             $('#save-acquisition').click(function() {
                 var test = document.getElementById("accessionForm");
                 console.log(test.elements['collection-title']);
             });
-        });
+    });
 
-    $(function() {
+    $(document).ready(function() {
 
         $('input[name="gift-acknowledgement-received"]').daterangepicker({
             'singleDatePicker': true
         });
     });
 
-    $(function() {
+    $(document).ready(function() {
         $('input[name="receipt-letter-sent"]').daterangepicker({
             'singleDatePicker': true
         });
     });
+
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -186,10 +207,6 @@
                 <div class="row">
                     <h3>Physical Media <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-sm">add</a></h3>
                     <dl id="physmedia-list">
-                        <dt>floppy</dt>
-                        <dd>quantity: 12</dd>
-                        <dt>cd</dt>
-                        <dd>quantity: 4</dd>
                     </dl>
                 </div>
                 <div class="row">

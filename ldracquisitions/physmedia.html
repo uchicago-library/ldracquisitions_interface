@@ -21,22 +21,48 @@
     <script type="text/javascript">
         $(function() {
             $('#save-physmedia').click(function() {
-                var data = $('form').serializeArray().reduce(function(obj, item) {
-                    obj[item.name] = item.value;
-                    return obj
+                data_string = "";
 
-                }, {});
-                console.log(data);
+                var data = document.getElementsByClassName('physmedia-form')[0].getElementsByClassName('form-control');
+                new_object = Object();
+                for (var i=0; i<data.length; i++) {
+                    var name = data[i].getAttribute('name');
+                    var value = data[i].value;
+                    new_object[name] = value;
+                }
+                console.log(new_object);
+                var json_string = new_object;
                 if (localStorage.getItem('physmediaInfo')) {
-                    var toAppend = localStorage.getItem('physmediaInfo')
-                    toAppend.push(data);
+                    console.log("hi");
+                    dataArray = localStorage.getItem('physmediaInfo');
+                    dataArray = JSON.parse(dataArray);
+                    console.log(dataArray);
                 }
                 else {
-                    localStorage.setItem('physmediaInfo', [data]);
+                    console.log("boo");
+                    dataArray = new Array();
                 }
-                console.log(localStorage);
+
+                dataArray.push(json_string);
+                localStorage.setItem('physmediaInfo', JSON.stringify(dataArray));
+                console.log(localStorage['physmediaInfo']);
+
+                // if (localStorage.getItem('physmediaInfo')) {
+                //         var test = localStorage.getItem('physmediaInfo');
+                //         var testArray = JSON.parse(test);
+                //         console.log(testArray);
+                //         testArray.push(json_string);
+
+                //         localStorage['physMediaInfo'] = JSON.stringify(testArray);
+                //         console.log(localStorage);
+                // }
+                // else {
+                //         var newArray = new Array();
+                //         newArray.push(json_string);
+                //         localStorage.setItem('physmediaInfo', JSON.stringify(newArray));
+                // }
         });
-    })
+    });
     </script>
     <div class="container">
         <div class="row">

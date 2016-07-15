@@ -7,13 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
-
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.min.js"></script>
     <script type="text/javascript" src="scripting.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>\
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#allDigital").click(function() {
+            console.log("hi");
+        });
+    });
+
+    $(document).ready(function() {
+        $("#hasPhysical").click(function() {
+            console.log("partly physical");
+        });
+    });
+    </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">
@@ -35,22 +47,17 @@
         </div>
     </nav>
     <div class="container">
-        <div class="jumbotron">
-            <h1 class="text-center">Which type of accession are you creating?</h1>
-            <p class="text-center">
-                <a class="btn btn-large btn-primary" href="acquisition.html" role="button">Physical</a> |
-                <a class="btn btn-large btn-primary" href="acquisition.html" role="button">Digital</a>
-            </p>
+        <div class="row row-centered">
+            <div class="col-sm-12">
+                <div class="jumbotron">
+                    <h1>Which type of accession are you creating?</h1>
+                    <button class="btn btn-lg btn-primary" id="hasPhysical">Physical</button> |
+                    <button class="btn btn-lg btn-primary" id="allDigital">Digital</button>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#test").onclick(function () {
-                $(this).hide()
-            });
-        });
-    </script>
 </body>
 
 </html>
