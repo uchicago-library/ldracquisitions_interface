@@ -20,9 +20,6 @@
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
-    $(document).ready(function() {
-        console.log(document.URL);
-    });
     $(document).ready(function(){
         var physmediaDefined = localStorage.getItem('physmediaInfo');
         var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
@@ -33,12 +30,21 @@
             var dt = document.createElement('dt');
             dt.appendChild(document.createTextNode(label));
             var dd = document.createElement('dd');
-            dd.appendChild(document.createTextNode(qty));
+            dd.appendChild(document.createTextNode('amount: '+qty));
             document.getElementById("physmedia-list").appendChild(dt);
             document.getElementById("physmedia-list").appendChild(dd);
         }
+        var accessionType = localStorage.getItem('accessionType');
+        var p = document.createElement("p");
+        var emphasis = document.createElement("b");
+        emphasis.appendChild(document.createTextNode(accessionType));
+        p_text = document.createTextNode("This acquisition is ");
+        p.appendChild(p_text);
+        p.appendChild(emphasis);
+        document.getElementById("type-definition").appendChild(p);
 
     });
+
     $(document).ready(function() {
             $('#save-acquisition').click(function() {
                 var test = document.getElementById("accessionForm");
@@ -210,8 +216,9 @@
                     </dl>
                 </div>
                 <div class="row">
-                    <h3>Is this a mixed acquisition?</h3>
-                    <p>Yes it is.</p>
+                    <h3>Acquisition Type</h3>
+                    <div id="type-definition">
+                    </div>
                 </div>
             </div>
         </div>

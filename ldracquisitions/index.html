@@ -17,12 +17,15 @@
     $(document).ready(function() {
         $("#allDigital").click(function() {
             console.log("hi");
+            localStorage.setItem('accessionType', 'all digital');
+            location.replace('acquisition.html');
         });
     });
 
     $(document).ready(function() {
         $("#hasPhysical").click(function() {
-            console.log("partly physical");
+            localStorage.setItem('accessionType', 'partly physical');
+            location.replace('acquisition.html');
         });
     });
     </script>
