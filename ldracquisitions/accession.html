@@ -21,10 +21,16 @@
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-    
+        $(function() {
+            $('button[name="save-accession"]').click(function() {
+                alert("hi");
+            });
+        });
+
         $(function() {
             $('.combobox').combobox();
-        })
+        });
+        
         $(function () {
             $('input[name="fiscal-year"]').daterangepicker({
                 'singleDatePicker': true
