@@ -19,92 +19,110 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript">
+    
     $(function() {
         $('a[href="#newPhoneNumber"]').click(function() {
-            console.log("testing 1 2 3");
-            var phoneGroup = document.getElementsByClassName("phone-number-row");
-            if (phoneGroup.length == 1) {
-                group_to_clone = phoneGroup[phoneGroup.length - 1]
-                cloned_group = group_to_clone.cloneNode();
-                old_input = group_to_clone.getElementsByTagName('input')[0];
-                old_label = group_to_clone.getElementsByTagName('label')[0];
-                old_error_div = group_to_clone.getElementsByTagName('div')[0].getElementsByTagName("div");
-                old_error_div = (old_error_div[1]);
-                old_input_name_attribute_value = (old_input.getAttribute('name'));
-                old_input_name_attr_value_num = parseInt(old_input_name_attribute_value.slice(-1));
-                new_input_name_attr_value_num = old_input_name_attr_value_num + 1;
-                new_input_name_attr_value = 'phone_number-' + new_input_name_attr_value_num.toString();
-                new_label = old_label.cloneNode();
-                new_input = old_input.cloneNode();
-                new_errors_div = old_error_div.cloneNode();
-                new_input.setAttribute('name', new_input_name_attr_value);
-                new_input.setAttribute("value", "")
-                new_label.setAttribute('for', new_input_name_attr_value);
-                new_label_text = document.createTextNode('Phone Number');
-                new_label.appendChild(new_label_text);
-                new_phone_group_div = document.createElement("div");
-                new_phone_group_div.setAttribute('class', 'row phone-number-row')
-                new_phone_col = document.createElement("div");
-                new_phone_col.setAttribute("class", "col-sm-10");
-                new_phone_formgroup = document.createElement("div");
-                new_phone_formgroup.setAttribute("class", 'form-group');
-                new_phone_formgroup.appendChild(new_label);
-                new_phone_formgroup.appendChild(new_input);
-                new_phone_formgroup.appendChild(new_errors_div);
-
-                new_phone_col.appendChild(new_phone_formgroup);
-                new_phone_group_div.appendChild(new_phone_col);
-                element_to_insert_before = document.getElementsByClassName('email-row')[0]
-                element_to_insert_before.parentNode.insertBefore(new_phone_group_div, element_to_insert_before);
-            } else {
-                console.log("it's me!");
-                var lastPhoneGroupAdded = phoneGroup[phoneGroup.length - 1];
-                var old_input = lastPhoneGroupAdded.getElementsByTagName('input')[0];
-                console.log(old_input);
-                var old_input_name = old_input.getAttribute('name');
-                var old_input_name_num = parseInt(old_input_name.slice(-1));
-                var new_input_num = old_input_name_num + 1;
-                var new_input_name = 'phone-number-' + new_input_num.toString();
-                console.log(new_input_name);
-                var new_phone_group_row = document.createElement("div");
-                new_phone_group_row.setAttribute("class", "row phone-number-row");
-                new_phone_group_row_col = document.createElement("div");
-                new_phone_group_row_col.setAttribute("class", "col-sm-10");
-                new_phone_group_row_formgroup = document.createElement("div", "form-group");
-
-
-                old_input = lastPhoneGroupAdded.getElementsByTagName('input')[0];
-                old_label = lastPhoneGroupAdded.getElementsByTagName('label')[0];
-                old_error_div = group_to_clone.getElementsByTagName('div')[0].getElementsByTagName("div");
-                old_error_div = (old_error_div[1]);
-
-                new_input_group_input = old_input.cloneNode();
-                new_input_group_label = old_label.cloneNode();
-                new_input_group_input.setAttribute('name', new_input_name);
-                new_input_group_input.textContent = ""
-                new_error_div = old_error_div.cloneNode();
-
-                new_phone_formgroup.appendChild(new_input_group_label);
-                new_phone_group_row_formgroup.appendChild(new_input_group_input);
-                new_phone_group_row_formgroup.appendChild(new_errors_div);
-                new_phone_group_row_col.appendChild(new_phone_formgroup);
-                new_phone_group_row.appendChild(new_phone_group_row_col);
-
-                element_to_insert_before = document.getElementsByClassName('email-row')
-                console.log(element_to_insert_before);
-                element_to_insert_before.parentNode.insertBefore(lastPhoneGroupAdded, lastPhoneGroupAdded);
-
-                console.log(new_input_group_input);
-                console.log("i'm a horse of an entirely different color, bucko.");
-            }
-
+            var phonenumbersgroup = document.getElementsByClassName("phone-numbers");
+            var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("phone-number-row");
+            var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
+            var lastinput = formgroup.getElementsByTagName("input")[0];
+            var lastlabel = formgroup.getElementsByTagName("label")[0];
+            var lastinputname = lastinput.getAttribute("name");
+            var lastinputnum = parseInt(lastinputname.split('-')[2]);
+            var newinputnum = lastinputnum + 1;
+            var newinputname = 'phone-number-' + newinputnum.toString();
+            var newinput = lastinput.cloneNode();
+            newinput.value = "";
+            var newlabel = lastlabel.cloneNode();
+            newlabel.setAttribute("for", newinputname);
+            newlabel.appendChild(document.createTextNode("Phone Number"));
+            newinput.setAttribute('name', newinputname);
+            var newformgroupdiv = document.createElement("div")
+            newformgroupdiv.setAttribute("class", "form-group")
+            newformgroupdiv.appendChild(newlabel);
+            newformgroupdiv.appendChild(newinput);
+            newformgrouperrorsdiv = document.createElement("div");
+            newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
+            newformgroupdiv.appendChild(newformgrouperrorsdiv);
+            var newformgroupcol = document.createElement("div");
+            newformgroupcol.setAttribute('class', 'col-sm-10');
+            newformgroupcol.appendChild(newformgroupdiv);
+            newformgrouprow = document.createElement("div");
+            newformgrouprow.setAttribute("class", "row phone-number-row");
+            newformgrouprow.appendChild(newformgroupcol);
+            phonenumbersgroup[0].appendChild(newformgrouprow);
+        });
+    });
+    
+    $(function() {
+        $('a[href="#newEmail"]').click(function() {
+            var phonenumbersgroup = document.getElementsByClassName("email-addresses");
+            var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("email-address-row");
+            var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
+            var lastinput = formgroup.getElementsByTagName("input")[0];
+            var lastlabel = formgroup.getElementsByTagName("label")[0];
+            var lastinputname = lastinput.getAttribute("name");
+            var lastinputnum = parseInt(lastinputname.split('-')[2]);
+            var newinputnum = lastinputnum + 1;
+            var newinputname = 'email-address-' + newinputnum.toString();
+            var newinput = lastinput.cloneNode();
+            newinput.value = "";
+            var newlabel = lastlabel.cloneNode();
+            newlabel.setAttribute("for", newinputname);
+            newlabel.appendChild(document.createTextNode("Email Address"));
+            newinput.setAttribute('name', newinputname);
+            var newformgroupdiv = document.createElement("div")
+            newformgroupdiv.setAttribute("class", "form-group")
+            newformgroupdiv.appendChild(newlabel);
+            newformgroupdiv.appendChild(newinput);
+            newformgrouperrorsdiv = document.createElement("div");
+            newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
+            newformgroupdiv.appendChild(newformgrouperrorsdiv);
+            var newformgroupcol = document.createElement("div");
+            newformgroupcol.setAttribute('class', 'col-sm-10');
+            newformgroupcol.appendChild(newformgroupdiv);
+            newformgrouprow = document.createElement("div");
+            newformgrouprow.setAttribute("class", "row email-address-row");
+            newformgrouprow.appendChild(newformgroupcol);
+            phonenumbersgroup[0].appendChild(newformgrouprow);
+        });
+    });
+    
+    $(function() {
+        $('#save-donor').click(function() {
+            var form = document.getElementById("adding-donor-form");
         });
     });
 
     $(function() {
-        $('#save-donor').click(function() {
-            var form = document.getElementById("adding-donor-form");
-            console.log(form);
+        $('a[href="#newMailingAddress"]').click(function() {
+            var addressgroup = document.getElementsByClassName("address-forms")
+            var addressrows = addressgroup[addressgroup.length - 1].getElementsByClassName("address-form-row");
+            var lastaddressrow = addressrows[addressrows.length-1];
+            var newaddressrow = lastaddressrow.cloneNode(true);
+            var addressrowclasses = (newaddressrow.getAttribute('class'));
+            var addressrowunit = addressrowclasses.split(' ')[1];
+            var lastaddressrowunitnum = parseInt(addressrowunit.split('-')[2]);
+            var newaddressrowunitnum = lastaddressrowunitnum+1;
+            var str_newaddressunitnum = newaddressrowunitnum.toString();
+            var newaddressrowname = 'mailing-address-'+str_newaddressunitnum;
+            newaddressrow.setAttribute('class', 'address-form-row '+newaddressrowname);
+            newaddressrowlegend = newaddressrow.getElementsByTagName("legend")[0]
+            newaddressrowlegenda = newaddressrowlegend.getElementsByTagName('a')
+            if (newaddressrowlegenda.length == 1)
+            {
+                newaddressrowlegend.removeChild(newaddressrowlegend.getElementsByTagName('a')[0]);
+            }
+            inputsToChange = newaddressrow.getElementsByClassName('form-control')
+            for (var i = 0; i<inputsToChange.length; i++) {
+                var inputName = inputsToChange[i].getAttribute('name');
+                oldnumber = newaddressrowunitnum - 1;
+                newnumber = newaddressrowunitnum;
+                newInputName = inputName.replace(oldnumber.toString(), newnumber.toString());
+                inputsToChange[i].setAttribute('name', newInputName);
+                inputsToChange[i].value = "";  
+            }
+            addressgroup[0].appendChild(newaddressrow);
         });
     });
     </script>
@@ -135,7 +153,7 @@
                                 <div class="col-sm-10">
                                     <div class="form-group">
                                         <label for="phone-number-1">
-                                            Donor's phone Number <a href="#newPhoneNumber" class="btn btn-sm" role="button">add</a>
+                                            Phone Number <a href="#newPhoneNumber" class="btn btn-sm" role="button">add</a>
                                         </label>
                                         <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" title="It should be a valid US phone that looks similar to 123-123-1234." class="form-control" name="phone-number-1" placeholder="555-505-5445" required/>
                                         <div class="help-block with-errors"></div>
@@ -144,56 +162,59 @@
                             </div>
                         </div>
                         <div class="email-addresses">
-                        <div class="row email-row">
-                            <div class="col-sm-10">
-                                <div id="email-address-group" class="form-group">
-                                    <label for="email-address-1">
-                                        Donor's email address <a href="#newEmail" class="btn btn-sm" role="button">add</a>
-                                    </label>
-                                    <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
-                                    <div class="help-block with-errors"></div>
+                            <div class="row email-address-row email-address-row-1">
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <label for="email-address-1">
+                                            Email Address <a href="#newEmail" class="btn btn-sm" role="button">add</a>
+                                        </label>
+                                        <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <fieldset>
-                            <legend>Donor's Address
-                                <a href="#newMailingAddress" class="btn btn-sm" role="button">add</a>
-                            </legend>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <input type="text" name="address-1-street-address" class="form-control" placeholder="1100 East 57th St" required/>
-                                        <div class="help-block with-errors"></div>
+                        <div class="address-forms">
+                            <fieldset class="address-form-row mailing-address-1">
+                                <legend>Mailing Address Information
+                                    <a href="#newMailingAddress" class="btn btn-sm" role="button">add</a>
+                                </legend>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <input type="text" name="address-1-street-address" class="form-control" placeholder="1100 East 57th St" required/>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <input type="text" name="address-1-unit-number" class="form-control" placeholder="Room 220" />
+                                            <div class="help-block with-errors"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <input type="text" name="address-1-unit-number" class="form-control" placeholder="Room 220" />
-                                        <div class="help-block with-errors"></div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="address-1-city" placeholder="Chicago" required/>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" pattern="\w{2}" title="It should be valid United States postal code for a particular state" class="form-control" name="address-1-state" placeholder='IL' required/>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" pattern="\d{5}([-]\d{4})?" class="form-control" name="address-1-zipcode" placeholder="60637" required/>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="address-1-city" placeholder="Chicago" required/>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" pattern="\w{2}" title="It should be valid United States postal code for a particular state" class="form-control" name="address-1-state" placeholder='IL' required/>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" pattern="\d{5}([-]\d{4})?" class="form-control" name="address-1-zipcode" placeholder="60637" required/>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
+                        </div>
                         <div class="row">
                             <div class="col-sm-10">
                                 <button id="save-donor" type="submit" class="btn btn-primary">Save</button>
