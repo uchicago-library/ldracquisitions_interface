@@ -20,29 +20,93 @@
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
-    $(document).ready(function(){
-        var physmediaDefined = localStorage.getItem('physmediaInfo');
-        var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
-        for (var i=0; i<arrayPhysmediaDefined.length; i++) {
-            data_object = arrayPhysmediaDefined[i];
-            var label = data_object['physmedia-label']
-            var qty = data_object['physmedia-quantity']
-            var dt = document.createElement('dt');
-            dt.appendChild(document.createTextNode(label));
-            var dd = document.createElement('dd');
-            dd.appendChild(document.createTextNode('amount: '+qty));
-            document.getElementById("physmedia-list").appendChild(dt);
-            document.getElementById("physmedia-list").appendChild(dd);
+    $(document).ready(function() {
+        if (!localStorage.getItem('sourceInformation')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Source information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('sources-list').appendChild(nullAlert);
         }
-        var accessionType = localStorage.getItem('accessionType');
-        var p = document.createElement("p");
-        var emphasis = document.createElement("b");
-        emphasis.appendChild(document.createTextNode(accessionType));
-        p_text = document.createTextNode("This acquisition is ");
-        p.appendChild(p_text);
-        p.appendChild(emphasis);
-        document.getElementById("type-definition").appendChild(p);
+        else {
+            console.log("found sources list set in localStorage");
+        }
+    });
 
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('donorInformation')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Donor information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('donors-list').appendChild(nullAlert);        }
+        else {
+            console.log("found sources list set in localStorage");
+        }
+    });
+
+
+    $(document).ready(function() {
+        if (localStorage.getItem('acquisitionType')) {
+            var accessionType = localStorage.getItem('acquisitionType');
+            var p = document.createElement("p");
+            var emphasis = document.createElement("b");
+            emphasis.appendChild(document.createTextNode(accessionType));
+            p_text = document.createTextNode("This acquisition is ");
+            p.appendChild(p_text);
+            p.appendChild(emphasis);
+            document.getElementById("type-definition").appendChild(p);
+        }
+        else {
+            alert("You must select what type of acquisition this is before filling out thie acquisition form");
+            location.replace("index.html");
+        }
+    });
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('restrictionsInfo'))
+        {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Restriction information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('restrictions-list').appendChild(nullAlert);
+        }
+        else 
+        {
+            console.log("restriction info has been set");
+
+        }
+    });
+
+    $(document).ready(function(){
+        if (!localStorage.getItem('physmediaInfo')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Physical media information has not been defined.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById("physmedia-list").appendChild(nullAlert);    
+        }
+        else {
+            var physmediaDefined = localStorage.getItem('physmediaInfo');
+            var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
+            for (var i=0; i<arrayPhysmediaDefined.length; i++) {
+                data_object = arrayPhysmediaDefined[i];
+                var label = data_object['physmedia-label']
+                var qty = data_object['physmedia-quantity']
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(label));
+                var dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode('amount: '+qty));
+                document.getElementById("physmedia-list").appendChild(dt);
+                document.getElementById("physmedia-list").appendChild(dd);
+            }
+            var accessionType = localStorage.getItem('accessionType');
+            var p = document.createElement("p");
+            var emphasis = document.createElement("b");
+            emphasis.appendChild(document.createTextNode(accessionType));
+            p_text = document.createTextNode("This acquisition is ");
+            p.appendChild(p_text);
+            p.appendChild(emphasis);
+            document.getElementById("type-definition").appendChild(p);
+        }
     });
 
     $(document).ready(function() {
@@ -188,30 +252,23 @@
                 <div class="row">
                     <div class="col-lg">
                         <h3>Donors <a href="donor.html" target="_blank" role="button" class="btn btn-primary btn-xs">add</a></h3>
-                        <dl>
-                            <dt>Tonya Marcus</dt>
-                            <dd>tmarcus@test.com, 555-455-5445</dd>
-                            <dt>Leopold Vaughn</dt>
-                            <dd>lvaughn@test.com, 555-055-0550</dd>
+                        <dl id="donors-list">
                         </dl>
                     </div>
                 </div>
                 <div class="row">
                     <h3>Sources <a href="source.html" target="_blank" role="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="sources-list">
-                        <dt>Fred Johnson</dt>
-                        <dd>fjohnson@test.com, 555-055-5511</dd>
                     </dl>
                 </div>
                 <div class="row">
                     <h3>Restrictions <a href="restriction.html" target="_blank" type="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="restrictions-list">
-                        <dt>R-##D</dt>
-                        <dd>at least 1000 years or death of donor</dd>
+
                     </dl>
                 </div>
                 <div class="row">
-                    <h3>Physical Media <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-sm">add</a></h3>
+                    <h3>Physical Media <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="physmedia-list">
                     </dl>
                 </div>

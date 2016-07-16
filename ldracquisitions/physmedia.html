@@ -22,7 +22,6 @@
         $(function() {
             $('#save-physmedia').click(function() {
                 data_string = "";
-
                 var data = document.getElementsByClassName('physmedia-form')[0].getElementsByClassName('form-control');
                 new_object = Object();
                 for (var i=0; i<data.length; i++) {
@@ -39,28 +38,11 @@
                     console.log(dataArray);
                 }
                 else {
-                    console.log("boo");
                     dataArray = new Array();
                 }
-
                 dataArray.push(json_string);
                 localStorage.setItem('physmediaInfo', JSON.stringify(dataArray));
                 console.log(localStorage['physmediaInfo']);
-
-                // if (localStorage.getItem('physmediaInfo')) {
-                //         var test = localStorage.getItem('physmediaInfo');
-                //         var testArray = JSON.parse(test);
-                //         console.log(testArray);
-                //         testArray.push(json_string);
-
-                //         localStorage['physMediaInfo'] = JSON.stringify(testArray);
-                //         console.log(localStorage);
-                // }
-                // else {
-                //         var newArray = new Array();
-                //         newArray.push(json_string);
-                //         localStorage.setItem('physmediaInfo', JSON.stringify(newArray));
-                // }
         });
     });
     </script>

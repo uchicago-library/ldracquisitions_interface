@@ -16,15 +16,15 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $("#allDigital").click(function() {
-            console.log("hi");
-            localStorage.setItem('accessionType', 'all digital');
+            localStorage.setItem('acquisitionType', 'all digital');
             location.replace('acquisition.html');
         });
     });
 
     $(document).ready(function() {
         $("#hasPhysical").click(function() {
-            localStorage.setItem('accessionType', 'partly physical');
+            console.log("test");
+            localStorage.setItem('acquisitionType', 'partly physical');
             location.replace('acquisition.html');
         });
     });

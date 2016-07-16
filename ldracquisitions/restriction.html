@@ -16,17 +16,53 @@
 </head>
 
 <body>
+
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/misc/validator.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            localStorage.clear();
+            $('#save-restriction').click(function() {
+                data_string = "";
+                var data = document.getElementsByClassName('restriction-form')[0].getElementsByClassName('form-control');
+                new_object = Object();
+                for (var i=0; i<data.length; i++) {
+                    var name = data[i].getAttribute('name');
+                    var value = data[i].value;
+                    new_object[name] = value;
+                }
+                console.log(new_object);
+                var json_string = new_object;
+                if (localStorage.getItem('restrictionInfo')) {
+                    console.log("hi");
+                    console.log(localStorage);
+                    dataArray = localStorage.getItem('restrictionInfoInfo');
+                    console.log(dataArray);
+                    dataArray = JSON.parse(dataArray);
+                    console.log(dataArray);
+                }
+                else {
+                    dataArray = new Array();
+                }
+                dataArray.push(json_string);
+                console.log(dataArray);
+                localStorage.setItem('restrictionInfo', JSON.stringify(dataArray));
+                location.replace('acquisition.html');
+            });
+    });
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" action="/create.html">
+                <form method="post" action="/create.html" class="restriction-form" data-toggle="validator" role="form" form="form-horizontial">
                     <fieldset class="form-group">
                         <legend>Adding a Restriction</legend>
                         <div class="form-group row">
                             <div class="col-lg-2">
                                 <label for="restriction-code">Restriction Code</label>
                                 <div id="restriction-code-errors"></div>
-                                <select id="restriction-code" class="form-control">
+                                <select name="restriction-code" class="form-control" required>
                                     <option id="O">O</option>
                                     <option id="OU">OU</option>
                                     <option id="DR-##">DR-##</option>
@@ -49,8 +85,7 @@
                                 <label for="restriction-code-comment">
                                     Restriction Comment
                                 </label>
-                                <div id="restriction-code-comment-errors"></div>
-                                <textarea id="restriction-code-comment" class="form-control"></textarea>
+                                <textarea name="restriction-code-comment" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
