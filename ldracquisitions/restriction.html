@@ -21,6 +21,12 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#cancel').click(function() {
+                window.history.back();
+            });
+        });
         $(document).ready(function() {
             localStorage.clear();
             $('#save-restriction').click(function() {
@@ -92,6 +98,9 @@
                             <button id="save-restriction" type="submit" class="btn btn-primary">
                                 Save
                             </button>
+                            <a  id="cancel" type="submit" class="btn btn-primary" role="button">
+                                Cancel
+                            </a>
                         </div>
                     </fieldset>
                 </form>

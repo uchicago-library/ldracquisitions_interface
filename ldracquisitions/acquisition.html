@@ -17,6 +17,7 @@
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
+    <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
@@ -31,7 +32,6 @@
             console.log("found sources list set in localStorage");
         }
     });
-
 
     $(document).ready(function() {
         if (!localStorage.getItem('donorInformation')) {
@@ -70,7 +70,7 @@
             nullAlert.appendChild(nullAlertText);
             document.getElementById('restrictions-list').appendChild(nullAlert);
         }
-        else 
+        else
         {
             console.log("restriction info has been set");
 
@@ -82,7 +82,7 @@
             nullAlert = document.createElement('p');
             nullAlertText = document.createTextNode("Physical media information has not been defined.");
             nullAlert.appendChild(nullAlertText);
-            document.getElementById("physmedia-list").appendChild(nullAlert);    
+            document.getElementById("physmedia-list").appendChild(nullAlert);
         }
         else {
             var physmediaDefined = localStorage.getItem('physmediaInfo');
@@ -98,14 +98,6 @@
                 document.getElementById("physmedia-list").appendChild(dt);
                 document.getElementById("physmedia-list").appendChild(dd);
             }
-            var accessionType = localStorage.getItem('accessionType');
-            var p = document.createElement("p");
-            var emphasis = document.createElement("b");
-            emphasis.appendChild(document.createTextNode(accessionType));
-            p_text = document.createTextNode("This acquisition is ");
-            p.appendChild(p_text);
-            p.appendChild(emphasis);
-            document.getElementById("type-definition").appendChild(p);
         }
     });
 
@@ -127,6 +119,10 @@
         $('input[name="receipt-letter-sent"]').daterangepicker({
             'singleDatePicker': true
         });
+    });
+
+    $(document).ready(function() {
+        $('.combobox').combobox();
     });
 
     </script>
@@ -164,18 +160,20 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-5">
-                                <div class="form-group col">
-                                    <label for="collection-title">Collection Title</label>
-                                    <select class="form-control combobox" name='collection-title' required>
-                                        <option></option>
-                                        <option value="1">Mary J Brainerd</option>
-                                        <option value="2">Test Collection</option>
-                                        <option valu="3">The Magic Digital Collection</option>
-                                    </select>
-                                    <div class="help-block with-errors"></div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label for="collection-title">
+                                            Collection Title
+                                        </label>
+                                        <select class="form-control combobox" name='collection-title' required>
+                                            <option></option>
+                                            <option value="1">Mary J Brainerd</option>
+                                            <option value="2">Test Collection</option>
+                                            <option valu="3">The Magic Digital Collection</option>
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
@@ -251,24 +249,24 @@
             <div class="col-lg-4">
                 <div class="row">
                     <div class="col-lg">
-                        <h3>Donors <a href="donor.html" target="_blank" role="button" class="btn btn-primary btn-xs">add</a></h3>
+                        <h3>Donors <a href="donor.html"  role="button" class="btn btn-primary btn-xs">add</a></h3>
                         <dl id="donors-list">
                         </dl>
                     </div>
                 </div>
                 <div class="row">
-                    <h3>Sources <a href="source.html" target="_blank" role="button" class="btn btn-primary btn-xs">add</a></h3>
+                    <h3>Sources <a href="source.html"  role="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="sources-list">
                     </dl>
                 </div>
                 <div class="row">
-                    <h3>Restrictions <a href="restriction.html" target="_blank" type="button" class="btn btn-primary btn-xs">add</a></h3>
+                    <h3>Restrictions <a href="restriction.html"  type="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="restrictions-list">
 
                     </dl>
                 </div>
                 <div class="row">
-                    <h3>Physical Media <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-xs">add</a></h3>
+                    <h3>Physical Media <a href="physmedia.html"  type="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="physmedia-list">
                     </dl>
                 </div>

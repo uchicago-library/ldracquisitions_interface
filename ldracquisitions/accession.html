@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css"/>
-    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-combobox.css"/>
+    <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
+    <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-combobox.css" />
     <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
 </head>
 
@@ -30,39 +30,39 @@
         $(function() {
             $('.combobox').combobox();
         });
-        
-        $(function () {
+
+        $(function() {
             $('input[name="fiscal-year"]').daterangepicker({
                 'singleDatePicker': true
             });
         });
 
-        $(function () {
+        $(function() {
             $('input[name="span-date"]').daterangepicker({
                 'viewMode': 'years',
                 'minViewMode': 'years'
             });
         });
 
-        $(function () {
+        $(function() {
             $('input[name="gift-acknowledgement-received"]').daterangepicker({
                 'singleDatePicker': true
             });
         });
 
-        $(function () {
+        $(function() {
             $('input[name="receipt-letter-sent"]').daterangepicker({
                 'singleDatePicker': true
             });
         });
 
-        $(function () {
+        $(function() {
             $('input[name="files-staged-date"]').daterangepicker({
                 'singleDatePicker': true
             });
         });
 
-        $(function () {
+        $(function() {
             $('input[name="files-received-date"]').daterangepicker({
                 'singleDatePicker': true
             });
@@ -90,7 +90,7 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-        
+
             <form method="post" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
@@ -98,8 +98,8 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="accession-id">Accession Identifier</label>
-                                    <input pattern="\d{4}-\d{3}" title="must look similar to 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
-                                    <div class="help-block with-errors"></div>
+                                <input pattern="\d{4}-\d{3}" title="must look similar to 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2001-001" required/>
+                                <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
@@ -296,7 +296,7 @@
         <div class="col-lg-3">
             <div class="row">
                 <h3>Donors
-                    <a href="donor.html" target="_blank" type="button" class="btn btn-primary btn-xs">
+                    <a href="donor.html"  type="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
@@ -323,7 +323,7 @@
             </div>
             <div class="row">
                 <h3>Sources
-                    <a href="source.html" target="_blank" role="button" class="btn btn-primary btn-xs">
+                    <a href="source.html"  role="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
@@ -335,7 +335,7 @@
                     <dd>fjohnson@test.com, 555-055-5511</dd>
                 </dl>
                 <h3>Restrictions
-                      <a href="restriction.html" target="_blank" role="button" class="btn btn-primary btn-xs">
+                      <a href="restriction.html"  role="button" class="btn btn-primary btn-xs">
                           add
                       </a>
                 </h3>
@@ -353,7 +353,7 @@
             </div>
             <div class="row">
                 <h3>Physical Media
-                    <a href="physmedia.html" target="_blank" type="button" class="btn btn-primary btn-xs">
+                    <a href="physmedia.html"  type="button" class="btn btn-primary btn-xs">
                         add
                     </a>
                 </h3>
