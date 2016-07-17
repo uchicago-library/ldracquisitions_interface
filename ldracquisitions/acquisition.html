@@ -34,6 +34,10 @@
     });
 
     $(document).ready(function() {
+        $('input[name="receipt-letter-required"]').value = "";
+    });
+
+    $(document).ready(function() {
         if (!localStorage.getItem('donorInformation')) {
             nullAlert = document.createElement('p');
             nullAlertText = document.createTextNode("Donor information has been set yet.");
@@ -58,12 +62,12 @@
         }
         else {
             alert("You must select what type of acquisition this is before filling out thie acquisition form");
-            console.log(localStorage.getItem('acquisitionType'));
+            location.replace('index.html');
         }
     });
 
     $(document).ready(function() {
-        if (!localStorage.getItem('restrictionsInfo'))
+        if (!localStorage.getItem('restrictionInfo'))
         {
             nullAlert = document.createElement('p');
             nullAlertText = document.createTextNode("Restriction information has been set yet.");
@@ -72,6 +76,20 @@
         }
         else
         {
+            var restrictionInfoDefined = localStorage.getItem('restrictionInfo');
+            var arrayRestrictionInfoDefined = JSON.parse(restrictionInfoDefined);
+            for (var i=0; i<arrayRestrictionInfoDefined.length; i++) {
+                console.log(arrayRestrictionInfoDefined[i]);
+                var restriction = arrayRestrictionInfoDefined[i];
+                var rCode = restriction['restriction-code'];
+                var rCodeComment = restriction['restriction-code-comment'];
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(rCode));
+                dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode(rCodeComment));
+                document.getElementById('restrictions-list').appendChild(dt);
+                document.getElementById('restrictions-list').appendChild(dd);
+            }
             console.log("restriction info has been set");
 
         }
@@ -111,13 +129,13 @@
     $(document).ready(function() {
 
         $('input[name="gift-acknowledgement-received"]').daterangepicker({
-            'singleDatePicker': true
+            'singleDatePicker': true, 'autoUpdateInput':false
         });
     });
 
     $(document).ready(function() {
         $('input[name="receipt-letter-sent"]').daterangepicker({
-            'singleDatePicker': true
+            'singleDatePicker': true,'autoUpdateInput':false
         });
     });
 

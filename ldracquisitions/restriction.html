@@ -24,12 +24,13 @@
 
         $(document).ready(function() {
             $('#cancel').click(function() {
-                console.log(localStorage);
                 window.history.back();
             });
         });
+
         $(document).ready(function() {
             $('#save-restriction').click(function() {
+                console.log("hi");
                 data_string = "";
                 var data = document.getElementsByClassName('restriction-form')[0].getElementsByClassName('form-control');
                 new_object = Object();
@@ -38,30 +39,27 @@
                     var value = data[i].value;
                     new_object[name] = value;
                 }
-                console.log(new_object);
                 var json_string = new_object;
                 if (localStorage.getItem('restrictionInfo')) {
                     console.log("hi");
-                    console.log(localStorage);
-                    dataArray = localStorage.getItem('restrictionInfoInfo');
-                    console.log(dataArray);
+                    dataArray = localStorage.getItem('restrictionInfo');
                     dataArray = JSON.parse(dataArray);
-                    console.log(dataArray);
                 }
                 else {
                     dataArray = new Array();
                 }
-                dataArray.push(json_string);
                 console.log(dataArray);
+                dataArray.push(json_string);
+                console.log('hi')
                 localStorage.setItem('restrictionInfo', JSON.stringify(dataArray));
-                location.replace('acquisition.html');
+                window.history.back();
             });
     });
     </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" action="/create.html" class="restriction-form" data-toggle="validator" role="form" form="form-horizontial">
+                <form method="post" action="restriction.html" class="restriction-form" data-toggle="validator" role="form" form="form-horizontial">
                     <fieldset class="form-group">
                         <legend>Adding a Restriction</legend>
                         <div class="form-group row">
@@ -91,14 +89,14 @@
                                 <label for="restriction-code-comment">
                                     Restriction Comment
                                 </label>
-                                <textarea name="restriction-code-comment" class="form-control"></textarea>
+                                <textarea name="restriction-code-comment" class="form-control" required></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <button id="save-restriction" type="submit" class="btn btn-primary">
+                            <a id="save-restriction" class="btn btn-primary">
                                 Save
-                            </button>
-                            <a  id="cancel" type="submit" class="btn btn-primary" role="button">
+                            </a>
+                            <a  id="cancel" class="btn btn-primary" role="button">
                                 Cancel
                             </a>
                         </div>
