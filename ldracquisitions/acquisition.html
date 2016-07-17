@@ -22,6 +22,15 @@
     <script type="text/javascript">
 
     $(document).ready(function() {
+        $('#start-over').click(function() {
+            var answer = confirm("Are you sure? If you proceed with this command you will be deleting all the work you have been started with this acquisition.");
+            if (answer == true) {
+                localStorage.clear();
+                location.replace('index.html');
+            }
+        });
+    });
+    $(document).ready(function() {
         if (!localStorage.getItem('sourceInformation')) {
             nullAlert = document.createElement('p');
             nullAlertText = document.createTextNode("Source information has been set yet.");
@@ -90,8 +99,6 @@
                 document.getElementById('restrictions-list').appendChild(dt);
                 document.getElementById('restrictions-list').appendChild(dd);
             }
-            console.log("restriction info has been set");
-
         }
     });
 
@@ -153,13 +160,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">LDR Acquisitions</a>
+                <p class="navbar-brand">LDR Acquisitions</p>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="about.html">About</a></li>
-                    <li><a href="list.html">List Acquisitions</a></li>
-                    <li><a href="list2.html">List Accessions</a></li>
+                    <li><a href="#" id="start-over">Reset</a></li>
                 </ul>
             </div>
         </div>

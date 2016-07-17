@@ -16,9 +16,8 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="scripting.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">
@@ -28,13 +27,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">LDR Acquisitions</a>
+                <p class="navbar-brand">LDR Acquisitions</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" class="active">About</a></li>
-                    <li><a href="list.html">List Acquisitions</a></li>
-                    <li><a href="list2.html">List Accessions</a></li>
                 </ul>
             </div>
         </div>
@@ -55,9 +51,16 @@
             <div class="col-lg-12">
                 <h2>Who Am I?</h2>
                 <h3>I am a student worker</h3>
-                <p>
-                    In that case, all you need to do is go the <a href="index.html">front page</a>, select the type of acquisition (is this all digital or are there parts of this acquisition that are physical). From there, you must fill out the form completely and be sure and add all the required information in the sidebar. Once you have filled out the form completey, you sould click on the "Save" button. If you have filled out the form correctly, you will be directed to a confirmation page. If you have not filled out the form correctly, you will see the problems displayed at the top of the page. You should correct all of the errors listed and try clicking "Save" again when you think you have corrected the mistakes.
+                <p>Your job is to create an acquisition record. This is the first record of a particular group of resources in the LDR system, so it's important that you try to be as accurate as you can with the infromation that you have while filling out
+                    the form. Don't worry too much, though, since the Digital Accessions Specialist will be double-checking all of your work. Once you have filled out all of the core information, all the information about the donors and sources, all of
+                    the information about the media that these resources came from, and the restrictions that Special Collections has designated for these resources, then click on the Save button. This will perform one last check of your work according
+                    the specification for an acquisiiton record and if all is correct than you will be given a receipt proving that you completed this form, If all is not correct, you will be shown a list of erros that you should correct before submitting
+                    the acquiisition form again.</p>
+                <p class="center">
+                    <a href="index.html" class="btn btn-primary" role="button">Proceed</a>
                 </p>
+                <p>
+
                 <h3>I am a Digital Accessions Specialist</h3>
                 <p>
                     Bad news: you've got a little bit more to do than the student worker. Good news: it's not that much extra work.
@@ -66,7 +69,10 @@
                     You need to make sure the acquisition form that the student worker filled out is correct. You also need to add all extra required information for an accession record before submitting it for final inclusion in a stage directory.
                 </p>
                 <p>
-                    You should click on the <a href="list.html">list acquisitions</a> navigation link at the top of the page, and select the acquisiton record that you want to accession. Once you have selected that record, you should correct any part of the form that needs to be corrected and fill out the extra information. When you have completed the form to your satisfaction, click the "Save" button. If there are mistakes, you will see a list of errors at the top of the page. You should correct those errors and click "Save" again. If there are no mistakes, you will be directed to a download link for the accession record.
+                    The accession record is the full description of the resources that will be included in the archive package. It will also serve as the base description for the first conceptual arrangement of the resources. So, it's up to you to make absolutely certain that the information that you transmit is complete and correct before transmitting it to be stored in the LDR.
+                </p>
+                <p class="center">
+                    <a href="list.html" class="btn btn-primary" role="button">Proceed</a>
                 </p>
             </div>
         </div>
@@ -79,8 +85,8 @@
 
     <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#test").onclick(function () {
+        $(document).ready(function() {
+            $("#test").onclick(function() {
                 $(this).hide()
             });
         });

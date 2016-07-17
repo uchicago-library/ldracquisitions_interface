@@ -21,47 +21,148 @@
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(function() {
-            $('button[name="save-accession"]').click(function() {
-                alert("hi");
-            });
-        });
+    $(document).ready(function() {
+        if (!localStorage.getItem('donorInformation')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Donor information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('donors-list').appendChild(nullAlert);        }
+        else {
+            console.log("found sources list set in localStorage");
+        }
+    });
 
-        $(function() {
-            $('.combobox').combobox();
-        });
 
-        $(function() {
+    $(document).ready(function() {
+        if (localStorage.getItem('acquisitionType')) {
+            var accessionType = localStorage.getItem('acquisitionType');
+            var p = document.createElement("p");
+            var emphasis = document.createElement("b");
+            emphasis.appendChild(document.createTextNode(accessionType));
+            p_text = document.createTextNode("This acquisition is ");
+            p.appendChild(p_text);
+            p.appendChild(emphasis);
+            document.getElementById("type-definition").appendChild(p);
+        }
+        else {
+            alert("You must select what type of acquisition this is before filling out thie acquisition form");
+            location.replace('index.html');
+        }
+    });
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('restrictionInfo'))
+        {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Restriction information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('restrictions-list').appendChild(nullAlert);
+        }
+        else
+        {
+            var restrictionInfoDefined = localStorage.getItem('restrictionInfo');
+            var arrayRestrictionInfoDefined = JSON.parse(restrictionInfoDefined);
+            for (var i=0; i<arrayRestrictionInfoDefined.length; i++) {
+                console.log(arrayRestrictionInfoDefined[i]);
+                var restriction = arrayRestrictionInfoDefined[i];
+                var rCode = restriction['restriction-code'];
+                var rCodeComment = restriction['restriction-code-comment'];
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(rCode));
+                dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode(rCodeComment));
+                document.getElementById('restrictions-list').appendChild(dt);
+                document.getElementById('restrictions-list').appendChild(dd);
+            }
+        }
+    });
+
+    $(document).ready(function(){
+        if (!localStorage.getItem('physmediaInfo')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Physical media information has not been defined.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById("physmedia-list").appendChild(nullAlert);
+        }
+        else {
+            var physmediaDefined = localStorage.getItem('physmediaInfo');
+            var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
+            for (var i=0; i<arrayPhysmediaDefined.length; i++) {
+                data_object = arrayPhysmediaDefined[i];
+                var label = data_object['physmedia-label']
+                var qty = data_object['physmedia-quantity']
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(label));
+                var dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode('amount: '+qty));
+                document.getElementById("physmedia-list").appendChild(dt);
+                document.getElementById("physmedia-list").appendChild(dd);
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('sourceInformation')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Source information has been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('sources-list').appendChild(nullAlert);
+        }
+        else {
+            console.log("found sources list set in localStorage");
+        }
+    });
+    $(document).ready(function() {
+        $('#start-over').click(function() {
+            var answer = confirm("Are you sure? If you proceed with this command you will be deleting all the work you have been started with this acquisition.");
+            if (answer == true) {
+                localStorage.clear();
+                location.replace('list.html');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('button[name="save-accession"]').click(function() {
+            alert("hi");
+        });
+    });
+
+    $(document).ready(function() {
+        $('.combobox').combobox();
+    });
+
+    $(document).ready(function() {
             $('input[name="fiscal-year"]').daterangepicker({
                 'singleDatePicker': true, 'autoUpdateInput':false
             });
         });
 
-        $(function() {
+        $(document).ready(function() {
             $('input[name="span-date"]').daterangepicker({
                 'viewMode': 'years','minViewMode': 'years', 'autoUpdateInput':false
             });
         });
 
-        $(function() {
+        $(document).ready(function() {
             $('input[name="gift-acknowledgement-received"]').daterangepicker({
                 'singleDatePicker': true, 'autoUpdateInput':false
             });
         });
 
-        $(function() {
+        $(document).ready(function() {
             $('input[name="receipt-letter-sent"]').daterangepicker({
                 'singleDatePicker': true, 'autoUpdateInput':false
             });
         });
 
-        $(function() {
+        $(document).ready(function() {
             $('input[name="files-staged-date"]').daterangepicker({
                 'singleDatePicker': true, 'autoUpdateInput':false
             });
         });
 
-        $(function() {
+        $(document).ready(function() {
             $('input[name="files-received-date"]').daterangepicker({
                 'singleDatePicker': true, 'autoUpdateInput':false
             });
@@ -76,13 +177,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">LDR Acquisitions</a>
+                <p class="navbar-brand" href="index.html">LDR Acquisitions</p>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="about.html">About</a></li>
-                    <li><a href="list.html">List Acquisitions</a></li>
-                    <li><a href="list2.html">List Accessions</a></li>
+                    <li><a href="#" id="start-over">Reset</a></li>
                 </ul>
             </div>
         </div>
@@ -300,24 +400,6 @@
                     </a>
                 </h3>
                 <dl id="donors-list">
-                    <dt>Tonya Marcus
-                        <button class="btn btn-warning btn-xs">
-                        edit
-                        </button>
-                        <button class="btn btn-danger btn-xs">
-                        remove
-                        </button>
-                    </dt>
-                    <dd>tmarcus@test.com, 555-455-5445</dd>
-                    <dt>Leopold Vaughn
-                        <button class="btn btn-warning btn-xs">
-                        edit
-                        </button>
-                        <button class="btn btn-danger btn-xs">
-                        remove
-                        </button>
-                    </dt>
-                    <dd>lvaughn@test.com, 555-055-0550</dd>
                 </dl>
             </div>
             <div class="row">
@@ -327,11 +409,6 @@
                     </a>
                 </h3>
                 <dl id="sources-list">
-                    <dt>Fred Johnson
-                        <a class="btn btn-warning btn-xs">edit</a>
-                        <a class="btn btn-danger btn-xs">remove</a>
-                    </dt>
-                    <dd>fjohnson@test.com, 555-055-5511</dd>
                 </dl>
                 <h3>Restrictions
                       <a href="restriction.html"  role="button" class="btn btn-primary btn-xs">
@@ -339,15 +416,6 @@
                       </a>
                 </h3>
                 <dl id="restrictions-list">
-                    <dt>R-##D
-                        <a class="btn btn-warning btn-xs">
-                        edit
-                        </a>
-                        <a class="btn btn-danger btn-xs">
-                        remove
-                        </a>
-                    </dt>
-                    <dd>at least 1000 years or death of donor</dd>
                 </dl>
             </div>
             <div class="row">
@@ -357,25 +425,11 @@
                     </a>
                 </h3>
                 <dl id="physmedia-list">
-                    <dt>floppy
-                        <a class="btn btn-warning btn-xs">
-                        edit
-                        </a>
-                        <a class="btn btn-danger btn-xs">
-                        remove
-                        </a>
-                    </dt>
-                    <dd>quantity: 12</dd>
-                    <dt>cd
-                        <a class="btn btn-warning btn-xs">
-                        edit
-                        </a>
-                        <a class="btn btn-danger btn-xs">
-                        remove
-                        </a>
-                    </dt>
-                    <dd>quantity: 4</dd>
                 </dl>
+            </div>
+            <div class="row">
+                <h3>Accession type</h3>
+                <div class="type-definition"></div>
             </div>
         </div>
     </div>
