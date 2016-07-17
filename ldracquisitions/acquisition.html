@@ -58,7 +58,7 @@
         }
         else {
             alert("You must select what type of acquisition this is before filling out thie acquisition form");
-            location.replace("index.html");
+            console.log(localStorage.getItem('acquisitionType'));
         }
     });
 

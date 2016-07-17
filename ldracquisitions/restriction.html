@@ -24,11 +24,11 @@
 
         $(document).ready(function() {
             $('#cancel').click(function() {
+                console.log(localStorage);
                 window.history.back();
             });
         });
         $(document).ready(function() {
-            localStorage.clear();
             $('#save-restriction').click(function() {
                 data_string = "";
                 var data = document.getElementsByClassName('restriction-form')[0].getElementsByClassName('form-control');

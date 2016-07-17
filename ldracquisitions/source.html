@@ -21,6 +21,12 @@
     <script type="text/javascript">
 
     $(function() {
+        $('#cancel').click(function() {
+            window.history.back();
+        });
+    });
+
+    $(function() {
         $('a[href="#newPhoneNumber"]').click(function() {
             var phonenumbersgroup = document.getElementsByClassName("phone-numbers");
             var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("phone-number-row");
