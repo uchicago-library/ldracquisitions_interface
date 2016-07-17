@@ -18,6 +18,7 @@
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
+
     <script type="text/javascript">
 
     $(function() {
@@ -97,6 +98,28 @@
     $(function() {
         $('#save-donor').click(function() {
             var form = document.getElementById("adding-donor-form");
+            var inputs = form.getElementsByClassName('form-control');
+            phoneNumberArray = new Array();
+            emailAddressArray = new Array();
+            for (var i=0; i<inputs.length; i++) {
+                var input = inputs[i];
+                var inputName = input.getAttribute('name');
+
+                if (inputName.startsWith('phone-number')) {
+                    phoneNumberArray.push(input.value);
+                }
+                else if (inputName.startsWith('email-address')) {
+                    emailAddressArray.push(input.value);
+                }
+                else if (inputName.startsWith('address')) {
+                    console.log('need to do something with mailing address inputs');
+                }
+                else {
+                    console.log('nope');
+                }
+            }
+            console.log(phoneNumberArray);
+            console.log(emailAddressArray);
         });
     });
 
@@ -135,21 +158,21 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" id="adding-donor-form" action="/create.html" data-toggle="validator" role="form" form="form-horizontial">
+                <form method="post" id="adding-donor-form" data-toggle="validator" role="form" action="." form="form-horizontal">
                     <fieldset class="form-group">
                         <legend>Adding a Donor</legend>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="first-name">Donor's first name</label>
-                                    <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane" required/>
+                                    <input type="text" class="form-control" name="first-name" class="form-control" placeholder="Jane" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="last-name">Donor's last name</label>
-                                    <input type="text" class="form-control" id="last-name" placeholder="Smith" required/>
+                                    <input type="text" class="form-control" name="last-name" placeholder="Smith" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>

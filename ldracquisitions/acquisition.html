@@ -33,7 +33,7 @@
     $(document).ready(function() {
         if (!localStorage.getItem('sourceInformation')) {
             nullAlert = document.createElement('p');
-            nullAlertText = document.createTextNode("Source information has been set yet.");
+            nullAlertText = document.createTextNode("Source information has not been set yet.");
             nullAlert.appendChild(nullAlertText);
             document.getElementById('sources-list').appendChild(nullAlert);
         }
@@ -49,7 +49,7 @@
     $(document).ready(function() {
         if (!localStorage.getItem('donorInformation')) {
             nullAlert = document.createElement('p');
-            nullAlertText = document.createTextNode("Donor information has been set yet.");
+            nullAlertText = document.createTextNode("Donor information has not been set yet.");
             nullAlert.appendChild(nullAlertText);
             document.getElementById('donors-list').appendChild(nullAlert);        }
         else {
@@ -79,7 +79,7 @@
         if (!localStorage.getItem('restrictionInfo'))
         {
             nullAlert = document.createElement('p');
-            nullAlertText = document.createTextNode("Restriction information has been set yet.");
+            nullAlertText = document.createTextNode("Restriction information has not been set yet.");
             nullAlert.appendChild(nullAlertText);
             document.getElementById('restrictions-list').appendChild(nullAlert);
         }
@@ -105,7 +105,7 @@
     $(document).ready(function(){
         if (!localStorage.getItem('physmediaInfo')) {
             nullAlert = document.createElement('p');
-            nullAlertText = document.createTextNode("Physical media information has not been defined.");
+            nullAlertText = document.createTextNode("Physical media information has not been set yet.");
             nullAlert.appendChild(nullAlertText);
             document.getElementById("physmedia-list").appendChild(nullAlert);
         }
