@@ -19,41 +19,52 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('#cancel').click(function() {
-            window.history.back();
+        $(document).ready(function() {
+            form = document.getElementById('physmedia-form');
+            console.log(form)
+            form.setAttribute('action', localStorage.getItem('currentActivity'));
         });
-    });
 
         $(document).ready(function() {
-            $('#save-physmedia').click(function() {
-                console.log(document.body.forms.validator());
-                data_string = "";
-                var data = document.getElementsByClassName('physmedia-form')[0].getElementsByClassName('form-control');
-                new_object = Object();
-                for (var i=0; i<data.length; i++) {
-                    var name = data[i].getAttribute('name');
-                    var value = data[i].value;
-                    new_object[name] = value;
-                }
-                var json_string = new_object;
-                if (localStorage.getItem('physmediaInfo')) {
-                    dataArray = localStorage.getItem('physmediaInfo');
-                    dataArray = JSON.parse(dataArray);
-                }
-                else {
-                    dataArray = new Array();
-                }
-                dataArray.push(json_string);
-                localStorage.setItem('physmediaInfo', JSON.stringify(dataArray));
-                //window.history.back();
+            $('#cancel').click(function() {
+                location.replace(localStorage.getItem('currentActivity'));
+            });
         });
-    });
+
+        $(document).ready(function() {
+            $("#physmedia-form").validator().on('submit', function(e) {
+                if (e.isDefaultPrevented()) {
+                    console.log("hi something is wrong");
+                } else {
+                    var inputs = document.getElementById("physmedia-form").getElementsByClassName("form-control")
+                    obj = new Object;
+                    for (var i = 0; i < inputs.length; i++) {
+                        var curInput = inputs[i];
+                        obj[curInput.getAttribute('name')] = curInput.value;
+                    }
+                    json_string = JSON.stringify(obj);
+                    physmediaInfo_alreadySet = localStorage.getItem('physmediaInfo');
+                    console.log(physmediaInfo_alreadySet);
+                    if (physmediaInfo_alreadySet != null) {
+                        prior_restrictionInfo = localStorage.getItem('physmediaInfo');
+                        dataArray = JSON.parse(prior_restrictionInfo);
+                    } else {
+                        dataArray = new Array();
+                    }
+                    dataArray.push(json_string);
+                    console.log(dataArray);
+                    jsonified_dataArray = JSON.stringify(dataArray);
+                    console.log(jsonified_dataArray);
+                    localStorage.setItem('physmediaInfo', jsonified_dataArray);
+                    console.log(localStorage);
+                }
+            });
+        });
     </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" action="physmedia.html" class="physmedia-form" data-toggle="validator" role="form" form="form-horizontial">
+                <form method="post" action="physmedia.html" id="physmedia-form" data-toggle="validator" role="form" form="form-horizontial">
                     <fieldset>
                         <legend>Adding Physical Media Information</legend>
                         <div class="row">
@@ -72,10 +83,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-10">
-                                <button type="submit"  id="save-physmedia" class="btn btn-primary">
+                                <button type="submit" id="save-physmedia" class="btn btn-primary">
                                     Save
                                 </button>
-                                <a  id="cancel" class="btn btn-primary" role="button">
+                                <a id="cancel" class="btn btn-primary" role="button">
                                     Cancel
                                 </a>
                             </div>

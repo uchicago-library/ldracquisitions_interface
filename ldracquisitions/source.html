@@ -22,8 +22,14 @@
 
     $(function() {
         $('#cancel').click(function() {
-            window.history.back();
+            location.replace(localStorage.getItem('currentActivity'));
         });
+    });
+
+    $(document).ready(function() {
+        form = document.getElementById('source-form');
+        console.log(form)
+        form.setAttribute('action', localStorage.getItem('currentActivity'));
     });
 
     $(function() {
@@ -59,9 +65,25 @@
             phonenumbersgroup[0].appendChild(newformgrouprow);
         });
     });
+    $(document).ready(function() {
+        $("#source-form").validator().on('submit', function(e) {
+            console.log("hi");
+            var inputs = documen.getElementById("source-form").getElementsByTagName("input");
+
+            console.log(inputs);
+            phonenumbers = document.getElementsByClassName('phone-numbers');
+            emails = document.getElementsByClassName('email-addresses');
+            mailingAddresses = document.getElementsByClassName('address-forms');
+            console.log(mailingAddresses);
+            console.log(emails);
+            console.log(phonenumbers);
+            return false;
+        });
+    });
 
     $(function() {
         $('a[href="#newEmailAddress"]').click(function() {
+            console.log("hi");
             var phonenumbersgroup = document.getElementsByClassName("email-addresses");
             var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("email-address-row");
             var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
@@ -134,14 +156,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" action="/create.html" data-toggle="validator" role="form" form="form-horizontial">
+                <form method="post" id="source-form" action="/create.html" data-toggle="validator" role="form" form="form-horizontial">
                     <fieldset class="form-group">
                         <legend>Adding a Source</legend>
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="first-name">Source's first name</label>
-                                    <input type="text" class="form-control" id="first-name" class="form-control" placeholder="Jane" required />
+                                    <input type="text" class="form-control" name="first-name" class="form-control" placeholder="Jane" required />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -150,7 +172,7 @@
                                     <label for="last-name">
                                         Source's last name
                                     </label>
-                                    <input type="text" class="form-control" id="last-name" placeholder="Smith" required/>
+                                    <input type="text" class="form-control" name="last-name" placeholder="Smith" required/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -160,7 +182,7 @@
                                 <div class="col-sm-10">
                                     <div class="form-group">
                                         <label for="phone-number-1">
-                                            Source's phone Number <a href="#newPhoneNumber" class="btn btn-sm" role="button">add</a>
+                                            Phone Number <a href="#newPhoneNumber" class="btn btn-sm" role="button">add</a>
                                         </label>
                                         <input type="tel" pattern="\d{3}-\d{3}-\d{4}" title="It should look like 123-123-1234" class="form-control" name="phone-number-1" placeholder="555-505-5445" required/>
                                         <div class="help-block with-errors"></div>
@@ -173,16 +195,16 @@
                                 <div class="col-sm-10">
                                     <div class="form-group">
                                         <label for="email-address-1">
-                                            Source's email address <a href="#newEmailAddress" class="btn btn-sm" role="button">add</a>
+                                            Email Address <a href="#newEmailAddress" class="btn btn-sm" role="button">add</a>
                                         </label>
-                                        <input type="email" id="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
+                                        <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="address-forms">
-                            <fieldset>
+                            <fieldset class="address-form-row mailing-address-1">
                                 <legend>Source's Address <a href="#newMailingAddress" class="btn btn-sm" role="button">add</a>
                                 </legend>
                                 <div class="row">
@@ -208,7 +230,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" pattern="w{2}" title="It should be valid US state postal code." name="address-1-state" placeholder='IL' required/>
+                                            <input type="text" class="form-control" pattern="\w{2}" title="It should be valid US state postal code." name="address-1-state" placeholder='IL' required/>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -223,10 +245,10 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-10">
-                                <a id="save-source" class="btn btn-primary">
+                                <button type="submit" id="save-source" class="btn btn-primary">
                                     Save
-                                </a>
-                                <a  id="cancel" class="btn btn-primary" role="button">
+                                </button>
+                                <a  id="cancel" href="#" class="btn btn-primary" role="button">
                                     Cancel
                                 </a>
                             </div>
