@@ -29,7 +29,8 @@
     $(document).ready(function() {
         form = document.getElementById('source-form');
         console.log(form)
-        form.setAttribute('action', localStorage.getItem('currentActivity'));
+        form.setAttribute('action', 'source.html');
+        //form.setAttribute('action', localStorage.getItem('currentActivity'));
     });
 
     $(function() {
@@ -68,15 +69,57 @@
     $(document).ready(function() {
         $("#source-form").validator().on('submit', function(e) {
             console.log("hi");
-            var inputs = documen.getElementById("source-form").getElementsByTagName("input");
+            form = document.getElementById('source-form');
+            forminputs = document.getElementsByTagName('input');
+            console.log(forminputs);
+            console.log(forminputs.length);
+            var lastName = "";
+            var firstName = "";
+            for (var i=0; i<forminputs.length;i++) {
+                var cur = forminputs[i];
+                var curNameAttribute = cur.getAttribute('name');
 
-            console.log(inputs);
-            phonenumbers = document.getElementsByClassName('phone-numbers');
-            emails = document.getElementsByClassName('email-addresses');
-            mailingAddresses = document.getElementsByClassName('address-forms');
-            console.log(mailingAddresses);
-            console.log(emails);
+                if  (curNameAttribute == 'first-name') {
+                    firstName = cur.value;
+                }
+                else if (curNameAttribute == 'last-name') {
+                    lastName = cur.value;
+                }
+
+            }
+            obj = new Object()
+            console.log(obj)
+            console.log(firstName);
+            console.log(lastName);
+            obj['firstName'] = firstName;
+            obj['lastName'] = lastName
+            var phones = form.getElementsByClassName('phone-numbers');
+            var emails = form.getElementsByClassName('email-addresses');
+            var mailers = form.getElementsByClassName('address-forms');
+            var phoneInputs = phones[0].getElementsByClassName('form-control');
+            var emailInputs = emails[0].getElementsByClassName('form-control');
+            var phonenumbers = new Array()
+            var emailaddresses = new Array();
+            for (var i=0; i< phoneInputs.length; i++) {
+                var cur = phoneInputs[i];
+                phonenumbers.push(cur.value);
+            }
+            for (var i=0; i<emailInputs.length; i++) {
+                var cur = emailInputs[i];
+                emailaddresses.push(cur.value);
+
+            }
+            obj['emailAddresses'] = emails;
+            obj['phoneNumbers'] = phonenumbers;
+            mailaddresses = mailers[0].getElementsByTagName("div");
+            
+            console.log(emailaddresses);
             console.log(phonenumbers);
+            console.log(phones);
+            console.log(phoneInputs);
+            console.log(emails);
+            console.log(emailInputs);
+            console.log(mailers);
             return false;
         });
     });
