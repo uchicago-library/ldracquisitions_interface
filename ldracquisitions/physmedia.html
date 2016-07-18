@@ -27,6 +27,7 @@
 
         $(document).ready(function() {
             $('#save-physmedia').click(function() {
+                console.log(document.body.forms.validator());
                 data_string = "";
                 var data = document.getElementsByClassName('physmedia-form')[0].getElementsByClassName('form-control');
                 new_object = Object();
@@ -45,7 +46,7 @@
                 }
                 dataArray.push(json_string);
                 localStorage.setItem('physmediaInfo', JSON.stringify(dataArray));
-                window.history.back();
+                //window.history.back();
         });
     });
     </script>
@@ -71,9 +72,9 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-10">
-                                <a id="save-physmedia" class="btn btn-primary">
+                                <button type="submit"  id="save-physmedia" class="btn btn-primary">
                                     Save
-                                </a>
+                                </button>
                                 <a  id="cancel" class="btn btn-primary" role="button">
                                     Cancel
                                 </a>
