@@ -20,7 +20,6 @@
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-
         $(document).ready(function() {
 
             localStorage.setItem('currentActivity', window.location.href);
@@ -38,23 +37,19 @@
 
         $(document).ready(function() {
             $("#acquisition-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
-                } else {
-                var donors = localStorage.getItem('donors');
-                var sources = localStorage.getItem('sources');
-                var restrictions = localStorage.getItem('restrictionInfo');
-                var physmedias = localStorage.getItem('physmediaInfo');
-                if (!donors || !sources || !restrictions || !physmedias) {
-                    alert("You need to define at least 1 donor, at least 1 source, at least one restriction")
-                    console.log("forgot to fill in all the information required.");
-                    return false;
-                }
-                else {
-                    console.log("all good");
-                    var form = document.getElementById("accession-form");
-                    return false;
-                }
+                    var donors = localStorage.getItem('donors');
+                    var sources = localStorage.getItem('sources');
+                    var restrictions = localStorage.getItem('restrictionInfo');
+                    var physmedias = localStorage.getItem('physmediaInfo');
+                    if (!donors || !sources || !restrictions || !physmedias) {
+                        alert("You need to define at least 1 donor, at least 1 source, at least one restriction")
+                        console.log("forgot to fill in all the information required.");
+                        return false;
+                    } else {
+                        console.log("all good");
+                        var form = document.getElementById("accession-form");
+                        return false;
+                    }
             });
         });
 
@@ -67,48 +62,45 @@
             } else {
                 var sourcesDefined = localStorage.getItem('sources');
                 var sourcesDefined = JSON.parse(sourcesDefined);
-                for (var i=0; i<sourcesDefined.length; i++) {
+                for (var i = 0; i < sourcesDefined.length; i++) {
                     var cur = sourcesDefined[i];
                     var cur = JSON.parse(cur);
                     var dt = document.createElement("dt");
-                    dt_text = document.createTextNode(cur['firstName']+" "+cur['lastName'])
+                    dt_text = document.createTextNode(cur['firstName'] + " " + cur['lastName'])
                     dt.appendChild(dt_text);
                     var dd = document.createElement("dd");
                     var numaddresses
                     var numaddresses = cur['mailing-addresses'].length;
                     var strNumAddresses = numaddresses.toString() + " mailing addresses";
                     if (numaddresses > 1) {
-                        var strNumAddresses  = numaddresses.toString() + " mailng addresses";
-                    }
-                    else {
+                        var strNumAddresses = numaddresses.toString() + " mailng addresses";
+                    } else {
                         var strNumAddresses = numaddresses.toString() + " mailing address"
                     }
                     var emailString = "";
                     var phoneNumString = "";
-                    for (var j=0; j<cur['emailAddresses'].length; j++) {
+                    for (var j = 0; j < cur['emailAddresses'].length; j++) {
                         var curEmail = cur['emailAddresses'][j];
-                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length-1]) {
+                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
                             var separator = "";
-                        }
-                        else {
+                        } else {
                             var separator = ", ";
                         }
-                            var curEmail = cur['emailAddresses'][j];
-                            emailString += curEmail+separator;
+                        var curEmail = cur['emailAddresses'][j];
+                        emailString += curEmail + separator;
                     }
-                    for (var j=0; j<cur['phoneNumbers'].length; j++) {
+                    for (var j = 0; j < cur['phoneNumbers'].length; j++) {
                         var curNum = cur['phoneNumbers'][j];
-                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length-1]) {
+                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
                             var separator = "";
-                        }
-                        else {
+                        } else {
                             var separator = ", ";
                         }
-                        phoneNumString += curNum+separator;
+                        phoneNumString += curNum + separator;
 
                     }
                     console.log(phoneNumString);
-                    dd_text = document.createTextNode(emailString+"; "+phoneNumString+" and  "+strNumAddresses+".");
+                    dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and  " + strNumAddresses + ".");
                     dd.appendChild(dd_text);
                     document.getElementById('sources-list').appendChild(dt);
                     document.getElementById("sources-list").appendChild(dd);
@@ -125,49 +117,46 @@
             } else {
                 var donorsDefined = localStorage.getItem('donors');
                 var donorsDefined = JSON.parse(donorsDefined);
-                for (var i=0; i<donorsDefined.length; i++) {
+                for (var i = 0; i < donorsDefined.length; i++) {
                     var cur = donorsDefined[i];
                     var cur = JSON.parse(cur);
                     var dt = document.createElement("dt");
-                    dt.appendChild(document.createTextNode(cur['firstName']+" "+cur['lastName']));
+                    dt.appendChild(document.createTextNode(cur['firstName'] + " " + cur['lastName']));
                     var dd = document.createElement("dd");
 
                     var numaddresses = cur['mailing-addresses'].length;
 
                     var strNumAddresses = numaddresses.toString() + " mailing addresses";
                     if (numaddresses > 1) {
-                        var strNumAddresses  = numaddresses.toString() + " mailng addresses";
-                    }
-                    else {
+                        var strNumAddresses = numaddresses.toString() + " mailng addresses";
+                    } else {
                         var strNumAddresses = numaddresses.toString() + " mailing address"
                     }
                     var emailString = "";
 
-                    for (var j=0; j<cur['emailAddresses'].length; j++) {
+                    for (var j = 0; j < cur['emailAddresses'].length; j++) {
                         var curEmail = cur['emailAddresses'][j];
-                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length-1]) {
+                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
                             var separator = "";
-                        }
-                        else {
+                        } else {
                             var separator = ", ";
                         }
-                            var curEmail = cur['emailAddresses'][j];
-                            emailString += curEmail+separator;
+                        var curEmail = cur['emailAddresses'][j];
+                        emailString += curEmail + separator;
                     }
 
                     var phoneNumString = "";
 
-                    for (var j=0; j<cur['phoneNumbers'].length; j++) {
+                    for (var j = 0; j < cur['phoneNumbers'].length; j++) {
                         var curNum = cur['phoneNumbers'][j];
-                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length-1]) {
+                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
                             var separator = "";
-                        }
-                        else {
+                        } else {
                             var separator = ", ";
                         }
-                        phoneNumString += curNum+separator;
+                        phoneNumString += curNum + separator;
                     }
-                    dd_text = document.createTextNode(emailString+"; "+phoneNumString+ " and "+strNumAddresses+".");
+                    dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and " + strNumAddresses + ".");
                     dd.appendChild(dd_text);
                     document.getElementById('donors-list').appendChild(dt);
                     document.getElementById("donors-list").appendChild(dd);
@@ -227,7 +216,7 @@
                 var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
                 for (var i = 0; i < arrayPhysmediaDefined.length; i++) {
                     data_object = arrayPhysmediaDefined[i];
-                    data_object  = JSON.parse(data_object);
+                    data_object = JSON.parse(data_object);
                     var label = data_object['physmedia-label']
                     var qty = data_object['physmedia-quantity']
                     var dt = document.createElement('dt');
@@ -279,7 +268,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                <form method="post" action="acquisition.html"  id="acquisition-form" data-toggle="validator" role="form" action="/create.html" form="form-horizontal">
+                <form method="post" action="acquisition.html" id="acquisition-form" data-toggle="validator" role="form" action="/create.html" form="form-horizontal">
                     <fieldset>
                         <legend>Creating an Acquisition</legend>
                         <div class="row">
@@ -367,7 +356,7 @@
                         <div class="row">
                             <div class="col-sm-10">
                                 <div class="form-group">
-                                    <button  type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">
                                         Save
                                     </button>
                                 </div>
