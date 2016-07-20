@@ -45,7 +45,6 @@
                         var curInput = inputs[i];
                         obj[curInput.getAttribute('name')] = curInput.value;
                     }
-                    json_string = JSON.stringify(obj);
                     restrictionInfo_alreadySet = localStorage.getItem('restrictionInfo');
                     console.log(restrictionInfo_alreadySet);
                     if (restrictionInfo_alreadySet != null) {

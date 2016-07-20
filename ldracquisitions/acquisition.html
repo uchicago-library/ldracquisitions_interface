@@ -38,6 +38,9 @@
 
         $(document).ready(function() {
             $("#acquisition-form").validator().on('submit', function(e) {
+                if (e.isDefaultPrevented()) {
+                    console.log("hi something is wrong");
+                } else {
                 var donors = localStorage.getItem('donors');
                 var sources = localStorage.getItem('sources');
                 var restrictions = localStorage.getItem('restrictionInfo');
