@@ -37,28 +37,36 @@
             });
         });
         $(document).ready(function() {
-            if (!localStorage.getItem('sourceInformation')) {
+            if (!localStorage.getItem('sources')) {
                 nullAlert = document.createElement('p');
                 nullAlertText = document.createTextNode("Source information has not been set yet.");
                 nullAlert.appendChild(nullAlertText);
                 document.getElementById('sources-list').appendChild(nullAlert);
             } else {
+                var sourcesDefined = localStorage.getItem('sources');
+                var sourcesDefined = JSON.parse(sourcesDefined);
+                for (var i=0; i<sourcesDefined.length; i++) {
+                    var cur = sourcesDefined[i];
+                    var cur = JSON.parse(cur);
+                    var dt = document.createElement("dd");
+                    dt.appendChild(document.createTextNode(cur['firstName']+" "+cur['lastName']));
+                    var dd = document.createElement("dt");
+                    dd.appendChild(document.createTextNode("foo"));
+                    console.log(cur);
+                    document.getElementById('sources-list').appendChild(dt);
+                    document.getElementById("sources-list").appendChild(dd);
+                }
                 console.log("found sources list set in localStorage");
             }
         });
-
-        $(document).ready(function() {
-            $('input[name="receipt-letter-required"]').value = "";
-        });
-
         $(document).ready(function() {
             if (!localStorage.getItem('donorInformation')) {
-                nullAlert = document.createElement('p');
-                nullAlertText = document.createTextNode("Donor information has not been set yet.");
+                var nullAlert = document.createElement('p');
+                var nullAlertText = document.createTextNode("Donor information has not been set yet.");
                 nullAlert.appendChild(nullAlertText);
                 document.getElementById('donors-list').appendChild(nullAlert);
             } else {
-                console.log("found sources list set in localStorage");
+                console.log("found donors list set in localStorage");
             }
         });
 
@@ -138,14 +146,12 @@
 
             $('input[name="gift-acknowledgement-received"]').daterangepicker({
                 'singleDatePicker': true,
-                'autoUpdateInput': false
             });
         });
 
         $(document).ready(function() {
             $('input[name="receipt-letter-sent"]').daterangepicker({
                 'singleDatePicker': true,
-                'autoUpdateInput': false
             });
         });
 
