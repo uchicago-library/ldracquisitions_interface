@@ -10,9 +10,37 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="static/js/scripting.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        var foo = document.getElementsByClassName('list-group')[0];
+        $.ajax({
+            type:'GET',
+            url:'http://127.0.0.1:5000/record',
+            success: function(data) {
+                $.each(data, function(i, item) {
+                    var ids = item['record_identifiers'];
+                    for (var i=0;i< ids.length; i++) {
+                        var cur = ids[i];
+                        var newline = document.createElement('li');
+                        var newline_a = document.createElement("a");
+                        newline_a.setAttribute("href", "accession.html?record="+cur);
+                        newline.setAttribute('class', 'list-group-item');
+                        newline_text = document.createTextNode(cur);
+                        newline_a.appendChild(newline_text);
+                        newline.appendChild(newline_a);
+                        foo.appendChild(newline);
+
+                    }
+                });
+            }
+        })
+    });
+
+    </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">
@@ -36,16 +64,7 @@
             <div class="col-lg-12">
                 <h2>Viewing Acquisitions</h2>
                 <ul class="list-group">
-                    <li class="list-group-item">
-                        <a href="accession.html">
-                        2011-001 created on 2011-06-01
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="accession.html">
-                        2012-001 created on 2012-02-01
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </div>

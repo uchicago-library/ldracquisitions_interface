@@ -37,19 +37,21 @@
 
         $(document).ready(function() {
             $("#acquisition-form").validator().on('submit', function(e) {
-                    var donors = localStorage.getItem('donors');
-                    var sources = localStorage.getItem('sources');
-                    var restrictions = localStorage.getItem('restrictionInfo');
-                    var physmedias = localStorage.getItem('physmediaInfo');
-                    if (!donors || !sources || !restrictions || !physmedias) {
-                        alert("You need to define at least 1 donor, at least 1 source, at least one restriction")
-                        console.log("forgot to fill in all the information required.");
-                        return false;
-                    } else {
-                        console.log("all good");
-                        var form = document.getElementById("accession-form");
-                        return false;
-                    }
+                if (e.isDefaultPrevented()) {
+                    console.log("hi something is wrong");
+                } else {
+                    console.log("all good");
+                }
+                obj = new Object();
+                var inputs = document.getElementById("acquisition-form").getElementsByClassName("form-control");
+                for (var i=0; i<inputs.length;i++)
+                {
+                    var cur = inputs[i];
+                    var curName = cur.getAttribute('name');
+                    var curValue = cur.value;
+                    obj[curName] = curValue;
+                }
+                return false;
             });
         });
 
@@ -245,6 +247,7 @@
         $(document).ready(function() {
             $('.combobox').combobox();
         });
+
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
