@@ -21,7 +21,75 @@
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#acquisition-form").validator().on('submit', function(e) {
+                if (e.isDefaultPrevented()) {
+                    console.log("hi something is wrong");
+                } else {
+                    var donors = localStorage.getItem("donors");
+                    var sources = localStorage.getItem("sources");
+                    var physmedia = localStorage.getItem("physmediaInfo");
+                    var restrictions = localStorage.getItem("restrictionInfo");
+                    if (donors == null || sources == null || physmedia == null || restrictions == null) {
+                        alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
+                    } else {
+                        var inputs = document.getElementById("acquisition-form")[0].getElementsByClassName('form-control');
+                        obj = new Object();
+                        for (var i = 0; i < inputs.length; i++) {
+                            var cur = inputs[i];
+                            obj[cur.getAttribute('name')] = cur.value;
+                        }
+                        obj['donors'] = JSON.parse(donors);
+                        obj['sources'] = JSON.parse(sources);
+                        obj['physmediaInfo'] = JSON.parse(physmedia);
+                        obj['restrictions'] = JSON.parse(restrictions);
+                        var recordID = null;
+                        var ajaxObj = postNewRecord(obj);
+                        console.log(ajaxObj);
+                        var recordID = ajaxObj['responseJSON']["data"]['record_identifier'];
+                        accID = obj['accession-id'];
+                        new_record_field = new Object()
+                        new_record_field['value'] = accID;
+                        var latestAjaxObj = addKeyValueToRecord(recordID, 'accessionID0', new_record_field);
 
+                        console.log(latestAjaxObj);
+                        return false;
+                    }
+                }
+            });
+        });
+
+        function postNewRecord(o) {
+            return $.ajax({
+                type: 'POST',
+                url: "127.0.0.1:5000/record",
+                data: JSON.stringify(o),
+                contentType:'application/json; charset=utf-8',
+                dataType:'json',
+                async: !1,
+                error: function() {
+                    alert("Error occurred");
+                }
+            });
+        }
+
+        function addKeyValueToRecord(recordID, key, o) {
+            urlString = "http://127.0.0.1:5000/record/"+recordID+"/"+key;
+            json_obj =JSON.stringify(o);
+            console.log(json_obj);
+            console.log(urlString);
+            return $.ajax({
+                type:'POST',
+                url:urlString,
+                dataType:"json",
+                data: json_obj,
+                async:!1,
+                error: function() {
+                    alert("Error occurred posting key/value to record");
+                }
+            });
+        }
+
+        $(document).ready(function() {
             localStorage.setItem('currentActivity', window.location.href);
         });
 
@@ -32,26 +100,6 @@
                     localStorage.clear();
                     location.replace('index.html');
                 }
-            });
-        });
-
-        $(document).ready(function() {
-            $("#acquisition-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
-                } else {
-                    console.log("all good");
-                }
-                obj = new Object();
-                var inputs = document.getElementById("acquisition-form").getElementsByClassName("form-control");
-                for (var i=0; i<inputs.length;i++)
-                {
-                    var cur = inputs[i];
-                    var curName = cur.getAttribute('name');
-                    var curValue = cur.value;
-                    obj[curName] = curValue;
-                }
-                return false;
             });
         });
 
@@ -110,6 +158,7 @@
                 console.log("found sources list set in localStorage");
             }
         });
+
         $(document).ready(function() {
             if (!localStorage.getItem('donors')) {
                 var nullAlert = document.createElement('p');
@@ -165,7 +214,6 @@
                 }
             }
         });
-
 
         $(document).ready(function() {
             if (localStorage.getItem('acquisitionType')) {
@@ -247,7 +295,6 @@
         $(document).ready(function() {
             $('.combobox').combobox();
         });
-
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -271,102 +318,110 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                <form method="post" action="acquisition.html" id="acquisition-form" data-toggle="validator" role="form" action="/create.html" form="form-horizontal">
-                    <fieldset>
-                        <legend>Creating an Acquisition</legend>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col">
-                                    <label for="accession-id">Accession Identifier</label>
-                                    <input pattern="\d{4}-\d{3}" title="must look like 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2010-010" pattern="[0-9]{4}-[0-9]{3}" / required>
-                                    <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col-sm-11">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-11">
+                        <form method="post" action="#" id="acquisition-form" data-toggle="validator" role="form" action="/create.html" form="form-horizontal">
+                            <fieldset>
+                                <legend>Creating an Acquisition</legend>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group col">
+                                            <label for="accession-id">Accession Identifier</label>
+                                            <input pattern="\d{4}-\d{3}" title="must look like 2001-001" type="text" class="form-control" name="accession-id" class="form-control" placeholder="2010-010" pattern="[0-9]{4}-[0-9]{3}" / required>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group">
+                                            <label for="collection-title">
+                                                Collection Title
+                                            </label>
+                                            <select class="form-control combobox" name='collection-title' required>
+                                                <option></option>
+                                                <option value="1">Mary J Brainerd</option>
+                                                <option value="2">Test Collection</option>
+                                                <option valu="3">The Magic Digital Collection</option>
+                                            </select>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label for="collection-title">
-                                        Collection Title
-                                    </label>
-                                    <select class="form-control combobox" name='collection-title' required>
-                                        <option></option>
-                                        <option value="1">Mary J Brainerd</option>
-                                        <option value="2">Test Collection</option>
-                                        <option valu="3">The Magic Digital Collection</option>
-                                    </select>
-                                    <div class="help-block with-errors"></div>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group col">
+                                            <label>
+                                                <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Information Required
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="form-group col">
+                                            <label for="receipt-letter-sent">Receipt Letter Information Sent
+                                            </label>
+                                            <input type="text" name="receipt-letter-sent" class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col">
-                                    <label>
-                                        <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Information Required
-                                    </label>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="form-group col">
+                                            <label>
+                                                <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Information Required
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div clsas="form-group">
+                                            <label for="gift-acknowledgement-received"> Gift Acknowledgement Information Received</label>
+                                            <input type="text" name="gift-acknowledgement-received" class="form-control" />
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group col">
-                                    <label for="receipt-letter-sent">Receipt Letter Information Sent
-                                    </label>
-                                    <input type="text" name="receipt-letter-sent" class="form-control" />
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group col">
+                                            <label for="organization">Organization</label>
+                                            <input type="text" class="form-control" name="organization" placeholder="Special Collections Research Center" required/>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group col">
-                                    <label>
-                                        <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Information Required
-                                    </label>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group col">
+                                            <label for="origin-description">Origin Description</label>
+                                            <textarea type="text" name="origin-description" class="form-control" placeholder="A description of the origin of the material" required></textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div clsas="form-group">
-                                    <label for="gift-acknowledgement-received"> Gift Acknowledgement Information Received</label>
-                                    <input type="text" name="gift-acknowledgement-received" class="form-control" />
-                                    <div class="help-block with-errors"></div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group col">
+                                            <label for="admin-comment">Administrative Comment</label>
+                                            <textarea type="text" name="admin-comment" class="form-control" placeholder="Anything that you think the DAS should know"></textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <div class="form-group col">
-                                    <label for="organization">Organization</label>
-                                    <input type="text" class="form-control" name="organization" placeholder="Special Collections Research Center" required/>
-                                    <div class="help-block with-errors"></div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <div class="form-group col">
-                                    <label for="origin-description">Origin Description</label>
-                                    <textarea type="text" name="origin-description" class="form-control" placeholder="A description of the origin of the material" required></textarea>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <div class="form-group col">
-                                    <label for="admin-comment">Administrative Comment</label>
-                                    <textarea type="text" name="admin-comment" class="form-control" placeholder="Anything that you think the DAS should know"></textarea>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4">
                 <div class="row">
