@@ -184,6 +184,7 @@
         });
 
         $(document).ready(function() {
+            console.log(localStorage);
             if (!localStorage.getItem('restrictionInfo')) {
                 nullAlert = document.createElement('p');
                 nullAlertText = document.createTextNode("Restriction information has not been set yet.");
