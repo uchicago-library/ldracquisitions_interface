@@ -20,282 +20,282 @@
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#acquisition-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
+    $(document).ready(function() {
+        $("#acquisition-form").validator().on('submit', function(e) {
+            if (e.isDefaultPrevented()) {
+                console.log("hi something is wrong");
+            } else {
+                var donors = localStorage.getItem("donors");
+                var sources = localStorage.getItem("sources");
+                var physmedia = localStorage.getItem("physmediaInfo");
+                var restrictions = localStorage.getItem("restrictionInfo");
+                if (donors == null || sources == null || physmedia == null || restrictions == null) {
+                    alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
                 } else {
-                    var donors = localStorage.getItem("donors");
-                    var sources = localStorage.getItem("sources");
-                    var physmedia = localStorage.getItem("physmediaInfo");
-                    var restrictions = localStorage.getItem("restrictionInfo");
-                    if (donors == null || sources == null || physmedia == null || restrictions == null) {
-                        alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
-                    } else {
-                        var inputs = document.getElementById("acquisition-form")[0].getElementsByClassName('form-control');
-                        obj = new Object();
-                        for (var i = 0; i < inputs.length; i++) {
-                            var cur = inputs[i];
-                            obj[cur.getAttribute('name')] = cur.value;
-                        }
-                        obj['donors'] = JSON.parse(donors);
-                        obj['sources'] = JSON.parse(sources);
-                        obj['physmediaInfo'] = JSON.parse(physmedia);
-                        obj['restrictions'] = JSON.parse(restrictions);
-                        var recordID = null;
-                        var ajaxObj = postNewRecord(obj);
-                        console.log(ajaxObj);
-                        var recordID = ajaxObj['responseJSON']["data"]['record_identifier'];
-                        accID = obj['accession-id'];
-                        new_record_field = new Object()
-                        new_record_field['value'] = accID;
-                        var latestAjaxObj = addKeyValueToRecord(recordID, 'accessionID0', new_record_field);
-
-                        console.log(latestAjaxObj);
-                        return false;
+                    var inputs = document.getElementById("acquisition-form")[0].getElementsByClassName('form-control');
+                    obj = new Object();
+                    for (var i = 0; i < inputs.length; i++) {
+                        var cur = inputs[i];
+                        obj[cur.getAttribute('name')] = cur.value;
                     }
-                }
-            });
-        });
+                    obj['donors'] = JSON.parse(donors);
+                    obj['sources'] = JSON.parse(sources);
+                    obj['physmediaInfo'] = JSON.parse(physmedia);
+                    obj['restrictions'] = JSON.parse(restrictions);
+                    var recordID = null;
+                    var ajaxObj = postNewRecord(obj);
+                    console.log(ajaxObj);
+                    var recordID = ajaxObj['responseJSON']["data"]['record_identifier'];
+                    accID = obj['accession-id'];
+                    new_record_field = new Object()
+                    new_record_field['value'] = accID;
+                    var latestAjaxObj = addKeyValueToRecord(recordID, 'accessionID0', new_record_field);
 
-        function postNewRecord(o) {
-            return $.ajax({
-                type: 'POST',
-                url: "http://127.0.0.1:5000/record",
-                data: JSON.stringify(o),
-                contentType:'application/json; charset=utf-8',
-                dataType:'json',
-                async: !1,
-                error: function() {
-                    alert("Error occurred");
-                }
-            });
-        }
-
-        function addKeyValueToRecord(recordID, key, o) {
-            urlString = "http://127.0.0.1:5000/record/"+recordID+"/"+key;
-            json_obj =JSON.stringify(o);
-            console.log(json_obj);
-            console.log(urlString);
-            return $.ajax({
-                type:'POST',
-                url:urlString,
-                contentType:'application/json',
-                dataType:"json",
-                data: json_obj,
-                async:!1,
-                error: function() {
-                    alert("Error occurred posting key/value to record");
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            localStorage.setItem('currentActivity', window.location.href);
-        });
-
-        $(document).ready(function() {
-            $('#start-over').click(function() {
-                var answer = confirm("Are you sure? If you proceed with this command you will be deleting all the work you have been started with this acquisition.");
-                if (answer == true) {
-                    localStorage.clear();
-                    location.replace('index.html');
-                }
-            });
-        });
-
-        $(document).ready(function() {
-            if (!localStorage.getItem('sources')) {
-                nullAlert = document.createElement('p');
-                nullAlertText = document.createTextNode("Source information has not been set yet.");
-                nullAlert.appendChild(nullAlertText);
-                document.getElementById('sources-list').appendChild(nullAlert);
-            } else {
-                var sourcesDefined = localStorage.getItem('sources');
-                var sourcesDefined = JSON.parse(sourcesDefined);
-                for (var i = 0; i < sourcesDefined.length; i++) {
-                    var cur = sourcesDefined[i];
-                    var cur = JSON.parse(cur);
-                    var dt = document.createElement("dt");
-                    dt_text = document.createTextNode(cur['firstName'] + " " + cur['lastName'])
-                    dt.appendChild(dt_text);
-                    var dd = document.createElement("dd");
-                    var numaddresses
-                    var numaddresses = cur['mailing-addresses'].length;
-                    var strNumAddresses = numaddresses.toString() + " mailing addresses";
-                    if (numaddresses > 1) {
-                        var strNumAddresses = numaddresses.toString() + " mailng addresses";
-                    } else {
-                        var strNumAddresses = numaddresses.toString() + " mailing address"
-                    }
-                    var emailString = "";
-                    var phoneNumString = "";
-                    for (var j = 0; j < cur['emailAddresses'].length; j++) {
-                        var curEmail = cur['emailAddresses'][j];
-                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
-                            var separator = "";
-                        } else {
-                            var separator = ", ";
-                        }
-                        var curEmail = cur['emailAddresses'][j];
-                        emailString += curEmail + separator;
-                    }
-                    for (var j = 0; j < cur['phoneNumbers'].length; j++) {
-                        var curNum = cur['phoneNumbers'][j];
-                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
-                            var separator = "";
-                        } else {
-                            var separator = ", ";
-                        }
-                        phoneNumString += curNum + separator;
-
-                    }
-                    console.log(phoneNumString);
-                    dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and  " + strNumAddresses + ".");
-                    dd.appendChild(dd_text);
-                    document.getElementById('sources-list').appendChild(dt);
-                    document.getElementById("sources-list").appendChild(dd);
-                }
-                console.log("found sources list set in localStorage");
-            }
-        });
-
-        $(document).ready(function() {
-            if (!localStorage.getItem('donors')) {
-                var nullAlert = document.createElement('p');
-                var nullAlertText = document.createTextNode("Donor information has not been set yet.");
-                nullAlert.appendChild(nullAlertText);
-                document.getElementById('donors-list').appendChild(nullAlert);
-            } else {
-                var donorsDefined = localStorage.getItem('donors');
-                var donorsDefined = JSON.parse(donorsDefined);
-                for (var i = 0; i < donorsDefined.length; i++) {
-                    var cur = donorsDefined[i];
-                    var cur = JSON.parse(cur);
-                    var dt = document.createElement("dt");
-                    dt.appendChild(document.createTextNode(cur['firstName'] + " " + cur['lastName']));
-                    var dd = document.createElement("dd");
-
-                    var numaddresses = cur['mailing-addresses'].length;
-
-                    var strNumAddresses = numaddresses.toString() + " mailing addresses";
-                    if (numaddresses > 1) {
-                        var strNumAddresses = numaddresses.toString() + " mailng addresses";
-                    } else {
-                        var strNumAddresses = numaddresses.toString() + " mailing address"
-                    }
-                    var emailString = "";
-
-                    for (var j = 0; j < cur['emailAddresses'].length; j++) {
-                        var curEmail = cur['emailAddresses'][j];
-                        if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
-                            var separator = "";
-                        } else {
-                            var separator = ", ";
-                        }
-                        var curEmail = cur['emailAddresses'][j];
-                        emailString += curEmail + separator;
-                    }
-
-                    var phoneNumString = "";
-
-                    for (var j = 0; j < cur['phoneNumbers'].length; j++) {
-                        var curNum = cur['phoneNumbers'][j];
-                        if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
-                            var separator = "";
-                        } else {
-                            var separator = ", ";
-                        }
-                        phoneNumString += curNum + separator;
-                    }
-                    dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and " + strNumAddresses + ".");
-                    dd.appendChild(dd_text);
-                    document.getElementById('donors-list').appendChild(dt);
-                    document.getElementById("donors-list").appendChild(dd);
+                    console.log(latestAjaxObj);
+                    return false;
                 }
             }
         });
+    });
 
-        $(document).ready(function() {
-            if (localStorage.getItem('acquisitionType')) {
-                var accessionType = localStorage.getItem('acquisitionType');
-                var p = document.createElement("p");
-                var emphasis = document.createElement("b");
-                emphasis.appendChild(document.createTextNode(accessionType));
-                p_text = document.createTextNode("This acquisition is ");
-                p.appendChild(p_text);
-                p.appendChild(emphasis);
-                document.getElementById("type-definition").appendChild(p);
-            } else {
-                alert("You must select what type of acquisition this is before filling out thie acquisition form");
+    function postNewRecord(o) {
+        return $.ajax({
+            type: 'POST',
+            url: "http://127.0.0.1:5000/record",
+            data: JSON.stringify(o),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: !1,
+            error: function() {
+                alert("Error occurred");
+            }
+        });
+    }
+
+    function addKeyValueToRecord(recordID, key, o) {
+        urlString = "http://127.0.0.1:5000/record/" + recordID + "/" + key;
+        json_obj = JSON.stringify(o);
+        console.log(json_obj);
+        console.log(urlString);
+        return $.ajax({
+            type: 'POST',
+            url: urlString,
+            contentType: 'application/json',
+            dataType: "json",
+            data: json_obj,
+            async: !1,
+            error: function() {
+                alert("Error occurred posting key/value to record");
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        localStorage.setItem('currentActivity', window.location.href);
+    });
+
+    $(document).ready(function() {
+        $('#start-over').click(function() {
+            var answer = confirm("Are you sure? If you proceed with this command you will be deleting all the work you have been started with this acquisition.");
+            if (answer == true) {
+                localStorage.clear();
                 location.replace('index.html');
             }
         });
+    });
 
-        $(document).ready(function() {
-            if (!localStorage.getItem('restrictionInfo')) {
-                nullAlert = document.createElement('p');
-                nullAlertText = document.createTextNode("Restriction information has not been set yet.");
-                nullAlert.appendChild(nullAlertText);
-                document.getElementById('restrictions-list').appendChild(nullAlert);
-            } else {
-                var restrictionInfoDefined = localStorage.getItem('restrictionInfo');
-                var arrayRestrictionInfoDefined = JSON.parse(restrictionInfoDefined);
-                for (var i = 0; i < arrayRestrictionInfoDefined.length; i++) {
-                    var restriction = arrayRestrictionInfoDefined[i];
-                    restriction = JSON.parse(restriction);
-                    var rCode = restriction['restriction-code'];
-                    var rCodeComment = restriction['restriction-code-comment'];
-                    var dt = document.createElement('dt');
-                    dt.appendChild(document.createTextNode(rCode));
-                    dd = document.createElement('dd');
-                    dd.appendChild(document.createTextNode(rCodeComment));
-                    document.getElementById('restrictions-list').appendChild(dt);
-                    document.getElementById('restrictions-list').appendChild(dd);
+    $(document).ready(function() {
+        if (!localStorage.getItem('sources')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Source information has not been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('sources-list').appendChild(nullAlert);
+        } else {
+            var sourcesDefined = localStorage.getItem('sources');
+            var sourcesDefined = JSON.parse(sourcesDefined);
+            for (var i = 0; i < sourcesDefined.length; i++) {
+                var cur = sourcesDefined[i];
+                var cur = JSON.parse(cur);
+                var dt = document.createElement("dt");
+                dt_text = document.createTextNode(cur['firstName'] + " " + cur['lastName'])
+                dt.appendChild(dt_text);
+                var dd = document.createElement("dd");
+                var numaddresses
+                var numaddresses = cur['mailing-addresses'].length;
+                var strNumAddresses = numaddresses.toString() + " mailing addresses";
+                if (numaddresses > 1) {
+                    var strNumAddresses = numaddresses.toString() + " mailng addresses";
+                } else {
+                    var strNumAddresses = numaddresses.toString() + " mailing address"
                 }
-            }
-        });
-
-        $(document).ready(function() {
-            if (!localStorage.getItem('physmediaInfo')) {
-                nullAlert = document.createElement('p');
-                nullAlertText = document.createTextNode("Physical media information has not been set yet.");
-                nullAlert.appendChild(nullAlertText);
-                document.getElementById("physmedia-list").appendChild(nullAlert);
-            } else {
-                var physmediaDefined = localStorage.getItem('physmediaInfo');
-                var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
-                for (var i = 0; i < arrayPhysmediaDefined.length; i++) {
-                    data_object = arrayPhysmediaDefined[i];
-                    data_object = JSON.parse(data_object);
-                    var label = data_object['physmedia-label']
-                    var qty = data_object['physmedia-quantity']
-                    var dt = document.createElement('dt');
-                    dt.appendChild(document.createTextNode(label));
-                    var dd = document.createElement('dd');
-                    dd.appendChild(document.createTextNode('amount: ' + qty));
-                    document.getElementById("physmedia-list").appendChild(dt);
-                    document.getElementById("physmedia-list").appendChild(dd);
+                var emailString = "";
+                var phoneNumString = "";
+                for (var j = 0; j < cur['emailAddresses'].length; j++) {
+                    var curEmail = cur['emailAddresses'][j];
+                    if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
+                        var separator = "";
+                    } else {
+                        var separator = ", ";
+                    }
+                    var curEmail = cur['emailAddresses'][j];
+                    emailString += curEmail + separator;
                 }
+                for (var j = 0; j < cur['phoneNumbers'].length; j++) {
+                    var curNum = cur['phoneNumbers'][j];
+                    if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
+                        var separator = "";
+                    } else {
+                        var separator = ", ";
+                    }
+                    phoneNumString += curNum + separator;
+
+                }
+                console.log(phoneNumString);
+                dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and  " + strNumAddresses + ".");
+                dd.appendChild(dd_text);
+                document.getElementById('sources-list').appendChild(dt);
+                document.getElementById("sources-list").appendChild(dd);
             }
-        });
+            console.log("found sources list set in localStorage");
+        }
+    });
 
-        $(document).ready(function() {
+    $(document).ready(function() {
+        if (!localStorage.getItem('donors')) {
+            var nullAlert = document.createElement('p');
+            var nullAlertText = document.createTextNode("Donor information has not been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('donors-list').appendChild(nullAlert);
+        } else {
+            var donorsDefined = localStorage.getItem('donors');
+            var donorsDefined = JSON.parse(donorsDefined);
+            for (var i = 0; i < donorsDefined.length; i++) {
+                var cur = donorsDefined[i];
+                var cur = JSON.parse(cur);
+                var dt = document.createElement("dt");
+                dt.appendChild(document.createTextNode(cur['firstName'] + " " + cur['lastName']));
+                var dd = document.createElement("dd");
 
-            $('input[name="gift-acknowledgement-received"]').daterangepicker({
-                'singleDatePicker': true,
-            });
-        });
+                var numaddresses = cur['mailing-addresses'].length;
 
-        $(document).ready(function() {
-            $('input[name="receipt-letter-sent"]').daterangepicker({
-                'singleDatePicker': true,
-            });
-        });
+                var strNumAddresses = numaddresses.toString() + " mailing addresses";
+                if (numaddresses > 1) {
+                    var strNumAddresses = numaddresses.toString() + " mailng addresses";
+                } else {
+                    var strNumAddresses = numaddresses.toString() + " mailing address"
+                }
+                var emailString = "";
 
-        $(document).ready(function() {
-            $('.combobox').combobox();
+                for (var j = 0; j < cur['emailAddresses'].length; j++) {
+                    var curEmail = cur['emailAddresses'][j];
+                    if (curEmail == cur['emailAddresses'][cur['emailAddresses'].length - 1]) {
+                        var separator = "";
+                    } else {
+                        var separator = ", ";
+                    }
+                    var curEmail = cur['emailAddresses'][j];
+                    emailString += curEmail + separator;
+                }
+
+                var phoneNumString = "";
+
+                for (var j = 0; j < cur['phoneNumbers'].length; j++) {
+                    var curNum = cur['phoneNumbers'][j];
+                    if (curNum == cur['phoneNumbers'][cur['phoneNumbers'].length - 1]) {
+                        var separator = "";
+                    } else {
+                        var separator = ", ";
+                    }
+                    phoneNumString += curNum + separator;
+                }
+                dd_text = document.createTextNode(emailString + "; " + phoneNumString + " and " + strNumAddresses + ".");
+                dd.appendChild(dd_text);
+                document.getElementById('donors-list').appendChild(dt);
+                document.getElementById("donors-list").appendChild(dd);
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        if (localStorage.getItem('acquisitionType')) {
+            var accessionType = localStorage.getItem('acquisitionType');
+            var p = document.createElement("p");
+            var emphasis = document.createElement("b");
+            emphasis.appendChild(document.createTextNode(accessionType));
+            p_text = document.createTextNode("This acquisition is ");
+            p.appendChild(p_text);
+            p.appendChild(emphasis);
+            document.getElementById("type-definition").appendChild(p);
+        } else {
+            alert("You must select what type of acquisition this is before filling out thie acquisition form");
+            location.replace('index.html');
+        }
+    });
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('restrictionInfo')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Restriction information has not been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById('restrictions-list').appendChild(nullAlert);
+        } else {
+            var restrictionInfoDefined = localStorage.getItem('restrictionInfo');
+            var arrayRestrictionInfoDefined = JSON.parse(restrictionInfoDefined);
+            for (var i = 0; i < arrayRestrictionInfoDefined.length; i++) {
+                var restriction = arrayRestrictionInfoDefined[i];
+                restriction = JSON.parse(restriction);
+                var rCode = restriction['restriction-code'];
+                var rCodeComment = restriction['restriction-code-comment'];
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(rCode));
+                dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode(rCodeComment));
+                document.getElementById('restrictions-list').appendChild(dt);
+                document.getElementById('restrictions-list').appendChild(dd);
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        if (!localStorage.getItem('physmediaInfo')) {
+            nullAlert = document.createElement('p');
+            nullAlertText = document.createTextNode("Physical media information has not been set yet.");
+            nullAlert.appendChild(nullAlertText);
+            document.getElementById("physmedia-list").appendChild(nullAlert);
+        } else {
+            var physmediaDefined = localStorage.getItem('physmediaInfo');
+            var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
+            for (var i = 0; i < arrayPhysmediaDefined.length; i++) {
+                data_object = arrayPhysmediaDefined[i];
+                data_object = JSON.parse(data_object);
+                var label = data_object['physmedia-label']
+                var qty = data_object['physmedia-quantity']
+                var dt = document.createElement('dt');
+                dt.appendChild(document.createTextNode(label));
+                var dd = document.createElement('dd');
+                dd.appendChild(document.createTextNode('amount: ' + qty));
+                document.getElementById("physmedia-list").appendChild(dt);
+                document.getElementById("physmedia-list").appendChild(dd);
+            }
+        }
+    });
+
+    $(document).ready(function() {
+
+        $('input[name="gift-acknowledgement-received"]').daterangepicker({
+            'singleDatePicker': true,
         });
+    });
+
+    $(document).ready(function() {
+        $('input[name="receipt-letter-sent"]').daterangepicker({
+            'singleDatePicker': true,
+        });
+    });
+
+    $(document).ready(function() {
+        $('.combobox').combobox();
+    });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -440,7 +440,6 @@
                 <div class="row">
                     <h3>Restrictions <a href="restriction.html"  type="button" class="btn btn-primary btn-xs">add</a></h3>
                     <dl id="restrictions-list">
-
                     </dl>
                 </div>
                 <div class="row">
