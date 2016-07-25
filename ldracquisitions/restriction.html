@@ -21,7 +21,6 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript">
-
         $(document).ready(function() {
             form = document.getElementById('restriction-form');
             form.setAttribute('action', localStorage.getItem('currentActivity'));
@@ -37,32 +36,29 @@
 
         $(document).ready(function() {
             $("#restriction-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
-                } else {
-                    var inputs = document.getElementById("restriction-form").getElementsByClassName("form-control")
-                    obj = new Object;
-                    for (var i = 0; i < inputs.length; i++) {
-                        var curInput = inputs[i];
-                        obj[curInput.getAttribute('name')] = curInput.value;
+                    if (e.isDefaultPrevented()) {
+                        console.log("hi something is wrong");
+                    } else {
+                        var inputs = document.getElementById("restriction-form").getElementsByClassName("form-control")
+                        obj = new Object;
+                        for (var i = 0; i < inputs.length; i++) {
+                            var curInput = inputs[i];
+                            obj[curInput.getAttribute('name')] = curInput.value;
+                        }
+                        var restrictionInfo_alreadySet = localStorage.getItem('restrictionInfo');
+                        if (restrictionInfo_alreadySet != null) {
+                            prior_restrictionInfo = localStorage.getItem('restrictionInfo');
+                            dataArray = JSON.parse(prior_restrictionInfo);
+                        }
+                        else {
+                            dataArray = new Array();
+                        }
+                        console.log(dataArray);
+                        var json_string = JSON.stringify(obj);
+                        dataArray.push(json_string);
+                        jsonified_dataArray = JSON.stringify(dataArray);
+                        localStorage.setItem('restrictionInfo', jsonified_dataArray);
                     }
-                    restrictionInfo_alreadySet = localStorage.getItem('restrictionInfo');
-                    console.log(restrictionInfo_alreadySet);
-                    if (restrictionInfo_alreadySet != null) {
-                        prior_restrictionInfo = localStorage.getItem('restrictionInfo');
-                        dataArray = JSON.parse(prior_restrictionInfo);
-                    }
-                    else {
-                        dataArray = new Array();
-                    }
-                    json_string = JSON.stringify(obj);
-                    dataArray.push(json_string);
-                    console.log(dataArray);
-                    jsonified_dataArray = JSON.stringify(dataArray);
-                    console.log(jsonified_dataArray);
-                    localStorage.setItem('restrictionInfo', jsonified_dataArray);
-                    console.log(localStorage);
-                }
             });
         });
     </script>
