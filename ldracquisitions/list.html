@@ -15,10 +15,10 @@
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var foo = document.getElementsByClassName('list-group')[0];
+            var listGroup = document.getElementsByClassName('list-group')[0];
             $.ajax({
                 type: 'GET',
-                url: 'http://127.0.0.1:5000/record',
+                url: 'http://127.0.0.1:5000/category/AcquisitionRecord',
                 success: function(data) {
                     $.each(data, function(i, item) {
                         var ids = item['record_identifiers'];
@@ -31,13 +31,18 @@
                             newline_text = document.createTextNode(cur);
                             newline_a.appendChild(newline_text);
                             newline.appendChild(newline_a);
-                            foo.appendChild(newline);
-
+                            listGroup.appendChild(newline);
                         }
                     });
                 }
             })
         });
+
+        function get_list_of_acquisitions(str) {
+        return str.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    }
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
