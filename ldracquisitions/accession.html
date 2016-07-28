@@ -138,27 +138,26 @@
                 var curSource = sources[i];
                 var dt = document.createElement("dt");
                 var dd = document.createElement("dd");
-                dt_text = document.createTextNode(curRestriction['Restriction']);
-                dd_text = document.createTextNode(curRestriction['Comment']);
+                console.log(curSource['First Name']);
+                dt_text = document.createTextNode(curSource['First Name'] + " " + curSource['Last Name']);
+                //dd_text = document.createTextNode(curRestriction['Comment']);
+                dd_text = document.createTextNode(curSource['Email']);
                 dd.appendChild(dd_text);
                 dt.appendChild(dt_text)
-                reslist.appendChild(dt);
-                reslist.appendChild(dd);
-                console.log(curRestriction);
-                console.log(curSource);
+                sourcelist.appendChild(dt);
+                sourcelist.appendChild(dd);
             }
 
             for (var i=0; i<restrictionInfo.length; i++) {
                 var curRestriction = restrictionInfo[i];
                 var dt = document.createElement("dt");
                 var dd = document.createElement("dd");
-                dt_text = document.createTextNode(curRestriction['Restriction']);
-                dd_text = document.createTextNode(curRestriction['Comment']);
+                dt_text = document.createTextNode(curDonor['First Name'] + " " + curDonor['Last Name']);
+                dd_text = document.createTextNode(curDonor['Email']);
                 dd.appendChild(dd_text);
                 dt.appendChild(dt_text)
                 reslist.appendChild(dt);
                 reslist.appendChild(dd);
-                console.log(curRestriction);
             }
             for (var i=0; i<physmediaInfo.length; i++) {
                 var curMedia = physmediaInfo[i];
