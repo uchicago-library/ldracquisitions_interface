@@ -22,204 +22,116 @@
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
-    // $(document).ready(function() {
-    //     if (!localStorage.getItem('donorInformation')) {
-    //         nullAlert = document.createElement('p');
-    //         nullAlertText = document.createTextNode("Donor information has been set yet.");
-    //         nullAlert.appendChild(nullAlertText);
-    //         document.getElementById('donors-list').appendChild(nullAlert);        }
-    //     else {
-    //         console.log("found sources list set in localStorage");
-    //     }
-    // });
-    // $(document).ready(function() {
-    //     if (localStorage.getItem('acquisitionType')) {
-    //         var accessionType = localStorage.getItem('acquisitionType');
-    //         var p = document.createElement("p");
-    //         var emphasis = document.createElement("b");
-    //         emphasis.appendChild(document.createTextNode(accessionType));
-    //         p_text = document.createTextNode("This acquisition is ");
-    //         p.appendChild(p_text);
-    //         p.appendChild(emphasis);
-    //         document.getElementById("type-definition").appendChild(p);
-    //     }
-    //     else {
-    //         alert("You must select what type of acquisition this is before filling out thie acquisition form");
-    //         location.replace('index.html');
-    //     }
-    // });
-
-    // $(document).ready(function() {
-    //     if (!localStorage.getItem('restrictionInfo'))
-    //     {
-    //         nullAlert = document.createElement('p');
-    //         nullAlertText = document.createTextNode("Restriction information has been set yet.");
-    //         nullAlert.appendChild(nullAlertText);
-    //         document.getElementById('restrictions-list').appendChild(nullAlert);
-    //     }
-    //     else
-    //     {
-    //         var restrictionInfoDefined = localStorage.getItem('restrictionInfo');
-    //         var arrayRestrictionInfoDefined = JSON.parse(restrictionInfoDefined);
-    //         for (var i=0; i<arrayRestrictionInfoDefined.length; i++) {
-    //             console.log(arrayRestrictionInfoDefined[i]);
-    //             var restriction = arrayRestrictionInfoDefined[i];
-    //             var rCode = restriction['restriction-code'];
-    //             var rCodeComment = restriction['restriction-code-comment'];
-    //             var dt = document.createElement('dt');
-    //             dt.appendChild(document.createTextNode(rCode));
-    //             dd = document.createElement('dd');
-    //             dd.appendChild(document.createTextNode(rCodeComment));
-    //             document.getElementById('restrictions-list').appendChild(dt);
-    //             document.getElementById('restrictions-list').appendChild(dd);
-    //         }
-    //     }
-    // });
-
-    // $(document).ready(function(){
-    //     if (!localStorage.getItem('physmediaInfo')) {
-    //         nullAlert = document.createElement('p');
-    //         nullAlertText = document.createTextNode("Physical media information has not been defined.");
-    //         nullAlert.appendChild(nullAlertText);
-    //         document.getElementById("physmedia-list").appendChild(nullAlert);
-    //     }
-    //     else {
-    //         var physmediaDefined = localStorage.getItem('physmediaInfo');
-    //         var arrayPhysmediaDefined = JSON.parse(physmediaDefined);
-    //         for (var i=0; i<arrayPhysmediaDefined.length; i++) {
-    //             data_object = arrayPhysmediaDefined[i];
-    //             var label = data_object['physmedia-label']
-    //             var qty = data_object['physmedia-quantity']
-    //             var dt = document.createElement('dt');
-    //             dt.appendChild(document.createTextNode(label));
-    //             var dd = document.createElement('dd');
-    //             dd.appendChild(document.createTextNode('amount: '+qty));
-    //             document.getElementById("physmedia-list").appendChild(dt);
-    //             document.getElementById("physmedia-list").appendChild(dd);
-    //         }
-    //     }
-    // });
-
-    // $(document).ready(function() {
-    //     if (!localStorage.getItem('sourceInformation')) {
-    //         nullAlert = document.createElement('p');
-    //         nullAlertText = document.createTextNode("Source information has been set yet.");
-    //         nullAlert.appendChild(nullAlertText);
-    //         document.getElementById('sources-list').appendChild(nullAlert);
-    //     }
-    //     else {
-    //         console.log("found sources list set in localStorage");
-    //     }
-    // });
     $(document).ready(function() {
-        if (localStorage.getItem('donors') && localStorage.getItem('sources') && localStorage.getItem('physmediaInfo') && localStorage.getItem('restrictionInfo')) {
-            console.log(localStorage);
-            var donors = JSON.parse(localStorage.getItem('donors'));
-            var sources  = JSON.parse(localStorage.getItem('sources'));
-            var physmediaInfo = JSON.parse(localStorage.getItem("physmediaInfo"));
-            var restrictionInfo = JSON.parse(localStorage.getItem("restrictionInfo"));
-
-
-            console.log('record has already been retrieved')
-
-            inputs = document.getElementsByClassName('form-control');
-
-            var donorlist = document.getElementById('donors-list');
+        var recordID = window.location['search'].split("record=")[1];
+        var record = getRecord(recordID).responseJSON;
+        if (record['status'] != 'success') {
+            alert("Cannot retrieve that record from the database.");
+            window.location.replace('list.html');
+        } else {
+            var data = record['data']['record'];
+            var sources = data['Source'];
+            var donors = data['Donor'];
+            var physmedia = data['Physical Media Information'];
+            var restrictions = data['Restriction Information'];
+            var acctype = data['Accession Type'];
             var sourcelist = document.getElementById('sources-list');
-            var reslist = document.getElementById('restrictions-list')
-            var physlist = document.getElementById('physmedia-list');
+            var donorlist = document.getElementById('donors-list');
+            var restrictionlist = document.getElementById('restriction-list');
+            var physmedialist = document.getElementById('physmedia-list');
+            var typelist = document.getElementById('type-definition');
+            var inputsToFill = document.getElementById('accession-form');
+            inputsToFill = inputsToFill.getElementsByClassName('form-control');
 
-            for (var i=0; i<donors.length; i++) {
-                var curDonor = donors[i];
-                console.log(curDonor);
-            }
-
-            for (var i=0; i<sources.length; i++) {
-                var curSource = sources[i];
-                var dt = document.createElement("dt");
-                var dd = document.createElement("dd");
-                console.log(curSource['First Name']);
-                dt_text = document.createTextNode(curSource['First Name'] + " " + curSource['Last Name']);
-                //dd_text = document.createTextNode(curRestriction['Comment']);
-                dd_text = document.createTextNode(curSource['Email']);
-                dd.appendChild(dd_text);
-                dt.appendChild(dt_text)
-                sourcelist.appendChild(dt);
-                sourcelist.appendChild(dd);
-            }
-
-            for (var i=0; i<restrictionInfo.length; i++) {
-                var curRestriction = restrictionInfo[i];
-                var dt = document.createElement("dt");
-                var dd = document.createElement("dd");
-                dt_text = document.createTextNode(curDonor['First Name'] + " " + curDonor['Last Name']);
-                dd_text = document.createTextNode(curDonor['Email']);
-                dd.appendChild(dd_text);
-                dt.appendChild(dt_text)
-                reslist.appendChild(dt);
-                reslist.appendChild(dd);
-            }
-            for (var i=0; i<physmediaInfo.length; i++) {
-                var curMedia = physmediaInfo[i];
-                var dt = document.createElement("dt");
-                var dd = document.createElement("dd");
-                dt_text = document.createTextNode(curMedia['Description']);
-                dd_text = document.createTextNode(curMedia['Quantity']);
-                dd.appendChild(dd_text);
-                dt.appendChild(dt_text)
-                physlist.appendChild(dt);
-                physlist.appendChild(dd);
-                console.log(curRestriction);
-            }
-
-
-        }
-        else {
-            var recordID = window.location['search'].split('record=')[1];
-            var record = getRecord(recordID);
-            var record = record.responseJSON;
-            var recordData = record['data']['record'];
-            var donors = recordData['Donor'];
-            var sources = recordData['Source'];
-            var physmedia = recordData['Physical Media Information'];
-            var restrictions = recordData['Restriction Information'];
-
-            for (var i=0; i<physmedia.length; i++) {
-                var curPhys = physmedia[i];
-                var newArray = new Array();
-                newArray.push(curPhys);
-                localStorage.setItem('physmediaInfo', JSON.stringify(newArray));
-           }
-
-           for (var i=0; i<restrictions.length; i++) {
-                var curRestriction = restrictions[i];
-                var newArray = new Array();
-                newArray.push(curRestriction);
-                localStorage.setItem('restrictionInfo', JSON.stringify(newArray));
-            }
-            
-            for (var i=0; i<donors.length; i++) {
-                var curDonor = donors[i];
-                var newArray = new Array();
-                newArray.push(curDonor);
-                localStorage.setItem('donors', JSON.stringify(newArray));
-            }
-            
-            for (var i=0; i<sources.length; i++) {
-                var curSource = sources[i];
-                var newArray = new Array();
-                newArray.push(curSource);
-                localStorage.setItem('sources', JSON.stringify(newArray))                
-            }
-            
-            console.log(localStorage);
+            console.log(inputsToFill);
+            displayAListOfItems(sources, sourcelist, generatePersonDataItem);
+            displayAListOfItems(donors, donorlist, generatePersonDataItem);
+            displayAListOfItems(restrictions, restrictionlist, generateRestrictionDataItem);
+            displayAListOfItems(physmedia, physmedialist, generatePhysMediaDataItem);
+            displayAListOfItems(acctype, typelist, generateTypeDataItem);
+            fillInputsWithAcquisitionData(inputsToFill, )
         }
     });
+
+    function generateTypeDataItem(acctypeDataObject) {
+        dt_text = acctypeDataObject
+        dd_text = null;
+        return {
+            dt_text: dt_text,
+            dd_text: dd_text
+        }
+    }
+
+    function generatePhysMediaDataItem(physmediaDataObject) {
+        dt_text = physmediaDataObject['Description'];
+        dd_text = physmediaDataObject['Quantity'];
+        return {
+            dt_text: dt_text,
+            dd_text: dd_text
+        }
+    }
+
+    function generateRestrictionDataItem(restrictionDataObject) {
+        var dt_text = restrictionDataObject['Restriction'][0];
+        var dd_text = restrictionDataObject['Comment'][0];
+        return {
+            dt_text: dt_text,
+            dd_text: dd_text
+        }
+    }
+
+    function generatePersonDataItem(personDataObject) {
+        var name = personDataObject['First Name'][0] + " " + personDataObject['Last Name'][0];
+        dt_text = name;
+        dd_text = "";
+        var Email = personDataObject['Email'];
+        var Phone = personDataObject['Phone'];
+        for (var j = 0; j < Email.length; j++) {
+            var curE = Email[j];
+            if (curE != null) {
+                dd_text = dd_text + " " + curE;
+            }
+        }
+        dd_text = dd_text + ";";
+        for (var j = 0; j < Phone.length; j++) {
+            var curP = Phone[j];
+            if (curP != null) {
+                dd_text = dd_text + " " + curP;
+            }
+        }
+        return {
+            dt_text: dt_text,
+            dd_text: dd_text
+        };
+    }
+
+    function makeDataListNodes(dataObject) {
+        dt_node = document.createElement("dt");
+        dd_node = document.createElement("dd");
+        dt_node.appendChild(document.createTextNode(dataObject.dt_text));
+        if (dataObject.dd_text != null) {
+            dd_node.appendChild(document.createTextNode(dataObject.dd_text));
+        }
+        return {
+            dt: dt_node,
+            dd: dd_node
+        };
+    }
+
+    function displayAListOfItems(dataArray, divToAppendTo, aFunc) {
+        for (var i = 0; i < dataArray.length; i++) {
+            var cur = dataArray[i];
+            var dataItems = aFunc(cur);
+            var dataItems = makeDataListNodes(dataItems);
+            divToAppendTo.appendChild(dataItems.dt);
+            divToAppendTo.appendChild(dataItems.dd);
+        }
+    }
 
     function getRecord(recordID) {
         return $.ajax({
             type: 'GET',
-            url: "http://127.0.0.1:5000/record/"+recordID,
+            url: "http://127.0.0.1:5000/record/" + recordID,
             data: JSON.stringify(new Object()),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -245,41 +157,41 @@
     });
 
     $(document).ready(function() {
-            $('input[name="fiscal-year"]').daterangepicker({
-                'singleDatePicker': true
-            });
+        $('input[name="fiscal-year"]').daterangepicker({
+            'singleDatePicker': true
         });
+    });
 
-        $(document).ready(function() {
-            $('input[name="span-date"]').daterangepicker({
-                'viewMode': 'years','minViewMode': 'years'
-            });
+    $(document).ready(function() {
+        $('input[name="span-date"]').daterangepicker({
+            'viewMode': 'years',
+            'minViewMode': 'years'
         });
+    });
 
-        $(document).ready(function() {
-            $('input[name="gift-acknowledgement-received"]').daterangepicker({
-                'singleDatePicker': true
-            });
+    $(document).ready(function() {
+        $('input[name="gift-acknowledgement-received"]').daterangepicker({
+            'singleDatePicker': true
         });
+    });
 
-        $(document).ready(function() {
-            $('input[name="receipt-letter-sent"]').daterangepicker({
-                'singleDatePicker': true
-            });
+    $(document).ready(function() {
+        $('input[name="receipt-letter-sent"]').daterangepicker({
+            'singleDatePicker': true
         });
+    });
 
-        $(document).ready(function() {
-            $('input[name="files-staged-date"]').daterangepicker({
-                'singleDatePicker': true
-            });
+    $(document).ready(function() {
+        $('input[name="files-staged-date"]').daterangepicker({
+            'singleDatePicker': true
         });
+    });
 
-        $(document).ready(function() {
-            $('input[name="files-received-date"]').daterangepicker({
-                'singleDatePicker': true
-            });
+    $(document).ready(function() {
+        $('input[name="files-received-date"]').daterangepicker({
+            'singleDatePicker': true
         });
-
+    });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -302,8 +214,7 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-
-            <form method="post" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
+            <form method="post" id="accession-form" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
                     <div class="row">
@@ -494,7 +405,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-10">
                             <button name="save-accession" type="submit" class="btn btn-primary btn-sm">
@@ -528,7 +438,7 @@
                           add
                       </a>
                 </h3>
-                <dl id="restrictions-list">
+                <dl id="restriction-list">
                 </dl>
             </div>
             <div class="row">
@@ -542,7 +452,8 @@
             </div>
             <div class="row">
                 <h3>Accession type</h3>
-                <div class="type-definition"></div>
+                <dl id="type-definition">
+                </dl>
             </div>
         </div>
     </div>

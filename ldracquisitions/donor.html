@@ -40,7 +40,6 @@
                 var lastinputname = lastinput.getAttribute("name");
                 var lastinputnum = parseInt(lastinputname.split('-')[2]);
                 var newinputnum = lastinputnum + 1;
-                console.log(newinputnum);
                 var newinputname = 'phone-number-' + newinputnum.toString();
                 var newinput = lastinput.cloneNode();
                 newinput.value = "";
@@ -135,6 +134,7 @@
                         dataArray = new Array();
                         console.log(dataArray);
                     }
+
                     jsonified_object = JSON.stringify(obj);
                     dataArray.push(jsonified_object);
                     console.log("about to push the object into the dataArray");

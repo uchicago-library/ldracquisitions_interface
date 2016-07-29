@@ -20,6 +20,7 @@
     <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
+
     $(document).ready(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (e.isDefaultPrevented()) {
@@ -47,6 +48,7 @@
                             }
                         }
                     }
+                    obj['Accession Type'] = localStorage.getItem('acquisitionType')
                     donors = JSON.parse(donors);
                     for (var i = 0; i < donors.length; i++) {
                         var curDonor = JSON.parse(donors[i]);
@@ -61,12 +63,14 @@
                                 } else if (donorKey == 'emailAddresses') {
                                     for (var j = 0; j < curDonor['emailAddresses'].length; j++) {
                                         curEmail = curDonor['emailAddresses'][j];
+                                        console.log(curEmail);
                                         var labelString = 'Donor' + i.toString() + '.Email' + j.toString();
                                         obj[labelString] = curEmail;
                                     }
                                 } else if (donorKey == 'phoneNumbers') {
                                     for (var j = 0; j < curDonor['phoneNumbers'].length; j++) {
                                         curPhoneNum = curDonor['phoneNumbers'][j];
+                                        console.log(curPhoneNum);
                                         var labelString = 'Donor' + i.toString() + '.Phone' + j.toString();
                                         obj[labelString] = curPhoneNum;
                                     }
@@ -137,7 +141,7 @@
                     console.log(categoryResult);
                     var newAction = 'receipt.html?completed='+recordID;
                     localStorage.clear();
-                    window.location.replace(newAction);
+                    //window.location.replace(newAction);
                     return false;
                 }
             }
