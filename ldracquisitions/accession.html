@@ -42,14 +42,13 @@
             var typelist = document.getElementById('type-definition');
             var inputsToFill = document.getElementById('accession-form');
             inputsToFill = inputsToFill.getElementsByClassName('form-control');
-
             console.log(inputsToFill);
             displayAListOfItems(sources, sourcelist, generatePersonDataItem);
             displayAListOfItems(donors, donorlist, generatePersonDataItem);
             displayAListOfItems(restrictions, restrictionlist, generateRestrictionDataItem);
             displayAListOfItems(physmedia, physmedialist, generatePhysMediaDataItem);
             displayAListOfItems(acctype, typelist, generateTypeDataItem);
-            fillInputsWithAcquisitionData(inputsToFill, )
+            fillInputsWithAcquisitionData(inputsToFill, record['data']['record'])
         }
     });
 
@@ -57,6 +56,7 @@
         dt_text = acctypeDataObject
         dd_text = null;
         return {
+            category:'type',
             dt_text: dt_text,
             dd_text: dd_text
         }
@@ -66,6 +66,7 @@
         dt_text = physmediaDataObject['Description'];
         dd_text = physmediaDataObject['Quantity'];
         return {
+            category:'physmedia',
             dt_text: dt_text,
             dd_text: dd_text
         }
@@ -75,6 +76,7 @@
         var dt_text = restrictionDataObject['Restriction'][0];
         var dd_text = restrictionDataObject['Comment'][0];
         return {
+            category:'restriction',
             dt_text: dt_text,
             dd_text: dd_text
         }
@@ -100,6 +102,7 @@
             }
         }
         return {
+            category:'donor',
             dt_text: dt_text,
             dd_text: dd_text
         };
@@ -109,6 +112,22 @@
         dt_node = document.createElement("dt");
         dd_node = document.createElement("dd");
         dt_node.appendChild(document.createTextNode(dataObject.dt_text));
+        editButton = document.createElement('a');
+        editButton.setAttribute('href', dataObject.category+'.html');
+        editButton.setAttribute('type', 'button');
+        editButton.setAttribute('role', 'button');
+        editButton.setAttribute('class', 'btn btn-warning btn-xs');
+        editButton.appendChild(document.createTextNode('edit'));
+        deleteButton = document.createElement('button');
+        deleteButton.setAttribute('href', 'delete-'+dataObject.category+'.html');
+        deleteButton.setAttribute('type','button');
+        deleteButton.setAttribute('role','button');
+        deleteButton.setAttribute('class', 'btn btn-danger btn-xs');
+        deleteButton.appendChild(document.createTextNode('delete'));
+        dt_node.appendChild(document.createTextNode(' '));
+        dt_node.appendChild(editButton);
+        dt_node.appendChild(document.createTextNode(' '));
+        dt_node.appendChild(deleteButton);
         if (dataObject.dd_text != null) {
             dd_node.appendChild(document.createTextNode(dataObject.dd_text));
         }
@@ -125,6 +144,42 @@
             var dataItems = makeDataListNodes(dataItems);
             divToAppendTo.appendChild(dataItems.dt);
             divToAppendTo.appendChild(dataItems.dd);
+        }
+    }
+
+    function fillInputsWithAcquisitionData(aListOfInputNodes, jsonData) {
+        console.log(aListOfInputNodes);
+        console.log("hello from inside the fillInputsWitAcquisitionData");
+        var accId = jsonData['Accession Identifier'];
+        var accType = jsonData['Accession Type'];
+        var adminComment = jsonData['Administrative Comment'];
+        var colTitle = jsonData['Collection Title'];
+        var giftAckReceived = jsonData['Gift Acknowledgement Received'];
+        var receiptInfoSent = jsonData['Receipt Letter Information Sent'];
+        var originDesc = jsonData['OriginDescription'];
+        var summary = jsonData['Summary'];
+        var orgName = jsonData['Organization Name'];
+        for (var i=0; i<aListOfInputNodes.length; i++) {
+            var cur = aListOfInputNodes[i];
+            findRelevantInputFillItOut(cur, jsonData);
+
+        }
+    }
+
+    function findRelevantInputFillItOut(anInputNode, someData) {
+        anArray = new Array();
+        anArray.push({inputID:'summary', recordID:'Summary'});
+        anArray.push({inputID:'accession-id', recordID:'Accession Identifier'});
+        anArray.push({inputID:'origin-description', recordID:'Origin Description'});
+
+        anArray.push({inputID:'admin-comments', recordID:'Administrative Comment'});
+
+         
+    }
+
+    function canItBeFilledIn(currentNode, record, inputID, recordID) {
+        if (currentNode.getAttribute('name') == inputID && record[recordID] != undefined) {
+            currentNode.value = record[recordID];
         }
     }
 
@@ -228,7 +283,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="ead-id">EAD Identifier</label>
-                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="accession-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
+                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="ead-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -241,9 +296,9 @@
                                 </label>
                                 <select class="form-control combobox" name='collection-title' required>
                                     <option></option>
-                                    <option value="1">Mary J Brainerd</option>
-                                    <option value="2">Test Collection</option>
-                                    <option valu="3">The Magic Digital Collection</option>
+                                    <option value="Mary J Brainered">Mary J Brainerd</option>
+                                    <option value="Test Collection">Test Collection</option>
+                                    <option valu="The Magic Digital Digital Collection">The Magic Digital Collection</option>
                                 </select>
                                 <div class="help-block with-errors"></div>
                             </div>
