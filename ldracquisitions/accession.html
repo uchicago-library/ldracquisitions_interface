@@ -35,6 +35,7 @@
             var physmedia = data['Physical Media Information'];
             var restrictions = data['Restriction Information'];
             var acctype = data['Accession Type'];
+
             var sourcelist = document.getElementById('sources-list');
             var donorlist = document.getElementById('donors-list');
             var restrictionlist = document.getElementById('restriction-list');
@@ -48,10 +49,28 @@
             retrieveRecordData(restrictions, restrictionlist, generateRestrictionDataItem);
             retrieveRecordData(physmedia, physmedialist, generatePhysMediaDataItem);
             retrieveRecordData(acctype, typelist, generateTypeDataItem);
+            retrieveRecordData(accid, null, generateAccessionIdDataItem);
+            retrieveRecordData(coltitle, null, generateCollectionTitleDataItem);
+            retrieveRecordData(org, null, generateOrgDataItem);
+            retrieveRecordData(summary, null, generateSummaryDataItem)
+            retrieveRecordData(orgDesc, null, generateOrgDescriptionDataItem)
+            retrieveRecordData(adminComment, null, generateAdminCommentDataItem)
+
             console.log(localStorage);
             //fillInputsWithAcquisitionData(inputsToFill, record['data']['record'])
         }
     });
+
+    function generateAccIdDataItem(accidDataObject) {
+        dt_text = accidDataObject;
+        dd_text = null;
+        return {
+            category:'accession id',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            'accession':dt_text
+        }
+    }
 
     function generateTypeDataItem(acctypeDataObject) {
         dt_text = acctypeDataObject
@@ -164,7 +183,6 @@
 
     function addToLocalStorage(aThing, aFunc, catName) {
         var dataItem = aFunc(aThing, catName);
-        console.log("hello from inside addToLocalStorage");
         var category = dataItem.category;
         if (localStorage.getItem(category) != undefined) {
             anArray = JSON.parse(localStorage.getItem(category));
@@ -173,11 +191,17 @@
             var anArray = new Array();
         }
         anArray.push(JSON.stringify(dataItem));
+        for (var i=0; i<anArray.length; i++) {
+            curObj = JSON.parse(anArray[i]);
+            if (!checkEquality(curObj, dataItem)) {
+                anArray.push(JSON.stringify(dataItem));
+            }
+        }
         localStorage.setItem(category, JSON.stringify(anArray));
     }
 
     function checkEquality(prime, comparable) {
-        if !comparable || prime.length != comparable.length) {
+        if (!comparable || prime.length != comparable.length) {
             return false;
         }
         for (var i=0; i<prime.length; i++) {
@@ -198,8 +222,6 @@
     }
 
     function fillInputsWithAcquisitionData(aListOfInputNodes, jsonData) {
-        console.log(aListOfInputNodes);
-        console.log("hello from inside the fillInputsWitAcquisitionData");
         var accId = jsonData['Accession Identifier'];
         var accType = jsonData['Accession Type'];
         var adminComment = jsonData['Administrative Comment'];
@@ -221,10 +243,7 @@
         anArray.push({inputID:'summary', recordID:'Summary'});
         anArray.push({inputID:'accession-id', recordID:'Accession Identifier'});
         anArray.push({inputID:'origin-description', recordID:'Origin Description'});
-
         anArray.push({inputID:'admin-comments', recordID:'Administrative Comment'});
-
-         
     }
 
     function canItBeFilledIn(currentNode, record, inputID, recordID) {
@@ -261,22 +280,32 @@
         $("#accession-form").validator().on('submit', function(e) {
             if (e.isDefaultPrevented()) {
                 console.log("hi something is wrong");
-            } else 
+            }
+            else 
             {
                 var donors = localStorage.getItem("donors");
                 var sources = localStorage.getItem("sources");
-                var physmedia = localStorage.getItem("physmediaInfo");
-                var restrictions = localStorage.getItem("restrictionInfo");
-                if (donors == null || sources == null || physmedia == null || restrictions == null) {
-                    alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
-                    console.log(localStorage);
-                } else {
-                    console.log(localStorage);
-                    console.log("so far, so good");
+                var physmedia = localStorage.getItem("physmedia");
+                var restrictions = localStorage.getItem("restriction");
+                if (checkForSubFormInfo()) {
+                    alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");                    
                 }
+
             }
         });
     });
+
+    function checkForSubFormInfo() {
+        var isDonors = localStorage.getItem("donors");
+        var isSources = localStorage.getItem("sources");
+        var isPhysMedia = localStorage.getItem("physmedia");
+        var isRestriction = localStorage.getItem("restriction");
+        if (!!isDonors || !!isSources || !!isPhysMedia || !isRestriction) {
+
+            return false;
+        }
+        return true;
+    }
 
     $(document).ready(function() {
         $('.combobox').combobox();
