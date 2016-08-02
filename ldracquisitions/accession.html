@@ -41,14 +41,15 @@
             var physmedialist = document.getElementById('physmedia-list');
             var typelist = document.getElementById('type-definition');
             var inputsToFill = document.getElementById('accession-form');
-            inputsToFill = inputsToFill.getElementsByClassName('form-control');
-            console.log(inputsToFill);
-            displayAListOfItems(sources, sourcelist, generatePersonDataItem);
-            displayAListOfItems(donors, donorlist, generatePersonDataItem);
-            displayAListOfItems(restrictions, restrictionlist, generateRestrictionDataItem);
-            displayAListOfItems(physmedia, physmedialist, generatePhysMediaDataItem);
-            displayAListOfItems(acctype, typelist, generateTypeDataItem);
-            fillInputsWithAcquisitionData(inputsToFill, record['data']['record'])
+            //inputsToFill = inputsToFill.getElementsByClassName('form-control');
+
+            retrieveRecordData(sources, sourcelist, generatePersonDataItem);
+            retrieveRecordData(donors, donorlist, generatePersonDataItem);
+            retrieveRecordData(restrictions, restrictionlist, generateRestrictionDataItem);
+            retrieveRecordData(physmedia, physmedialist, generatePhysMediaDataItem);
+            retrieveRecordData(acctype, typelist, generateTypeDataItem);
+            console.log(localStorage);
+            //fillInputsWithAcquisitionData(inputsToFill, record['data']['record'])
         }
     });
 
@@ -58,7 +59,8 @@
         return {
             category:'type',
             dt_text: dt_text,
-            dd_text: dd_text
+            dd_text: dd_text,
+            type:dt_text
         }
     }
 
@@ -68,7 +70,9 @@
         return {
             category:'physmedia',
             dt_text: dt_text,
-            dd_text: dd_text
+            dd_text: dd_text,
+            label:dt_text,
+            amount:dd_text
         }
     }
 
@@ -78,16 +82,19 @@
         return {
             category:'restriction',
             dt_text: dt_text,
-            dd_text: dd_text
+            dd_text: dd_text,
+            code:dt_text,
+            description:dd_text
         }
     }
 
-    function generatePersonDataItem(personDataObject) {
+    function generatePersonDataItem(personDataObject, catName) {
         var name = personDataObject['First Name'][0] + " " + personDataObject['Last Name'][0];
         dt_text = name;
         dd_text = "";
         var Email = personDataObject['Email'];
         var Phone = personDataObject['Phone'];
+        console.log(personDataObject);
         for (var j = 0; j < Email.length; j++) {
             var curE = Email[j];
             if (curE != null) {
@@ -101,10 +108,20 @@
                 dd_text = dd_text + " " + curP;
             }
         }
+        if (catName != undefined) {
+            category = catName.split('-')[0];
+        }
+        else {
+            category = 'none';
+        }
         return {
-            category:'donor',
+            category:category,
             dt_text: dt_text,
-            dd_text: dd_text
+            dd_text: dd_text,
+            first:personDataObject['First Name'],
+            last:personDataObject['Last Name'],
+            emails:Email,
+            phones:Phone
         };
     }
 
@@ -137,13 +154,46 @@
         };
     }
 
-    function displayAListOfItems(dataArray, divToAppendTo, aFunc) {
-        for (var i = 0; i < dataArray.length; i++) {
+    function appendToTheRightList(aThing, divToAppendTo, aFunc) {
+        var cur = aThing;
+        var dataItems = aFunc(cur);
+        var dataItems = makeDataListNodes(dataItems);
+        divToAppendTo.appendChild(dataItems.dt);
+        divToAppendTo.appendChild(dataItems.dd);
+    }
+
+    function addToLocalStorage(aThing, aFunc, catName) {
+        var dataItem = aFunc(aThing, catName);
+        console.log("hello from inside addToLocalStorage");
+        var category = dataItem.category;
+        if (localStorage.getItem(category) != undefined) {
+            anArray = JSON.parse(localStorage.getItem(category));
+        }
+        else {
+            var anArray = new Array();
+        }
+        anArray.push(JSON.stringify(dataItem));
+        localStorage.setItem(category, JSON.stringify(anArray));
+    }
+
+    function checkEquality(prime, comparable) {
+        if !comparable || prime.length != comparable.length) {
+            return false;
+        }
+        for (var i=0; i<prime.length; i++) {
+            if (prime[i] != comparable[i]) {
+                return false
+            }
+        }
+        return true;
+    }
+
+    function retrieveRecordData(dataArray, divToAppendTo, aFunc) {
+        var catName = divToAppendTo.getAttribute('id');
+        for (var i=0; i<dataArray.length; i++) {
             var cur = dataArray[i];
-            var dataItems = aFunc(cur);
-            var dataItems = makeDataListNodes(dataItems);
-            divToAppendTo.appendChild(dataItems.dt);
-            divToAppendTo.appendChild(dataItems.dd);
+            appendToTheRightList(cur, divToAppendTo, aFunc);
+            addToLocalStorage(cur, aFunc, catName);
         }
     }
 
@@ -203,6 +253,27 @@
             if (answer == true) {
                 localStorage.clear();
                 location.replace('list.html');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $("#accession-form").validator().on('submit', function(e) {
+            if (e.isDefaultPrevented()) {
+                console.log("hi something is wrong");
+            } else 
+            {
+                var donors = localStorage.getItem("donors");
+                var sources = localStorage.getItem("sources");
+                var physmedia = localStorage.getItem("physmediaInfo");
+                var restrictions = localStorage.getItem("restrictionInfo");
+                if (donors == null || sources == null || physmedia == null || restrictions == null) {
+                    alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
+                    console.log(localStorage);
+                } else {
+                    console.log(localStorage);
+                    console.log("so far, so good");
+                }
             }
         });
     });
@@ -283,7 +354,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="ead-id">EAD Identifier</label>
-                                <input pattern="ICU.SPCL.\w{4}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="ead-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
+                                <input pattern="ICU.SPCL.\w{3,}" title="must look like ICU.SPCL.FOO" type="text" class="form-control" name="ead-id" class="form-control" placeholder="ICU.SPCL.FOO" required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
