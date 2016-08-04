@@ -17,12 +17,18 @@
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
+    <script type="text/javascript" src="static/custom.js"></script>
     <script type="text/javascript">
+        $(document).ready(function() {
+          test();  
+        })
+    </script>
+  <!--   <script type="text/javascript">
 
     $(document).ready(function() {
+        localStorage.clear();
         var recordID = window.location['search'].split("record=")[1];
         var record = getRecord(recordID).responseJSON;
         if (record['status'] != 'success') {
@@ -112,10 +118,10 @@
         dt_text = orgDataObject;
         dd_text = null;
         return {
-            category:'organization name',
+            category:'collection title',
             dt_text:dt_text,
             dd_text:dd_text,
-            organization:dt_text
+            collection:dt_text
         }
     }
 
@@ -123,10 +129,10 @@
         dt_text = coltitleDataObject;
         dd_text = null;
         return {
-            category:'collection title',
+            category:'organization name',
             dt_text:dt_text,
             dd_text:dd_text,
-            collection:dt_text
+            organization:dt_text
         }
     }
 
@@ -283,17 +289,73 @@
         }
     }
 
-    function fillInputsWithAcquisitionData(aListOfInputNodes) {
-        var formGroupDivs = document.getElementsByClassName('form-group');
-        for (var i=0; i<formGroupDivs.length; i++) {
-            var cur = formGroupDivs[i];
-            for (var j=0; j<cur.children.length; j++) {
-                var curChild = cur.children[j];
-                if (curChild.getAttribute('for') == 'collection-title') {
-                    //console.log(cur.getElementsByClassName('combobox-container'));
-                    console.log(cur);
-                }
+    function fillInputsWithAcquisitionData(aListOfInputNodes) 
+    {
+        console.log(localStorage);
+        for (var i=0; i<aListOfInputNodes.length; i++) 
+        {
+            var cur = aListOfInputNodes[i];
+            var curName = cur.getAttribute('name');
+            var coldata;
+            if (curName == 'collection-title')
+            {
+                // var coldata = JSON.parse(localStorage.getItem('collection title'));
+                // var coltitle = JSON.parse(coldata[0]).collection;
+                coldata = retrieveFromLocalStorage('collection title', 'collection');
             }
+            else if (curName == 'accession-id') 
+            {
+
+                coldata = retrieveFromLocalStorage('accession id', 'accession');
+            }
+            else if (curName == "summary") 
+            {
+                coldata = retrieveFromLocalStorage('summary', 'summary');
+            }
+            else if (curName == 'admin-comments') {
+                coldata = retrieveFromLocalStorage('administrative comment', 'summary')
+            }
+            else if (curName == 'origin-description') 
+            {
+                coldata = retrieveFromLocalStorage('origin description', 'origin');
+            }
+            else if (curName == 'receipt-letter-sent') 
+            {
+                coldata = retrieveFromLocalStorage('receipt letter sent','date');
+            }
+            else if (curName == 'gift-acknowledgement-received') 
+            {
+                coldata = retrieveFromLocalStorage('gift acknowledgement received', 'date');
+            }
+            else if (curName == 'receipt-letter-required') 
+            {
+                coldata = retrieveFromLocalStorage('receipt letter required', 'isIt');
+            }
+            else if (curName == 'gift-acknowledgement-required') 
+            {
+                coldata = retrieveFromLocalStorage('gift acknowledgement required', 'isIt');
+            }
+            else if (curName == 'organization') 
+            {
+                coldata = retrieveFromLocalStorage('organization name', 'organization');
+            }
+            else
+                coldata = "";
+
+            cur.value = coldata
+        }
+    }
+
+    function retrieveFromLocalStorage(main_key, attribute_name) {
+        var anArray = JSON.parse(localStorage.getItem(main_key));
+        if (anArray != null) {
+            var relevantItem = anArray[0];
+            console.log(relevantItem);
+            return JSON.parse(relevantItem)[attribute_name];
+        }
+        else 
+        {
+            return "";
         }
     }
 
@@ -380,7 +442,7 @@
         $('input[name="files-received-date"]').datepicker();;
     });
 
-    </script>
+    </script> -->
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">

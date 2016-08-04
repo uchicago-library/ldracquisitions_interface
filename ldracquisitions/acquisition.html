@@ -8,17 +8,15 @@
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
-    <link rel="stylesheet" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="static/jquery-ui/jquery-ui.css"/
 </head>
 
 <body>
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
+    <script type="text/javascript" src="static/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
-    <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
-    <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
     $(document).ready(function() {
@@ -421,18 +419,18 @@
         }
     });
 
-    $(document).ready(function() {
-        $('input[name="gift-acknowledgement-information-received"]').daterangepicker({
-            'singleDatePicker': true,
-        });
+    $( function() {
+        var availableTags = ["Test", "Digital","Mary"];
+        $( 'input[name="collection-title"]').autocomplete({source: availableTags});
     });
 
-    $(document).ready(function() {
-        $('input[name="receipt-letter-information-sent"]').daterangepicker({
-            'singleDatePicker': true,
-        });
+    $(function() {
+        $('input[name="gift-acknowledgement-received"]').datepicker();
     });
 
+    $(function() {
+        $('input[name="receipt-letter-sent"]').datepicker();
+    });
     $(document).ready(function() {
         $('.combobox').combobox();
     });
@@ -479,12 +477,7 @@
                                     <label for="collection-title">
                                         Collection Title
                                     </label>
-                                    <select class="form-control combobox" name="collection-title" required>
-                                        <option></option>
-                                        <option value="mary j brainerd">Mary J Brainerd</option>
-                                        <option value="test collection">Test Collection</option>
-                                        <option valu="the magic digital collection">The Magic Digital Collection</option>
-                                    </select>
+                                    <input type="text" class="form-control" name="collection-title"/>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -501,7 +494,7 @@
                                 <div class="form-group col">
                                     <label for="receipt-letter-information-sent">Receipt Letter Information Sent
                                     </label>
-                                    <input type="text" name="receipt-letter-information-sent" class="form-control" />
+                                    <input type="text" name="receipt-letter-sent" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -515,9 +508,9 @@
                             </div>
                             <div class="col-sm-5">
                                 <div clsas="form-group">
-                                    <label for="gift-acknowledgement-information-received">Gift Acknowledgement Information Received
+                                    <label for="gift-acknowledgement--received">Gift Acknowledgement Information Received
                                     </label>
-                                    <input type="text" name="gift-acknowledgement-information-received" class="form-control" />
+                                    <input type="text" name="gift-acknowledgement-received" class="form-control" />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
