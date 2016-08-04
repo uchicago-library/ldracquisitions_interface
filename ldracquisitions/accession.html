@@ -10,16 +10,16 @@
     <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
     <link rel="stylesheet" type="text/css" href="static/misc/bootstrap-combobox.css" />
     <link rel="stylesheet=" type="text/css" href="static/misc/datepicker/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="static/jquery-ui/jquery-ui.css"/>
 </head>
 
 <body>
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="static/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/datepicker/moment.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript" src="static/misc/bootstrap-toggle-master/js/bootstrap-toggle.js"></script>
-    <script type="text/javascript" src="static/misc/bootstrap-combobox.js"></script>
-    <script type="text/javascript" src="static/misc/datepicker/daterangepicker.js"></script>
     <script type="text/javascript">
 
     $(document).ready(function() {
@@ -35,40 +35,98 @@
             var physmedia = data['Physical Media Information'];
             var restrictions = data['Restriction Information'];
             var acctype = data['Accession Type'];
-
+            var accid = data['Accession Identifier'];
+            var coltitle = data['Collection Title'];
+            var org = data['Organization Name'];
+            var summary = data['Summary'];
+            var originDesc = data['Origin Description'];
+            var adminComment = data['Administrative Comment'];
             var sourcelist = document.getElementById('sources-list');
             var donorlist = document.getElementById('donors-list');
             var restrictionlist = document.getElementById('restriction-list');
             var physmedialist = document.getElementById('physmedia-list');
             var typelist = document.getElementById('type-definition');
-            var inputsToFill = document.getElementById('accession-form');
-            //inputsToFill = inputsToFill.getElementsByClassName('form-control');
-
+            var inputsToFill = document.getElementsByClassName('form-control');
             retrieveRecordData(sources, sourcelist, generatePersonDataItem);
             retrieveRecordData(donors, donorlist, generatePersonDataItem);
             retrieveRecordData(restrictions, restrictionlist, generateRestrictionDataItem);
             retrieveRecordData(physmedia, physmedialist, generatePhysMediaDataItem);
             retrieveRecordData(acctype, typelist, generateTypeDataItem);
-            retrieveRecordData(accid, null, generateAccessionIdDataItem);
-            retrieveRecordData(coltitle, null, generateCollectionTitleDataItem);
-            retrieveRecordData(org, null, generateOrgDataItem);
-            retrieveRecordData(summary, null, generateSummaryDataItem)
-            retrieveRecordData(orgDesc, null, generateOrgDescriptionDataItem)
-            retrieveRecordData(adminComment, null, generateAdminCommentDataItem)
+            retrieveRecordData(accid, null, generateAccessionIdDataItem, 'Accession Identifier');
+            retrieveRecordData(coltitle, null, generateCollectionTitleDataItem, 'Collection Title');
+            retrieveRecordData(org, null, generateOrgDataItem, 'Organization Name');
+            retrieveRecordData(summary, null, generateSummaryDataItem, 'Summary');
+            retrieveRecordData(originDesc, null, generateOriginDescriptionDataItem, 'Origin Description');
+            retrieveRecordData(adminComment, null, generateAdminCommentDataItem, 'Administrative Comment');
 
-            console.log(localStorage);
-            //fillInputsWithAcquisitionData(inputsToFill, record['data']['record'])
+            fillInputsWithAcquisitionData(inputsToFill);
         }
     });
 
-    function generateAccIdDataItem(accidDataObject) {
+    function generateAdminCommentDataItem(adminCommentDataObject) {
+        dt_text = adminCommentDataObject;
+        dd_text = null;
+        return {
+            category:'administrative comment',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            summary:dt_text
+        }        
+    }
+
+
+    function generateOriginDescriptionDataItem(originDescDataObject) {
+        dt_text = originDescDataObject;
+        dd_text = null;
+        return {
+            category:'origin description',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            summary:dt_text
+        }        
+    }
+
+    function generateSummaryDataItem(summaryDataObject) {
+        dt_text = summaryDataObject;
+        dd_text = null;
+        return {
+            category:'summary',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            summary:dt_text
+        }        
+    }
+
+    function generateAccessionIdDataItem(accidDataObject) {
         dt_text = accidDataObject;
         dd_text = null;
         return {
             category:'accession id',
             dt_text:dt_text,
             dd_text:dd_text,
-            'accession':dt_text
+            accession:dt_text
+        }
+    }
+
+    function generateCollectionTitleDataItem(orgDataObject) {
+        dt_text = orgDataObject;
+        dd_text = null;
+        return {
+            category:'organization name',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            organization:dt_text
+        }
+    }
+
+    function generateOrgDataItem(coltitleDataObject) {
+        dt_text = coltitleDataObject;
+        dd_text = null;
+        return {
+            category:'collection title',
+            dt_text:dt_text,
+            dd_text:dd_text,
+            collection:dt_text
         }
     }
 
@@ -113,7 +171,6 @@
         dd_text = "";
         var Email = personDataObject['Email'];
         var Phone = personDataObject['Phone'];
-        console.log(personDataObject);
         for (var j = 0; j < Email.length; j++) {
             var curE = Email[j];
             if (curE != null) {
@@ -212,43 +269,31 @@
         return true;
     }
 
-    function retrieveRecordData(dataArray, divToAppendTo, aFunc) {
-        var catName = divToAppendTo.getAttribute('id');
+    function retrieveRecordData(dataArray, divToAppendTo, aFunc, catName) {
         for (var i=0; i<dataArray.length; i++) {
             var cur = dataArray[i];
-            appendToTheRightList(cur, divToAppendTo, aFunc);
-            addToLocalStorage(cur, aFunc, catName);
+            if (divToAppendTo == null) {
+                addToLocalStorage(cur, aFunc, catName)
+            }
+            else {
+                var catName = divToAppendTo.getAttribute('id');
+                appendToTheRightList(cur, divToAppendTo, aFunc);
+                addToLocalStorage(cur, aFunc, catName);                
+            }
         }
     }
 
-    function fillInputsWithAcquisitionData(aListOfInputNodes, jsonData) {
-        var accId = jsonData['Accession Identifier'];
-        var accType = jsonData['Accession Type'];
-        var adminComment = jsonData['Administrative Comment'];
-        var colTitle = jsonData['Collection Title'];
-        var giftAckReceived = jsonData['Gift Acknowledgement Received'];
-        var receiptInfoSent = jsonData['Receipt Letter Information Sent'];
-        var originDesc = jsonData['OriginDescription'];
-        var summary = jsonData['Summary'];
-        var orgName = jsonData['Organization Name'];
-        for (var i=0; i<aListOfInputNodes.length; i++) {
-            var cur = aListOfInputNodes[i];
-            findRelevantInputFillItOut(cur, jsonData);
-
-        }
-    }
-
-    function findRelevantInputFillItOut(anInputNode, someData) {
-        anArray = new Array();
-        anArray.push({inputID:'summary', recordID:'Summary'});
-        anArray.push({inputID:'accession-id', recordID:'Accession Identifier'});
-        anArray.push({inputID:'origin-description', recordID:'Origin Description'});
-        anArray.push({inputID:'admin-comments', recordID:'Administrative Comment'});
-    }
-
-    function canItBeFilledIn(currentNode, record, inputID, recordID) {
-        if (currentNode.getAttribute('name') == inputID && record[recordID] != undefined) {
-            currentNode.value = record[recordID];
+    function fillInputsWithAcquisitionData(aListOfInputNodes) {
+        var formGroupDivs = document.getElementsByClassName('form-group');
+        for (var i=0; i<formGroupDivs.length; i++) {
+            var cur = formGroupDivs[i];
+            for (var j=0; j<cur.children.length; j++) {
+                var curChild = cur.children[j];
+                if (curChild.getAttribute('for') == 'collection-title') {
+                    //console.log(cur.getElementsByClassName('combobox-container'));
+                    console.log(cur);
+                }
+            }
         }
     }
 
@@ -290,7 +335,14 @@
                 if (checkForSubFormInfo()) {
                     alert("You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");                    
                 }
-
+                var inputs = document.getElementsByClassName('form-control');
+                for (var i=0; i<inputs.length; i++) {
+                    var cur = inputs[i];
+                    if (cur.getAttribute('name') == null && cur.getAttribute('type') == 'text') {
+                        console.log(cur);
+                        console.log(cur.value);
+                    }
+                }
             }
         });
     });
@@ -307,46 +359,27 @@
         return true;
     }
 
-    $(document).ready(function() {
-        $('.combobox').combobox();
+    $( function() {
+        var availableTags = ["Test", "Digital","Mary"];
+        $( 'input[name="collection-title"]').autocomplete({source: availableTags});
     });
 
-    $(document).ready(function() {
-        $('input[name="fiscal-year"]').daterangepicker({
-            'singleDatePicker': true
-        });
+    $(function() {
+        $('input[name="gift-acknowledgement-received"]').datepicker();
     });
 
-    $(document).ready(function() {
-        $('input[name="span-date"]').daterangepicker({
-            'viewMode': 'years',
-            'minViewMode': 'years'
-        });
+    $(function() {
+        $('input[name="receipt-letter-sent"]').datepicker();
     });
 
-    $(document).ready(function() {
-        $('input[name="gift-acknowledgement-received"]').daterangepicker({
-            'singleDatePicker': true
-        });
+    $(function() {
+        $('input[name="files-staged-date"]').datepicker();
     });
 
-    $(document).ready(function() {
-        $('input[name="receipt-letter-sent"]').daterangepicker({
-            'singleDatePicker': true
-        });
+    $(function() {
+        $('input[name="files-received-date"]').datepicker();;
     });
 
-    $(document).ready(function() {
-        $('input[name="files-staged-date"]').daterangepicker({
-            'singleDatePicker': true
-        });
-    });
-
-    $(document).ready(function() {
-        $('input[name="files-received-date"]').daterangepicker({
-            'singleDatePicker': true
-        });
-    });
     </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
@@ -394,11 +427,7 @@
                                 <label for="collection-title">
                                     Collection Title
                                 </label>
-                                <select class="form-control combobox" name='collection-title' required>
-                                    <option></option>
-                                    <option value="Mary J Brainered">Mary J Brainerd</option>
-                                    <option value="Test Collection">Test Collection</option>
-                                    <option valu="The Magic Digital Digital Collection">The Magic Digital Collection</option>
+                                <input type="text" name="collection-title" class="form-control" required/>
                                 </select>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -406,7 +435,7 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label for="start-span-date">Span Date</label>
-                                <input type="text" class="form-control" name='span-date' required/>
+                                <input pattern="\d{2}[/]\d{4}[-]\d{2}[/]\d{4}" title="must be a range of 2 dates that looks like 01/1980-10/2002" type="text" class="form-control" name='span-date' required/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -479,8 +508,8 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label for="collection-title">Fiscal Year</label>
-                                <input type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
+                                <label for="fiscal-year">Fiscal Year</label>
+                                <input pattern="\d{4}[-]\d{4}" title="must be a range of 2 years that looks like 2001-2002" type="text" class="form-control" name="fiscal-year" placeholder="2006-2007" />
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
