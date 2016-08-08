@@ -33,7 +33,7 @@
     </nav>
     <div class="container">
         <div class="col-lg-7">
-            <form method="post" id="accession-form" data-toggle="validator" role="form" action="/accession.html" form="form-horizontal">
+            <form method="post" id="accession-form" data-toggle="validator" role="form" action="accession.html" form="form-horizontal">
                 <fieldset>
                     <legend>Creating an Accession</legend>
                     <div class="row">
@@ -416,7 +416,8 @@
                                 alert(
                                     "You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");                    
                             }
-                            var inputs = document.getElementsByClassName('form-control');
+                            var inputs = document.getElementById("accession-form")[0].getElementsByClassName('form-control');
+                            console.log(inputs);
                             for (var i=0; i<inputs.length; i++) {
                                 var cur = inputs[i];
                                 if (cur.getAttribute('name') == null && cur.getAttribute('type') == 'text') {
@@ -424,6 +425,9 @@
                                     console.log(cur.value);
                                 }
                             }
+                            console.log("hello world");
+                            saveARecord(inputs, localStorage, 'accession');
+                            return false;
                         }
                     });
                 });

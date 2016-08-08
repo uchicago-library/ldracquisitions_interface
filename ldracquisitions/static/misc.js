@@ -14,11 +14,11 @@ function addADataObjectToLocalStorage(dataObject) {
     "use strict";
     var category = dataObject.category;
     var anArray = null;
-    if (localStorage.getItem(category) != undefined) 
+    if (localStorage.getItem(category) != undefined)
     {
         anArray = JSON.parse(localStorage.getItem(category));
     }
-    else 
+    else
     {
         anArray = new Array();
     }
@@ -55,4 +55,18 @@ function checkForSubFormInfo() {
         return false;
     }
     return true;
+}
+
+function saveARecord(inputsArray, storedObject, recordTypeString) {
+    "use strict";
+    $.each(inputsArray, function(index, value) {
+        var name = value.getAttribute('name');
+        var data = value.value;
+        console.log(name + "= " + data);
+    });
+    for (var key in storedObject) {
+        console.log(key);
+        console.log(storedObject[key]);
+    }
+    console.log("hello from inside saveARecord");
 }
