@@ -4,6 +4,7 @@ function generateAdminCommentDataItem(adminCommentDataObject) {
     var dd_text = null;
     return {
         category: "administrative comment",
+        fields: ["summary"],
         dt_text: dt_text,
         dd_text: dd_text,
         summary: dt_text
@@ -16,6 +17,7 @@ function generateOriginDescriptionDataItem(originDescDataObject) {
     var dd_text = null;
     return {
         category: "origin description",
+        fields: ["summary"],
         dt_text: dt_text,
         dd_text: dd_text,
         summary: dt_text
@@ -28,6 +30,7 @@ function generateSummaryDataItem(summaryDataObject) {
     var dd_text = null;
     return {
         category: "summary",
+        fields: ["summary"],
         dt_text: dt_text,
         dd_text: dd_text,
         summary: dt_text
@@ -40,6 +43,7 @@ function generateAccessionIdDataItem(accidDataObject) {
     var dd_text = null;
     return {
         category: "accession id",
+        fields: ["accession"],
         dt_text: dt_text,
         dd_text: dd_text,
         accession: dt_text
@@ -52,6 +56,7 @@ function generateCollectionTitleDataItem(orgDataObject) {
     var dd_text = null;
     return {
         category: "collection title",
+        fields: ["collection"],
         dt_text: dt_text,
         dd_text: dd_text,
         collection: dt_text
@@ -64,6 +69,7 @@ function generateOrgDataItem(coltitleDataObject) {
     var dd_text = null;
     return {
         category: "organization name",
+        fields: ["organization"],
         dt_text: dt_text,
         dd_text: dd_text,
         organization: dt_text
@@ -76,6 +82,7 @@ function generateTypeDataItem(acctypeDataObject) {
     var dd_text = null;
     return {
         category: "type",
+        fields: ["type"],
         dt_text: dt_text,
         dd_text: dd_text,
         type: dt_text
@@ -88,6 +95,7 @@ function generatePhysMediaDataItem(physmediaDataObject) {
     var dd_text = physmediaDataObject.Quantity;
     return {
         category: "physmedia",
+        fields: ["label", "amount"],
         dt_text: dt_text,
         dd_text: dd_text,
         label: dt_text,
@@ -101,6 +109,7 @@ function generateRestrictionDataItem(restrictionDataObject) {
     var dd_text = restrictionDataObject.Comment[0];
     return {
         category: "restriction",
+        fields: ["code", "description"],
         dt_text: dt_text,
         dd_text: dd_text,
         code: dt_text,
@@ -118,12 +127,15 @@ function generatePersonDataItem(personDataObject, catName) {
     var j = 0;
     var curP = "";
     var curE = "";
+    var category = catName;
+
     for (j = 0; j < Email.length; j += 1) {
         curE = Email[j];
         if (curE !== null) {
             dd_text = dd_text + " " + curE;
         }
     }
+
     dd_text = dd_text + ";";
     for (j = 0; j < Phone.length; j += 1) {
         curP = Phone[j];
@@ -131,12 +143,14 @@ function generatePersonDataItem(personDataObject, catName) {
             dd_text = dd_text + " " + curP;
         }
     }
-    var category = catName;
+
+
     if (catName !== undefined) {
         category = catName.split("-")[0];
     }
     return {
         category: category,
+        fields: ["first", "last", "emails", "phones", "mailings"],
         dt_text: dt_text,
         dd_text: dd_text,
         first: personDataObject["First Name"],
@@ -146,11 +160,11 @@ function generatePersonDataItem(personDataObject, catName) {
     };
 }
 
-function buildADataItem(someThing, decision) {
+function buildADataItem(someThing, decision, subdecision) {
     "use strict";
     var data = null;
     if (decision == "person") {
-        data = generatePersonDataItem(someThing);
+        data = generatePersonDataItem(someThing, subdecision);
     }
     else if (decision == "restriction") {
         data = generateRestrictionDataItem(someThing);
@@ -174,13 +188,13 @@ function buildADataItem(someThing, decision) {
         data = generateSummaryDataItem(someThing);
     }
     else if (decision == "origin") {
-        data = generateOriginDescriptionDataItem(someThing);        
+        data = generateOriginDescriptionDataItem(someThing);
     }
     else if (decision == "comment") {
         data = generateAdminCommentDataItem(someThing);
     }
     else {
         data = null;
-    }    
+    }
     return data;
 }

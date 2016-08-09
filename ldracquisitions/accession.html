@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LDR Acquisitions</title>
     <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />>
+    <link rel="stylesheeT" type="text/css" href="static/misc/bootstrap-toggle-master/css/bootstrap-toggle.css" />
     <link rel="stylesheet" type="text/css" href="static/jquery-ui/jquery-ui.css" />
 </head>
 
@@ -21,7 +21,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <p class="navbar-brand" href="index.html">LDR Acquisitions</p>
+                <p class="navbar-brand" href="index.html">
+                 LDR Acquisitions
+                </p>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -312,12 +314,12 @@
                     var data = record.data.record;
                     var divIds = [{name:"donors-list",
                                    data: $.map(data.Donor, function(value, index) {
-                                       return buildADataItem(value, "person");
+                                       return buildADataItem(value, "person", "donor");
                                   })},
                                   {name:"sources-list",
                                    data: $.map(data.Source, function(value, index) {
-                                       return buildADataItem(value, "person"
-                                  )})},
+                                       return buildADataItem(value, "person", "source");
+ })},
                                   {name:"restriction-list",
                                    data: $.map(data["Restriction Information"], function(value, index) {
                                        return buildADataItem(value, "restriction"

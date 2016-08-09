@@ -67,11 +67,33 @@ function capitalize_Words(str) {
 function saveARecord(inputsArray, storedObject, recordTypeString) {
     "use strict";
     var obj = new Object();
-    console.log(storedObject);
+    var anArray = Object.keys(storedObject);
+
     $.each(inputsArray, function(index, value) {
         var name = value.getAttribute('name');
         var data = value.value;
         obj[name] = data;
+    });
+
+    $.each(anArray, function(index, value) {
+       console.log("this is from " + value);
+       var storedObjectArray = storedObject[value];
+       console.log(storedObjectArray);
+       //var curValue = JSON.parse(storedObject[value]);
+       //$.each(curValue, function(index, subvalue) {
+       //    var test = obj[value];
+       //    if (test == undefined)
+       //    {
+       //         console.log("undefined " + value);
+       //    }
+       //    else
+       //    {
+       //        var a = new Array();
+       //        a.push(obj[value]);
+       //        console.log(a);
+       //        obj[value] = a;
+       //         console.log("defined " + value);
+       //    }
     });
     return obj;
 }
