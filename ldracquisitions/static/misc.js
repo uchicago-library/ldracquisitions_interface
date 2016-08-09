@@ -78,22 +78,36 @@ function saveARecord(inputsArray, storedObject, recordTypeString) {
     $.each(anArray, function(index, value) {
        console.log("this is from " + value);
        var storedObjectArray = storedObject[value];
-       console.log(storedObjectArray);
-       //var curValue = JSON.parse(storedObject[value]);
-       //$.each(curValue, function(index, subvalue) {
-       //    var test = obj[value];
-       //    if (test == undefined)
-       //    {
-       //         console.log("undefined " + value);
-       //    }
-       //    else
-       //    {
-       //        var a = new Array();
-       //        a.push(obj[value]);
-       //        console.log(a);
-       //        obj[value] = a;
-       //         console.log("defined " + value);
-       //    }
+       var currentValue = storedObject[value];
+       currentValue = JSON.parse(currentValue);
+       var anArray = null;
+       if (obj[value] != undefined) {
+           anArray = obj[value];
+       }
+       else {
+           anArray = new Array();
+       }
+       if (obj[value] == undefined) {
+           $.each(currentValue, function(i,v) {
+               var curObj = JSON.parse(v);
+               var check = isObjInArray(anArray, curObj);
+               console.log(check);
+               if (!check) {
+                   anArray.push(curObj);
+               }
+           });
+       }
+       obj[value] = anArray;
     });
     return obj;
+}
+
+function isObjInArray(anArray, objectToFind) {
+    for (var i=0; i<anArray.length; i++) {
+        var cur = anArray[i];
+        if (cur.dt_text == objectToFind.dt_text) {
+            return true;
+        }
+    }
+    return false;
 }
