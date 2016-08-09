@@ -14,6 +14,7 @@ function addADataObjectToLocalStorage(dataObject) {
     "use strict";
     var category = dataObject.category;
     var anArray = null;
+    console.log(category)
     if (localStorage.getItem(category) != undefined)
     {
         anArray = JSON.parse(localStorage.getItem(category));
@@ -57,16 +58,20 @@ function checkForSubFormInfo() {
     return true;
 }
 
+function capitalize_Words(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 function saveARecord(inputsArray, storedObject, recordTypeString) {
     "use strict";
+    var obj = new Object();
+    console.log(storedObject);
     $.each(inputsArray, function(index, value) {
         var name = value.getAttribute('name');
         var data = value.value;
-        console.log(name + "= " + data);
+        obj[name] = data;
     });
-    for (var key in storedObject) {
-        console.log(key);
-        console.log(storedObject[key]);
-    }
-    console.log("hello from inside saveARecord");
+    return obj;
 }

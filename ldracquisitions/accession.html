@@ -304,42 +304,42 @@
                     {
                         alert("bad url");
                     }
-                    else 
+                    else
                     {
                         recordId = searchString.split("record=")[1];
                     }
                     var record = getRecord(recordId).responseJSON;
                     var data = record.data.record;
-                    var divIds = [{name:"donors-list", 
+                    var divIds = [{name:"donors-list",
                                    data: $.map(data.Donor, function(value, index) {
                                        return buildADataItem(value, "person");
                                   })},
-                                  {name:"sources-list", 
+                                  {name:"sources-list",
                                    data: $.map(data.Source, function(value, index) {
                                        return buildADataItem(value, "person"
-                                  )})}, 
-                                  {name:"restriction-list", 
+                                  )})},
+                                  {name:"restriction-list",
                                    data: $.map(data["Restriction Information"], function(value, index) {
                                        return buildADataItem(value, "restriction"
-                                  )})}, 
-                                  {name:"physmedia-list", 
+                                  )})},
+                                  {name:"physmedia-list",
                                    data: $.map(data["Physical Media Information"], function(value, index) {
                                        return buildADataItem(value, "media"
-                                  )})}, 
-                                  {name:"type-definition", 
+                                  )})},
+                                  {name:"type-definition",
                                    data:$.map(data["Accession Type"], function(value, index) {
                                        return buildADataItem(value, "type"
                                   )})}
                                  ];
-                    var inputsToFill = [{name:"accession-id", 
+                    var inputsToFill = [{name:"accession-id",
                                          data:$.map(data['Accession Identifier'], function(value, index) {
                                              return buildADataItem(value, "accessionid");
                                          })},
-                                        {name:"collection-title", 
+                                        {name:"collection-title",
                                          data: $.map(data["Collection Title"], function(value, index) {
                                              return buildADataItem(value, "collection");
                                          })},
-                                        {name:"organization-name", 
+                                        {name:"organization-name",
                                          data: $.map(data["Organization Name"], function(value, index) {
                                              var f = buildADataItem(value, "organization");
                                              return f;
@@ -349,7 +349,7 @@
                                           data: $.map(data['Origin Description'], function(value, index) {
                                               return buildADataItem(value, "origin");
                                          })},
-                                         {name:"summary", 
+                                         {name:"summary",
                                           data: $.map(data["Summary"], function(value, index) {
                                               return buildADataItem(value, "summary");
                                          })},
@@ -365,7 +365,7 @@
                                           data: $.map(data["Receipt Letter Required"], function(value, index) {
                                               return buildADataItem(value, "receipt-letter-req");
                                           })},
-                                         {name: "receipt-letter-sent", 
+                                         {name: "receipt-letter-sent",
                                           data: $.map(data["Receipt Letter Sent"], function(value, index) {
                                               return buildADataItem(value, "receipt-letter-sent");
                                           })},
@@ -374,11 +374,10 @@
                                               return buildADataItem(value, "gift-ack-recv");
                                           })}
                                        ];
-                    
                     $.each(inputsToFill, function(index, value) {
-                        var attr = "name="+value.name;                
+                        var attr = "name="+value.name;
                         var input = $('*['+ attr + ']');
-                        $.each(value.data, function(subindex, subvalue) 
+                        $.each(value.data, function(subindex, subvalue)
                         {
                             var inputValue = subvalue.dt_text;
                             input.val(inputValue);
@@ -393,7 +392,7 @@
                             var dd = document.createElement("dd");
                             dt.appendChild(document.createTextNode(subvalue.dt_text));
                             div.appendChild(dt);
-                            if (subvalue.dd_text != null) 
+                            if (subvalue.dd_text != null)
                             {
                                 dd.appendChild(document.createTextNode(subvalue.dd_text));
                                 div.appendChild(dd);
@@ -406,7 +405,7 @@
 
                 $(function() {
                     $("#accession-form").validator().on('submit', function(e) {
-                        if (!e.isDefaultPrevented()) 
+                        if (!e.isDefaultPrevented())
                         {
                             var donors = localStorage.getItem("donors");
                             var sources = localStorage.getItem("sources");
@@ -414,19 +413,11 @@
                             var restrictions = localStorage.getItem("restriction");
                             if (checkForSubFormInfo()) {
                                 alert(
-                                    "You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");                    
+                                    "You did not define donors or sources or physical media or restrictions. An acquisition must include this information in addition to the core information.");
                             }
                             var inputs = document.getElementById("accession-form")[0].getElementsByClassName('form-control');
-                            console.log(inputs);
-                            for (var i=0; i<inputs.length; i++) {
-                                var cur = inputs[i];
-                                if (cur.getAttribute('name') == null && cur.getAttribute('type') == 'text') {
-                                    console.log(cur);
-                                    console.log(cur.value);
-                                }
-                            }
-                            console.log("hello world");
-                            saveARecord(inputs, localStorage, 'accession');
+                            var newObj = saveARecord(inputs, localStorage, 'accession');
+                            console.log(newObj);
                             return false;
                         }
                     });

@@ -4,3 +4,4 @@
 .eslintrc.json
 jsconfig.json
 launch.json
+*settings.json

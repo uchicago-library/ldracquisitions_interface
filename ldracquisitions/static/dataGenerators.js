@@ -131,7 +131,7 @@ function generatePersonDataItem(personDataObject, catName) {
             dd_text = dd_text + " " + curP;
         }
     }
-    var category = "none";
+    var category = catName;
     if (catName !== undefined) {
         category = catName.split("-")[0];
     }
