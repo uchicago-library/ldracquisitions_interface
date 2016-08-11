@@ -32,10 +32,7 @@ function addKeyValueToRecord(recordID, key, o) {
 
 function getAValueInARecord(recordId, key) {
     "use strict";
-    console.log(recordId);
-    console.log(key);
     var urlString = "http://127.0.0.1:5000/record/"+recordId+"/"+encodeURIComponent(key);
-    console.log(urlString);
     return $.ajax({
         type:"GET",
         url: urlString,
@@ -65,7 +62,6 @@ function getRecord(recordID) {
 
 function getRecordsByCategory(categoryName) {
     var urlString = "http://127.0.0.1:5000/category/" + categoryName;
-    console.log(urlString);
     return $.ajax({
         type: "GET",
         url: urlString,

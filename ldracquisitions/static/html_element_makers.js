@@ -18,8 +18,6 @@ function makeAccessionDataItemButtons(category, idString) {
 
 function addASubElement(topElement, childElement) {
     "use strict";
-    console.log(topElement);
-    console.log(childElement);
     topElement.appendChild(childElement);
 }
 

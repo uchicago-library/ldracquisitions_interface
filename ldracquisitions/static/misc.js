@@ -14,7 +14,6 @@ function addADataObjectToLocalStorage(dataObject) {
     "use strict";
     var category = dataObject.category;
     var anArray = null;
-    console.log(category);
     if (localStorage.getItem(category) != undefined)
     {
         anArray = JSON.parse(localStorage.getItem(category));
@@ -76,38 +75,36 @@ function saveARecord(inputsArray, storedObject, recordTypeString) {
     });
 
     $.each(anArray, function(index, value) {
-       console.log("this is from " + value);
-       if (value == "physmedia") {
-           console.log(storedObject[value]);
-       }
-       var storedObjectArray = storedObject[value];
-
-       var currentValue = storedObject[value];
-       currentValue = JSON.parse(currentValue);
-       var anArray = null;
-       if (obj[value] != undefined) {
-           anArray = obj[value];
-       }
-       else {
-           anArray = new Array();
-       }
-       if (obj[value] == undefined) {
-           $.each(currentValue, function(i,v) {
-               var curObj = JSON.parse(v);
-               var check = isObjInArray(anArray, curObj);
-               console.log(check);
-               if (!check) {
-                   anArray.push(curObj);
-               }
-           });
-       }
-       else {
-           console.log("it wasn't undefined");
-           console.log(obj[value]);
-       }
-       obj[value] = anArray;
+        console.log("this is from " + value);
+        var storedObjectArray = storedObject[value];
+        //var currentValue = JSON.parse(storedObjectArray);
+        var anArray = null;
+        if (obj[value] != undefined)
+        {
+            console.log("hi");
+            anArray = obj[value];
+        }
+        else {
+            console.log("foo");
+            anArray = new Array();
+        }
+        console.log(anArray);
+        obj[value] = anArray;
+       //if (obj[value] == undefined) {
+       //    $.each(currentValue, function(i,v) {
+       //        var curObj = JSON.parse(v);
+       //        var check = isObjInArray(anArray, curObj);
+       //        if (!check) {
+       //            anArray.push(curObj);
+       //        }
+       //    });
+       //}
+       //else {
+       //    console.log("it wasn't undefined");
+       //    console.log(obj[value]);
+       //}
+        //obj[value] = anArray;
     });
-    console.log(obj);
     return obj;
 }
 
