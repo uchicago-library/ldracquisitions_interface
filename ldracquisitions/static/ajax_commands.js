@@ -6,7 +6,7 @@ function postNewRecord(o) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: !1,
-        error: function() 
+        error: function()
         {
             alert("Error occurred");
         }
@@ -23,11 +23,29 @@ function addKeyValueToRecord(recordID, key, o) {
         dataType: "json",
         data: json_obj,
         async: !1,
-        error: function() 
+        error: function()
         {
             alert("Error occurred posting key/value to record");
         }
     });
+}
+
+function getAValueInARecord(recordId, key) {
+    "use strict";
+    console.log(recordId);
+    console.log(key);
+    var urlString = "http://127.0.0.1:5000/record/"+recordId+"/"+encodeURIComponent(key);
+    console.log(urlString);
+    return $.ajax({
+        type:"GET",
+        url: urlString,
+        contenType: "application/json",
+        dataType: "json",
+        async: !1,
+        error: function() {
+            alert("An error occured fetching "+urlString);
+        }
+    })
 }
 
 function getRecord(recordID) {
@@ -38,7 +56,7 @@ function getRecord(recordID) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: !1,
-        error: function() 
+        error: function()
         {
             alert("Error occurred");
         }
@@ -46,9 +64,11 @@ function getRecord(recordID) {
 }
 
 function getRecordsByCategory(categoryName) {
+    var urlString = "http://127.0.0.1:5000/category/" + categoryName;
+    console.log(urlString);
     return $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/category/" + categoryName,
+        url: urlString,
         data: JSON.stringify(new Object()),
         contentType: "application/json",
         dataType: "json",
@@ -57,4 +77,16 @@ function getRecordsByCategory(categoryName) {
             alert("Could not connect the endpoint for that category");
         }
     });
+}
+
+function getCollectionTitleList() {
+    var collection_category = getRecordsByCategory('Collection');
+    var records = collection_category.responseJSON.data.record_identifiers;
+    var out = new Array();
+    $.each(records, function(index, value) {
+        var vdata = getAValueInARecord(value, "Collection Title");
+        var vdata = vdata.responseJSON.data.value[0];
+        out.push(vdata);
+    });
+    return out;
 }

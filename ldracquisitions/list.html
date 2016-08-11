@@ -10,26 +10,6 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="static/ajax_commands.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var data = getRecordsByCategory('AcquisitionRecord');
-            var records = (data.responseJSON.data.record_identifiers);
-            var htmlList = document.getElementById("list-group");
-            $.each(records, function(index, value) {
-                var li = document.createElement("li");
-                li.setAttribute("class", "list-group-item");
-                var liText = document.createTextNode(value);
-                var a = document.createElement("a");
-                a.setAttribute("href", "accession.html?record="+ value);
-                a.text = value;
-                li.appendChild(a);
-                htmlList.appendChild(li);
-            });
-        });
-    </script>
     <nav class="navbar navbar-default navbar">
         <div class="container">
             <div class="navbar-header">
@@ -63,6 +43,28 @@
             &copy; University of Chicago, 2016
         </p>
     </footer>
+    <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/ajax_commands.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            localStorage.setItem("lastPage", "list.html");
+            var urldata = getRecordsByCategory('AcquisitionRecord');
+            var records = urldata.responseJSON.data.record_identifiers;
+            var htmlList = document.getElementById("list-group");
+            $.each(records, function(index, value) {
+                var li = document.createElement("li");
+                li.setAttribute("class", "list-group-item");
+                var liText = document.createTextNode(value);
+                var a = document.createElement("a");
+                a.setAttribute("href", "accession.html?record="+ value);
+                a.text = value;
+                li.appendChild(a);
+                htmlList.appendChild(li);
+             });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -432,7 +432,7 @@
                 });
 
                 $(function() {
-                    var availableTags = getRecordsByCategory('Collection').responseJSON.data.record_identifiers;
+                    var availableTags = getCollectionTitleList() //getRecordsByCategory('Collection').responseJSON.data.record_identifiers;
                     $( 'input[name="collection-title"]').autocomplete({source: availableTags});
                 });
 
