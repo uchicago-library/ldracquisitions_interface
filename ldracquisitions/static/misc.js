@@ -14,7 +14,7 @@ function addADataObjectToLocalStorage(dataObject) {
     "use strict";
     var category = dataObject.category;
     var anArray = null;
-    console.log(category)
+    console.log(category);
     if (localStorage.getItem(category) != undefined)
     {
         anArray = JSON.parse(localStorage.getItem(category));
@@ -77,7 +77,11 @@ function saveARecord(inputsArray, storedObject, recordTypeString) {
 
     $.each(anArray, function(index, value) {
        console.log("this is from " + value);
+       if (value == "physmedia") {
+           console.log(storedObject[value]);
+       }
        var storedObjectArray = storedObject[value];
+
        var currentValue = storedObject[value];
        currentValue = JSON.parse(currentValue);
        var anArray = null;
@@ -97,8 +101,13 @@ function saveARecord(inputsArray, storedObject, recordTypeString) {
                }
            });
        }
+       else {
+           console.log("it wasn't undefined");
+           console.log(obj[value]);
+       }
        obj[value] = anArray;
     });
+    console.log(obj);
     return obj;
 }
 
