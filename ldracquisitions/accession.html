@@ -299,6 +299,11 @@
     <script type="text/javascript" src="static/misc.js"></script>
     <script type="text/javascript">
             $(document).ready(function() {
+
+                $(function() {
+                    localStorage.setItem("lastPage", "list.html");
+                });
+
                 $(function() {
                     var recordID = null;
                     var searchString = document.URL;

@@ -20,204 +20,356 @@
     <script type="text/javascript" src="static/misc/validator.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#cancel').click(function() {
-                location.replace(localStorage.getItem('currentActivity'));
+            function WhichLink()
+            {
+                var link = null;
+                if (localStorage.getItem("lastPage") == "index.html")
+                {
+                    link = "acquisition.html";
+                }
+                else if (localStorage.getItem("lastPage") == "list.html")
+                {
+                    link = "accession.html";
+                }
+                return link;
+            }
+
+            $(function() {
+                var link = WhichLink();
+                var form = document.getElementById("donor-form");
+                form.setAttribute("action", link);
             });
-        });
 
-        $(document).ready(function() {
-            form = document.getElementById('adding-donor-form');
-            form.setAttribute('action', localStorage.getItem('currentActivity'));
-        });
-
-        $(document).ready(function() {
-            $('a[href="#newPhoneNumber"]').click(function() {
-                var phonenumbersgroup = document.getElementsByClassName("phone-numbers");
-                var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("phone-number-row");
-                var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
-                var lastinput = formgroup.getElementsByTagName("input")[0];
-                var lastlabel = formgroup.getElementsByTagName("label")[0];
-                var lastinputname = lastinput.getAttribute("name");
-                var lastinputnum = parseInt(lastinputname.split('-')[2]);
-                var newinputnum = lastinputnum + 1;
-                var newinputname = 'phone-number-' + newinputnum.toString();
-                var newinput = lastinput.cloneNode();
-                newinput.value = "";
-                var newlabel = lastlabel.cloneNode();
-                newlabel.setAttribute("for", newinputname);
-                newlabel.appendChild(document.createTextNode("Phone Number"));
-                newinput.setAttribute('name', newinputname);
-                var newformgroupdiv = document.createElement("div")
-                newformgroupdiv.setAttribute("class", "form-group")
-                newformgroupdiv.appendChild(newlabel);
-                newformgroupdiv.appendChild(newinput);
-                newformgrouperrorsdiv = document.createElement("div");
-                newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
-                newformgroupdiv.appendChild(newformgrouperrorsdiv);
-                var newformgroupcol = document.createElement("div");
-                newformgroupcol.setAttribute('class', 'col-sm-10');
-                newformgroupcol.appendChild(newformgroupdiv);
-                newformgrouprow = document.createElement("div");
-                newformgrouprow.setAttribute("class", "row phone-number-row");
-                newformgrouprow.appendChild(newformgroupcol);
-                phonenumbersgroup[0].appendChild(newformgrouprow);
+            $(function() {
+                $('#cancel').click(function() {
+                    var link = WhichLink();
+                    location.replace(link);
+                });
             });
-        });
 
-        $(document).ready(function() {
-            $("#adding-donor-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
-                } else {
-                    form = document.getElementById('adding-donor-form');
-                    forminputs = document.getElementsByTagName('input');
+            $(function() {
+                    $("a[href='#newEmail']").click(function() {
+                        var phonenumbersgroup = document.getElementsByClassName("email-addresses");
+                        var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("email-address-row");
+                        var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0];
+                        var lastinput = formgroup.getElementsByTagName("input")[0];
+                        var lastlabel = formgroup.getElementsByTagName("label")[0];
+                        var lastinputname = lastinput.getAttribute("name");
+                        var lastinputnum = parseInt(lastinputname.split('-')[2]);
+                        var newinputnum = lastinputnum + 1;
+                        console.log(newinputnum);
+                        var newinputname = 'email-' + newinputnum.toString();
+                        var newinput = lastinput.cloneNode();
+                        newinput.value = "";
+                        var newlabel = lastlabel.cloneNode();
+                        newlabel.setAttribute("for", newinputname);
+                        newlabel.appendChild(document.createTextNode("Email Address"));
+                        newinput.setAttribute('name', newinputname);
+                        var newformgroupdiv = document.createElement("div")
+                        newformgroupdiv.setAttribute("class", "form-group")
+                        newformgroupdiv.appendChild(newlabel);
+                        newformgroupdiv.appendChild(newinput);
+                        newformgrouperrorsdiv = document.createElement("div");
+                        newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
+                        newformgroupdiv.appendChild(newformgrouperrorsdiv);
+                        var newformgroupcol = document.createElement("div");
+                        newformgroupcol.setAttribute('class', 'col-sm-10');
+                        newformgroupcol.appendChild(newformgroupdiv);
+                        newformgrouprow = document.createElement("div");
+                        newformgrouprow.setAttribute("class", "row email-address-row");
+                        newformgrouprow.appendChild(newformgroupcol);
+                        phonenumbersgroup[0].appendChild(newformgrouprow);
+                    });
+            });
 
-                    var lastName = "";
-                    var firstName = "";
-                    for (var i = 0; i < forminputs.length; i++) {
-                        var cur = forminputs[i];
-                        var curNameAttribute = cur.getAttribute('name');
+            $(function() {
+                $('a[href="#newPhoneNumber"]').click(function() {
+                        var phonenumbersgroup = document.getElementsByClassName("phone-numbers");
+                        var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("phone-number-row");
+                        var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
+                        var lastinput = formgroup.getElementsByTagName("input")[0];
+                        var lastlabel = formgroup.getElementsByTagName("label")[0];
+                        var lastinputname = lastinput.getAttribute("name");
+                        var lastinputnum = parseInt(lastinputname.split('-')[2]);
+                        var newinputnum = lastinputnum + 1;
+                        var newinputname = 'phone-number-' + newinputnum.toString();
+                        var newinput = lastinput.cloneNode();
+                        newinput.value = "";
+                        var newlabel = lastlabel.cloneNode();
+                        newlabel.setAttribute("for", newinputname);
+                        newlabel.appendChild(document.createTextNode("Phone Number"));
+                        newinput.setAttribute('name', newinputname);
+                        var newformgroupdiv = document.createElement("div")
+                        newformgroupdiv.setAttribute("class", "form-group")
+                        newformgroupdiv.appendChild(newlabel);
+                        newformgroupdiv.appendChild(newinput);
+                        newformgrouperrorsdiv = document.createElement("div");
+                        newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
+                        newformgroupdiv.appendChild(newformgrouperrorsdiv);
+                        var newformgroupcol = document.createElement("div");
+                        newformgroupcol.setAttribute('class', 'col-sm-10');
+                        newformgroupcol.appendChild(newformgroupdiv);
+                        newformgrouprow = document.createElement("div");
+                        newformgrouprow.setAttribute("class", "row phone-number-row");
+                        newformgrouprow.appendChild(newformgroupcol);
+                        phonenumbersgroup[0].appendChild(newformgrouprow);
+                });
+            });
 
-                        if (curNameAttribute == 'first-name') {
-                            firstName = cur.value;
-                        } else if (curNameAttribute == 'last-name') {
-                            lastName = cur.value;
-                        }
+            $(function() {
+                $('a[href="#newMailingAddress"]').click(function() {
+                    var addressgroup = document.getElementsByClassName("address-forms")
+                    var addressrows = addressgroup[addressgroup.length - 1].getElementsByClassName("address-form-row");
+                    var lastaddressrow = addressrows[addressrows.length - 1];
+                    var newaddressrow = lastaddressrow.cloneNode(true);
+                    var addressrowclasses = (newaddressrow.getAttribute('class'));
+                    var addressrowunit = addressrowclasses.split(' ')[1];
+                    var lastaddressrowunitnum = parseInt(addressrowunit.split('-')[2]);
+                    console.log(addressrowunit);
+                    var newaddressrowunitnum = lastaddressrowunitnum + 1;
+                    console.log(newaddressrowunitnum);
+                    var str_newaddressunitnum = newaddressrowunitnum.toString();
+                    var newaddressrowname = 'mailing-address-' + str_newaddressunitnum;
+                    newaddressrow.setAttribute('class', 'address-form-row ' + newaddressrowname);
+                    newaddressrowlegend = newaddressrow.getElementsByTagName("legend")[0]
+                    newaddressrowlegenda = newaddressrowlegend.getElementsByTagName('a')
+                    if (newaddressrowlegenda.length == 1) {
+                        newaddressrowlegend.removeChild(newaddressrowlegend.getElementsByTagName('a')[0]);
                     }
-                    obj = new Object()
-                    obj['firstName'] = firstName;
-                    obj['lastName'] = lastName
-                    var phones = form.getElementsByClassName('phone-numbers');
-                    var emails = form.getElementsByClassName('email-addresses');
-                    var mailers = form.getElementsByClassName('address-forms');
-                    var phoneInputs = phones[0].getElementsByClassName('form-control');
-                    var emailInputs = emails[0].getElementsByClassName('form-control');
-                    var phonenumbers = new Array()
-                    var emailaddresses = new Array();
-                    for (var i = 0; i < phoneInputs.length; i++) {
-                        var cur = phoneInputs[i];
-                        phonenumbers.push(cur.value);
+                    inputsToChange = newaddressrow.getElementsByClassName('form-control')
+                    for (var i = 0; i < inputsToChange.length; i++) {
+                        var inputName = inputsToChange[i].getAttribute('name');
+                        oldnumber = newaddressrowunitnum - 1;
+                        newnumber = newaddressrowunitnum;
+                        newInputName = inputName.replace(oldnumber.toString(), newnumber.toString());
+                        inputsToChange[i].setAttribute('name', newInputName);
+                        inputsToChange[i].value = "";
                     }
-                    for (var i = 0; i < emailInputs.length; i++) {
-                        var cur = emailInputs[i];;
-                        emailaddresses.push(cur.value);
-                    }
-                    obj['emailAddresses'] = emailaddresses;
-                    obj['phoneNumbers'] = phonenumbers;
-                    mailaddresses = mailers[0];
-                    mailaddressFieldSets = mailaddresses.getElementsByTagName("fieldset");
-                    var mailingAddressArray = new Array();
-                    obj['mailing-addresses'] = mailingAddressArray;
-                    for (var i = 0; i < mailaddressFieldSets.length; i++) {
-                        var cur = mailaddressFieldSets[i];
-                        if (cur.nodeType !== '') {
-                            var fieldSetClasses = cur.getAttribute('class');
-                            var fieldSetName = fieldSetClasses.split(' ')[1];
-                            var fieldsetrows = cur.getElementsByClassName('form-control');
-                            fieldsetobj = new Object();
-                            for (var j = 0; j < fieldsetrows.length; j++) {
-                                var curFieldsetInput = fieldsetrows[j];
-                                fieldsetobj[curFieldsetInput.getAttribute('name')] = curFieldsetInput.value;
+                    addressgroup[0].appendChild(newaddressrow);
+                });
+            });
+
+            $(function() {
+                $("#donor-form").validator().on('submit', function(e) {
+                    if (!e.isDefaultPrevented()) {
+                        var form = document.getElementById("donor-form");
+                        var forminputs = form.getElementsByClassName("form-control");
+                        console.log("hi there, big fella!");
+                        var obj = new Object();
+                        $.each(forminputs, function(index, value) {
+                            var name = value.getAttribute("name");
+                            if (name.indexOf('address') >= 0)
+                            {
+                                obj = unserializeAddressPart(value, obj);
                             }
-                            obj['mailing-addresses'].push(fieldsetobj);
-                        }
+                            else if (name.indexOf('email') >= 0)
+                            {
+                                obj = unseriailzeEmail(value, obj);
+                            }
+                            else if (name.indexOf('phone-number') >= 0)
+                            {
+                                obj = unserializePhoneNumber(value, obj);
+                            }
+                            else if (name.indexOf('last-name') >= 0)
+                            {
+                                obj = unserializeLastName(value, obj);
+                            }
+                            else if (name.indexOf('first-name') >= 0)
+                            {
+                                obj = unserializeFirstName(value, obj);
+                            }
+                        });
+                        console.log(obj);
                     }
-                    var isThereDonorAlready = localStorage.getItem('donors')
-                    console.log(isThereDonorAlready);
-                    if (isThereDonorAlready != null) {
-                        console.log(localStorage.getItem('donors'));
-                        var donors = localStorage.getItem('donors');
-                        var dataArray = JSON.parse(donors);
-                        console.log(dataArray);
-                        console.log("leaving donors on localstorage already there");
-                    } else {
-                        dataArray = new Array();
-                        console.log(dataArray);
-                    }
-
-                    jsonified_object = JSON.stringify(obj);
-                    dataArray.push(jsonified_object);
-                    console.log("about to push the object into the dataArray");
-                    console.log(dataArray);
-                    var stringified_array = JSON.stringify(dataArray);
-                    localStorage.setItem('donors', stringified_array);
-                    console.log(localStorage);
-                }
+                    return false;
+                });
             });
-        });
 
-        $(document).ready(function() {
-            $('a[href="#newEmail"]').click(function() {
-                var phonenumbersgroup = document.getElementsByClassName("email-addresses");
-                var inputrows = phonenumbersgroup[phonenumbersgroup.length - 1].getElementsByClassName("email-address-row");
-                var formgroup = inputrows[inputrows.length - 1].getElementsByClassName("form-group")[0]
-                var lastinput = formgroup.getElementsByTagName("input")[0];
-                var lastlabel = formgroup.getElementsByTagName("label")[0];
-                var lastinputname = lastinput.getAttribute("name");
-                var lastinputnum = parseInt(lastinputname.split('-')[2]);
-                var newinputnum = lastinputnum + 1;
-                console.log(newinputnum);
-                var newinputname = 'email-address-' + newinputnum.toString();
-                var newinput = lastinput.cloneNode();
-                newinput.value = "";
-                var newlabel = lastlabel.cloneNode();
-                newlabel.setAttribute("for", newinputname);
-                newlabel.appendChild(document.createTextNode("Email Address"));
-                newinput.setAttribute('name', newinputname);
-                var newformgroupdiv = document.createElement("div")
-                newformgroupdiv.setAttribute("class", "form-group")
-                newformgroupdiv.appendChild(newlabel);
-                newformgroupdiv.appendChild(newinput);
-                newformgrouperrorsdiv = document.createElement("div");
-                newformgrouperrorsdiv.setAttribute("class", "help-block with-errors");
-                newformgroupdiv.appendChild(newformgrouperrorsdiv);
-                var newformgroupcol = document.createElement("div");
-                newformgroupcol.setAttribute('class', 'col-sm-10');
-                newformgroupcol.appendChild(newformgroupdiv);
-                newformgrouprow = document.createElement("div");
-                newformgrouprow.setAttribute("class", "row email-address-row");
-                newformgrouprow.appendChild(newformgroupcol);
-                phonenumbersgroup[0].appendChild(newformgrouprow);
-            });
-        });
 
-        $(document).ready(function() {
-            $('a[href="#newMailingAddress"]').click(function() {
-                var addressgroup = document.getElementsByClassName("address-forms")
-                var addressrows = addressgroup[addressgroup.length - 1].getElementsByClassName("address-form-row");
-                var lastaddressrow = addressrows[addressrows.length - 1];
-                var newaddressrow = lastaddressrow.cloneNode(true);
-                var addressrowclasses = (newaddressrow.getAttribute('class'));
-                var addressrowunit = addressrowclasses.split(' ')[1];
-                var lastaddressrowunitnum = parseInt(addressrowunit.split('-')[2]);
-                console.log(addressrowunit);
-                var newaddressrowunitnum = lastaddressrowunitnum + 1;
-                console.log(newaddressrowunitnum);
-                var str_newaddressunitnum = newaddressrowunitnum.toString();
-                var newaddressrowname = 'mailing-address-' + str_newaddressunitnum;
-                newaddressrow.setAttribute('class', 'address-form-row ' + newaddressrowname);
-                newaddressrowlegend = newaddressrow.getElementsByTagName("legend")[0]
-                newaddressrowlegenda = newaddressrowlegend.getElementsByTagName('a')
-                if (newaddressrowlegenda.length == 1) {
-                    newaddressrowlegend.removeChild(newaddressrowlegend.getElementsByTagName('a')[0]);
+            function unserializeAddressPart(anInputElement, anObject) {
+                console.log("address");
+                var name = anInputElement.getAttribute('name');
+                var number = name.split('address-')[1];
+                number = number.split('-')[0];
+                var test = anObject['Address Information'];
+                var anArray = null;
+                if (test == undefined) {
+                    anArray = new Array();
                 }
-                inputsToChange = newaddressrow.getElementsByClassName('form-control')
-                for (var i = 0; i < inputsToChange.length; i++) {
-                    var inputName = inputsToChange[i].getAttribute('name');
-                    oldnumber = newaddressrowunitnum - 1;
-                    newnumber = newaddressrowunitnum;
-                    newInputName = inputName.replace(oldnumber.toString(), newnumber.toString());
-                    inputsToChange[i].setAttribute('name', newInputName);
-                    inputsToChange[i].value = "";
+                else {
+                    anArray = test;
                 }
-                addressgroup[0].appendChild(newaddressrow);
-            });
+                currentAddress = null;
+                var indexToRemove = null;
+                for (var i=0; i<anArray.length; i++) {
+                     var cur = anArray[i];
+                     if (cur.num == number)
+                     {
+                         indexToRemove = i;
+                         currentAddress = cur;
+                     }
+                 }
+                if (indexToRemove != null) {
+                     addressesArray.splice(indexToRemove, 1);
+                }
+                if (currentAddress == null)
+                {
+                     currentAddress = new Object();
+                     currentAddress.num = number;
+                }
+                if (name.indexOf('zipcode') >= 0)
+                {
+                    currentAddress['Zip Code'] = anInputElement.value;
+                }
+                else if (name.indexOf('street-address') >= 0)
+                {
+                     currentAddress['Street Address'] = anInputElement.value;
+                }
+                else if (name.indexOf('unit-number') >= 0)
+                {
+                    currentAddress['Unit Number']
+                }
+                else if (name.indexOf('state') >= 0)
+                {
+                    currentAddress['State'] = anInputElement.value;
+                }
+                else if (name.indexOf('city') >= 0)
+                {
+                    currentAddress['City'] = anInputElement.value;
+                }
+                anArray.push(currentAddress);
+                console.log(anArray);
+                //anObject['Address Information'] = anArray;
+                return anObject;
+            }
+
+            function unseriailzeEmail(anInputElement, anObject) {
+                console.log("email");
+                if (anObject.Email == undefined) {
+                    anArray = new Array();
+                }
+                else {
+                    anArray = anObject.Email;
+                }
+                anArray.push(anInputElement.value);
+                anObject['Email'] = anArray;
+                return anObject;
+            }
+
+            function unserializePhoneNumber(anInputElement, anObject) {
+                if (anObject['Phone Number'] == undefined) {
+                    anArray = new Array();
+                }
+                else {
+                    anArray = anObject['Phone Number'];
+                }
+                anArray.push(anInputElement.value);
+                anObject['Phone Number'] = anArray;
+                return anObject;
+            }
+
+            function unserializeLastName(anInputElement, anObject) {
+                console.log("last name");
+                if (anObject['Last Name'] == undefined) {
+                    anArray = new Array();
+                }
+                else {
+                    anArray = anObject['Last Name'];
+                }
+                anArray.push(anInputElement.value);
+                anObject['Last Name'] = anArray;
+                return anObject;
+            }
+
+            function unserializeFirstName(anInputElement, anObject) {
+                console.log("first name");
+                if (anObject['First Name'] == undefined) {
+                    anArray = new Array();
+                }
+                else {
+                    anArray = anObject['First Name'];
+                }
+                anArray.push(anInputElement.value);
+                anObject['First Name'] = anArray;
+                return anObject;
+            }
         });
+                    // var firstName = "";
+                    // for (var i = 0; i < forminputs.length; i++) {
+                    //     var cur = forminputs[i];
+                    //     var curNameAttribute = cur.getAttribute('name');
+
+                    //     if (curNameAttribute == 'first-name') {
+                    //         firstName = cur.value;
+                    //     } else if (curNameAttribute == 'last-name') {
+                    //         lastName = cur.value;
+                    //     }
+                    // }
+                    // obj = new Object()
+                    // obj["First Name"] = firstName;
+                    // obj["Last Name"] = lastName
+                    // var phones = form.getElementsByClassName('phone-numbers');
+                    // var emails = form.getElementsByClassName('email-addresses');
+                    // var mailers = form.getElementsByClassName('address-forms');
+                    // var phoneInputs = phones[0].getElementsByClassName('form-control');
+                    // var emailInputs = emails[0].getElementsByClassName('form-control');
+                    // var phonenumbers = new Array()
+                    // var emailaddresses = new Array();
+                    // for (var i = 0; i < phoneInputs.length; i++) {
+                    //     var cur = phoneInputs[i];
+                    //     phonenumbers.push(cur.value);
+                    // }
+                    // for (var i = 0; i < emailInputs.length; i++) {
+                    //     var cur = emailInputs[i];;
+                    //     emailaddresses.push(cur.value);
+                    // }
+                    // obj["Email"] = emailaddresses;
+                    // obj["Phone Number"] = phonenumbers;
+                    // mailaddresses = mailers[0];
+                    // mailaddressFieldSets = mailaddresses.getElementsByTagName("fieldset");
+                    // var mailingAddressArray = new Array();
+                    // obj['Address Information'] = mailingAddressArray;
+                    // for (var i = 0; i < mailaddressFieldSets.length; i++) {
+                    //     var cur = mailaddressFieldSets[i];
+                    //     if (cur.nodeType !== '') {
+                    //         var fieldSetClasses = cur.getAttribute('class');
+                    //         var fieldSetName = fieldSetClasses.split(' ')[1];
+                    //         var fieldsetrows = cur.getElementsByClassName('form-control');
+                    //         fieldsetobj = new Object();
+                    //         for (var j = 0; j < fieldsetrows.length; j++) {
+                    //             var curFieldsetInput = fieldsetrows[j];
+                    //             fieldsetobj[curFieldsetInput.getAttribute('name')] = curFieldsetInput.value;
+                    //         }
+                    //         obj['Address Information'].push(fieldsetobj);
+                    //     }
+                    // }
+                    // var isThereDonorAlready = localStorage.getItem('donors')
+                    // console.log(isThereDonorAlready);
+                    // if (isThereDonorAlready != null) {
+                    //     console.log(localStorage.getItem('donors'));
+
+
+
+                    //     var donors = localStorage.getItem('donors');
+                    //     var dataArray = JSON.parse(donors);
+                    //     console.log(dataArray);
+                    //     console.log("leaving donors on localstorage already there");
+                    // } else {
+                    //     dataArray = new Array();
+                    //     console.log(dataArray);
+                    // }
+                    // jsonified_object = JSON.stringify(obj);
+                    // dataArray.push(jsonified_object);
+                    // console.log("about to push the object into the dataArray");
+                    // console.log(dataArray);
+                    // var stringified_array = JSON.stringify(dataArray);
+                    // localStorage.setItem('donors', stringified_array);
+                    // console.log(localStorage);
     </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="post" id="adding-donor-form" data-toggle="validator" role="form" action="." form="form-horizontal">
+                <form method="post" id="donor-form" data-toggle="validator" role="form" action="." form="form-horizontal">
                     <fieldset class="form-group">
                         <legend>Adding a Donor</legend>
                         <div class="row">
@@ -256,7 +408,7 @@
                                         <label for="email-address-1">
                                             Email Address <a href="#newEmail" class="btn btn-sm" role="button">add</a>
                                         </label>
-                                        <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
+                                        <input type="email" name="email-1" class="form-control" placeholder="jsmith@test.com" required/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -305,8 +457,8 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-10">
-                                <button id="save-donor" type="submit" class="btn btn-primary" role="button">Save</button>
-                                <a id="cancel" class="btn btn-primary" role="button">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="#" id="cancel" class="btn btn-primary" role="button">
                                     Cancel
                                 </a>
                             </div>
