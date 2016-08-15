@@ -185,7 +185,6 @@
                 });
             });
 
-
             function unserializeAddressPart(anInputElement, anObject) {
                 console.log("address");
                 var name = anInputElement.getAttribute('name');
@@ -197,26 +196,26 @@
                     anArray = new Array();
                 }
                 else {
+                    console.log("array already started");
                     anArray = test;
                 }
-                currentAddress = null;
+                var currentAddress = null;
                 var indexToRemove = null;
                 for (var i=0; i<anArray.length; i++) {
                      var cur = anArray[i];
+                     console.log(cur)
                      if (cur.num == number)
                      {
-                         indexToRemove = i;
-                         currentAddress = cur;
+                        indexToRemove = i;
+                        currentAddress = cur;
                      }
                  }
-                if (indexToRemove != null) {
-                     addressesArray.splice(indexToRemove, 1);
-                }
-                if (currentAddress == null)
-                {
+                 if (currentAddress == null) {
                      currentAddress = new Object();
                      currentAddress.num = number;
-                }
+                 }
+                console.log(currentAddress);
+
                 if (name.indexOf('zipcode') >= 0)
                 {
                     currentAddress['Zip Code'] = anInputElement.value;
@@ -237,8 +236,19 @@
                 {
                     currentAddress['City'] = anInputElement.value;
                 }
-                anArray.push(currentAddress);
+
+                if (indexToRemove != null) {
+                    console.log("non-empty index to remove" + i)
+                    anArray[i] = currentAddress;
+                }
+                else {
+                    console.log("empty index to remove");
+                    anArray.push(currentAddress);
+                }
+                anObject['Address Information'] = anArray;
+                console.log(currentAddress);
                 console.log(anArray);
+
                 //anObject['Address Information'] = anArray;
                 return anObject;
             }
