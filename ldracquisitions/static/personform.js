@@ -70,14 +70,14 @@ function unseriailzeEmail(anInputElement, anObject) {
 }
 
 function unserializePhoneNumber(anInputElement, anObject) {
-    if (anObject['Phone Number'] == undefined) {
+    if (anObject['Phone'] == undefined) {
         anArray = new Array();
     }
     else {
-        anArray = anObject['Phone Number'];
+        anArray = anObject['Phone'];
     }
     anArray.push(anInputElement.value);
-    anObject['Phone Number'] = anArray;
+    anObject['Phone'] = anArray;
     return anObject;
 }
 
@@ -94,13 +94,69 @@ function unserializeLastName(anInputElement, anObject) {
 }
 
 function unserializeFirstName(anInputElement, anObject) {
+    var anArray = null;
     if (anObject['First Name'] == undefined) {
-        anArray = new Array();
+        anArray = [];
     }
-    else {
+    else
+    {
         anArray = anObject['First Name'];
     }
     anArray.push(anInputElement.value);
     anObject['First Name'] = anArray;
+    return anObject;
+}
+
+function unserializeQuantity(anInputElement, anObject)
+{
+    "use strict";
+    var baseObject = null;
+    if (anObject['Physical Media Information'] != undefined) {
+        baseObject = anObject['Physical Media Information'];
+    }
+    else
+    {
+       anObject['Physical Media Information'] = new Object();
+       baseObject = anObject['Physical Media Information'];
+    }
+    var anArray = new Array();
+    anArray.push(anInputElement.value);
+    baseObject['Quantity'] = anArray;
+    return anObject['Physical Media Information'];
+}
+
+function unserializeLabel(anInputElement, anObject)
+{
+    "use strict";
+    var baseObject = null;
+    if (anObject['Physical Media Information'] != undefined) {
+        baseObject = anObject['Physical Media Information'];
+    }
+    else
+    {
+       anObject['Physical Media Information'] = new Object();
+       baseObject = anObject['Physical Media Information'];
+    }
+    var anArray = new Array();
+    anArray.push(anInputElement.value);
+    baseObject['Label'] = anArray;
+    return anObject;
+}
+
+function unserializeRestrictionCode(anInputElement, anObject)
+{
+    "use strict";
+    var anArray = new Array();
+    anArray.push(anInputElement.value);
+    anObject['Restriction Code'] = anArray;
+    return anObject;
+}
+
+function unserializeRestrictionComment(anInputElement, anObject)
+{
+    "use strict";
+    var anArray = new Array();
+    anArray.push(anInputElement.value);
+    anObject['Restriction Comment'] = anArray;
     return anObject;
 }

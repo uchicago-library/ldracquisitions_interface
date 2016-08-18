@@ -50,9 +50,9 @@ function generateAccessionIdDataItem(accidDataObject) {
     };
 }
 
-function generateCollectionTitleDataItem(orgDataObject) {
+function generateCollectionTitleDataItem(colTitleDataObject) {
     "use strict";
-    var dt_text = orgDataObject;
+    var dt_text = colTitleDataObject;
     var dd_text = null;
     return {
         category: "collection title",
@@ -63,9 +63,9 @@ function generateCollectionTitleDataItem(orgDataObject) {
     };
 }
 
-function generateOrgDataItem(coltitleDataObject) {
+function generateOrgDataItem(orgDataObject) {
     "use strict";
-    var dt_text = coltitleDataObject;
+    var dt_text = orgDataObject['Collection Title'];
     var dd_text = null;
     return {
         category: "organization name",
@@ -78,7 +78,7 @@ function generateOrgDataItem(coltitleDataObject) {
 
 function generateTypeDataItem(acctypeDataObject) {
     "use strict";
-    var dt_text = acctypeDataObject;
+    var dt_text = acctypeDataObject.Label;
     var dd_text = null;
     return {
         category: "type",
@@ -91,8 +91,8 @@ function generateTypeDataItem(acctypeDataObject) {
 
 function generatePhysMediaDataItem(physmediaDataObject) {
     "use strict";
-    var dt_text = physmediaDataObject.Description;
-    var dd_text = physmediaDataObject.Quantity;
+    var dt_text = physmediaDataObject.Label;
+    var dd_text = "amount: " + physmediaDataObject.Quantity;
     return {
         category: "physmedia",
         fields: ["label", "amount"],
@@ -105,13 +105,13 @@ function generatePhysMediaDataItem(physmediaDataObject) {
 
 function generateRestrictionDataItem(restrictionDataObject) {
     "use strict";
-    var dt_text = restrictionDataObject.Restriction[0];
-    var dd_text = restrictionDataObject.Comment[0];
+    var dt_text = restrictionDataObject["Restriction Code"];
+    var dd_text = restrictionDataObject["Restriction Comment"];
     return {
         category: "restriction",
         fields: ["code", "description"],
-        dt_text: dt_text,
-        dd_text: dd_text,
+        dt_text: dt_text[0],
+        dd_text: dd_text[0],
         code: dt_text,
         description: dd_text
     };
@@ -119,7 +119,6 @@ function generateRestrictionDataItem(restrictionDataObject) {
 
 function generatePersonDataItem(personDataObject, catName) {
     "use strict";
-    var name = personDataObject["First Name"][0] + " " + personDataObject["Last Name"][0];
     var dt_text = name;
     var dd_text = "";
     var Email = personDataObject.Email;
@@ -128,7 +127,6 @@ function generatePersonDataItem(personDataObject, catName) {
     var curP = "";
     var curE = "";
     var category = catName;
-
     for (j = 0; j < Email.length; j += 1) {
         curE = Email[j];
         if (curE !== null) {
@@ -153,8 +151,8 @@ function generatePersonDataItem(personDataObject, catName) {
         fields: ["first", "last", "emails", "phones", "mailings"],
         dt_text: dt_text,
         dd_text: dd_text,
-        first: personDataObject["First Name"],
-        last: personDataObject["Last Name"],
+        first: personDataObject["First Name"][0],
+        last: personDataObject["Last Name"][0],
         emails: Email,
         phones: Phone
     };

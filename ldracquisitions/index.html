@@ -47,19 +47,37 @@
     <script type="text/javascript" src="static/misc.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        $("#allDigital").click(function() {
-            var dObject = buildADataItem("physical", "type");
-            addADataObjectToLocalStorage(dObject);
-            location.replace('acquisition.html');
-        });
-    });
 
-    $(document).ready(function() {
-        $("#hasPhysical").click(function() {
-            var dObject = buildADataItem("physical", "type");
-            addADataObjectToLocalStorage(dObject);
-            location.replace('acquisition.html');
-        });
+        $(function() {
+            localStorage.setItem("Donor", "[]");
+            localStorage.setItem("Source", "[]");
+            localStorage.setItem("Restriction Information", "[]");
+            localStorage.setItem("Physical Media Information", "[]");
+        })
+        $(function() {
+
+            $("#allDigital").click(function() {
+                var anArray = new Array();
+                var anObject = new Object();
+                anObject['Label'] = "digital";
+                var objectString = JSON.stringify(anObject);
+                anArray.push(objectString);
+                localStorage.setItem("Accession Type", JSON.stringify(anArray));
+                location.replace('acquisition.html');
+            });
+        })
+
+        $(function() {
+            $("#hasPhysical").click(function() {
+                var anArray = new Array();
+                var anObject = new Object();
+                anObject["Label"] = "physical";
+                var objectString = JSON.stringify(anObject);
+                anArray.push(objectString);
+                localStorage.setItem("Accession Type", JSON.stringify(anArray));
+                location.replace('acquisition.html');
+            });
+        })
     });
     </script>
 </body>

@@ -1,4 +1,5 @@
-function checkEquality(prime, comparable) {
+function checkEquality(prime, comparable)
+{
     "use strict";
     if (!comparable || prime.length != comparable.length) {
         return false;
@@ -11,7 +12,8 @@ function checkEquality(prime, comparable) {
     return true;
 }
 
-function addADataObjectToLocalStorage(dataObject) {
+function addADataObjectToLocalStorage(dataObject)
+{
     "use strict";
     var category = dataObject.category;
     var anArray = null;
@@ -39,7 +41,8 @@ function doCancelButton() {
     var answer = confirm(
      "Are you sure? If you proceed with this command you will be deleting all the work you have been started with this acquisition."
     );
-    if (answer == true) {
+    if (answer == true)
+    {
         var lastPage = localStorage.getItem("lastPage");
         localStorage.clear();
         location.replace(lastPage);
@@ -48,13 +51,14 @@ function doCancelButton() {
 
 function checkForSubFormInfo() {
     "use strict";
-    var isDonors = localStorage.getItem("donors");
-    var isSources = localStorage.getItem("sources");
-    var isPhysMedia = localStorage.getItem("physmedia");
-    var isRestriction = localStorage.getItem("restriction");
-    if (!!isDonors || !!isSources || !!isPhysMedia || !isRestriction) {
-        return false;
-    }
+    var isDonors = localStorage.getItem("Donor").length
+    var isSources = localStorage.getItem("Source").length
+    var isPhysMedia = localStorage.getItem("Physical Media Information").length
+    var isRestriction = localStorage.getItem("Restriciton Information").length
+    console.log(isDonors);
+    console.log(isSources);
+    console.log(isPhysMedia);
+    console.log(isRestriction);
     return true;
 }
 
@@ -65,36 +69,55 @@ function capitalize_Words(str) {
     });
 }
 
-function saveARecord(inputsArray, storedObject, recordTypeString) {
+function saveARecord(inputsArray, storedObject, recordTypeString)
+{
     "use strict";
+    //var anArray = storedObject.keys();
     var obj = new Object();
-    var anArray = Object.keys(storedObject);
-
+    console.log("hello from inside saveARecord");
     $.each(inputsArray, function(index, value) {
         var name = value.getAttribute('name');
         var data = value.value;
-        obj[name] = data;
-    });
-
-    $.each(anArray, function(index, value) {
-        console.log("this is from " + value);
-        var storedObjectArray = storedObject[value];
-        //var currentValue = JSON.parse(storedObjectArray);
-        var anArray = null;
-        if (obj[value] != undefined)
+        if (value.getAttribute("type") == "checkbox")
         {
-            console.log("hi");
-            anArray = obj[value];
+            if (value.checked)
+            {
+                obj[name] = true;
+            }
+            else 
+            {
+                obj[name] = false;
+            }
         }
-        else {
-            console.log("foo");
-            anArray = new Array();
+        else
+        {
+            if (data != "")
+            {
+                obj[name] = data;
+            }
         }
-        console.log(anArray);
-        obj[value] = anArray;
     });
+    var keys = storedObject.keys();
+    console.log(keys);
+    console.log(obj);
     return obj;
 }
+    //$.each(anArray, function(index, value) {
+    //    console.log("this is from " + value);
+    //     //var currentValue = JSON.parse(storedObjectArray);
+    //     var anArray = null;
+    //     if (obj[value] != undefined)
+    //     {
+    //         console.log("hi");
+    //         anArray = obj[value];
+    //     }
+    //     else {
+    //         console.log("foo");
+    //         anArray = new Array();
+    //     console.log(anArray);
+    //     obj[value] = anArray;
+    // });
+
 
 function isObjInArray(anArray, objectToFind) {
     "use strict";

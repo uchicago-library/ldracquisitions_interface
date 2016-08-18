@@ -24,20 +24,17 @@
     $(document).ready(function() {
         $(function() {
             var link = WhichLink();
+            console.log(link)
             var form = document.getElementById("source-form");
             form.setAttribute("action", link);
+            console.log(form);
         });
 
         $(function() {
             $('#cancel').click(function() {
-                location.replace(localStorage.getItem('currentActivity'));
+                var link = WhichLink()
+                location.replace(link);
             });
-        });
-
-        $(document).ready(function() {
-            form = document.getElementById('source-form');
-            console.log(form)
-            form.setAttribute('action', localStorage.getItem('currentActivity'));
         });
 
         $(function() {
@@ -69,6 +66,7 @@
                         if (name.indexOf('address') >= 0) {
                             obj = unserializeAddressPart(value, obj);
                         } else if (name.indexOf('email') >= 0) {
+                            console.log("hi");
                             obj = unseriailzeEmail(value, obj);
                         } else if (name.indexOf('phone-number') >= 0) {
                             obj = unserializePhoneNumber(value, obj);
@@ -78,19 +76,25 @@
                             obj = unserializeFirstName(value, obj);
                         }
                     });
-                    if (localStorage.getItem('Source') != undefined)
+                    console.log(obj);
+                    var anArray = null;
+                    if (localStorage.getItem("Source") == undefined)
                     {
-                        var newArray = new Array();
-                        newArray.push(JSON.stringify(obj));
-                        localStorage.setItem('Donor'), json.stringify(newArray);
-                    } 
+                        var anArray = new Array();
+                        var aString = JSON.stringify(obj);
+                        anArray.push(aString);
+                        var stringArray = JSON.stringify(anArray)
+                        localStorage.setItem('Source', stringArray);
+                    }
                     else 
                     {
                         var anArray = JSON.parse(localStorage.getItem('Source'));
-                        anArray.push(JSON.stringify(obj));
-                        localStoragee['Source'] = JSON.stringify(anArray);
+                        var aString = JSON.stringify(obj);
+                        anArray.push(aString);
+                        var stringArray = JSON.stringify(anArray); 
                     }
-                    return false;
+                    localStorage.setItem('Source', stringArray);
+                    console.log(localStorage.getItem('Source'));
                 }
             });
         });
@@ -141,7 +145,7 @@
                                         <label for="email-address-1">
                                             Email Address <a href="#newEmailAddress" class="btn btn-sm" role="button">add</a>
                                         </label>
-                                        <input type="email" name="email-address-1" class="form-control" placeholder="jsmith@test.com" required/>
+                                        <input type="email" name="email-1" class="form-control" placeholder="jsmith@test.com" required/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>

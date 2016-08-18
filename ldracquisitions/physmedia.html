@@ -18,49 +18,60 @@
     <script type="text/javascript" src="static/jquery/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/misc/validator.js"></script>
+    <script type="text/javascript" src="static/misc.js"></script>
+    <script type="text/javascript" src="static/personform.js"></script>
     <script type="text/javascript">
-    
-        $(document).ready(function() {
-            form = document.getElementById('physmedia-form');
-            console.log(form)
-            form.setAttribute('action', localStorage.getItem('currentActivity'));
+    $(document).ready(function() {
+        $(function() {
+            var link = WhichLink();
+            console.log(link);
+            var form = document.getElementById("physmedia-form");
+            form.setAttribute("action", link);
         });
 
-        $(document).ready(function() {
+
+        $(function() {
             $('#cancel').click(function() {
-                location.replace(localStorage.getItem('currentActivity'));
+                var link = WhichLink();
+                location.replace(link);
             });
         });
 
-        $(document).ready(function() {
-            $("#physmedia-form").validator().on('submit', function(e) {
-                if (e.isDefaultPrevented()) {
-                    console.log("hi something is wrong");
-                } else {
-                    var inputs = document.getElementById("physmedia-form").getElementsByClassName("form-control")
-                    obj = new Object;
-                    for (var i = 0; i < inputs.length; i++) {
-                        var curInput = inputs[i];
-                        obj[curInput.getAttribute('name')] = curInput.value;
-                    }
-                    json_string = JSON.stringify(obj);
-                    physmediaInfo_alreadySet = localStorage.getItem('physmediaInfo');
-                    console.log(physmediaInfo_alreadySet);
-                    if (physmediaInfo_alreadySet != null) {
-                        prior_restrictionInfo = localStorage.getItem('physmediaInfo');
-                        dataArray = JSON.parse(prior_restrictionInfo);
-                    } else {
-                        dataArray = new Array();
-                    }
-                    dataArray.push(json_string);
-                    console.log(dataArray);
-                    jsonified_dataArray = JSON.stringify(dataArray);
-                    console.log(jsonified_dataArray);
-                    localStorage.setItem('physmediaInfo', jsonified_dataArray);
-                    console.log(localStorage);
+        $(function() {
+            $("#physmedia-form").validator().on("submit", function(e) {
+                if (!e.isDefaultPrevented()) {
+                    var form = document.getElementById("physmedia-form");
+                    var forminputs = form.getElementsByClassName("form-control");
+                    var obj = new Object();
+                    $.each(forminputs, function(index, value) {
+                        var name = value.getAttribute("name");
+                        console.log(name);
+                        if (name.indexOf('physmedia-quantity') >= 0) {
+                            obj = unserializeQuantity(value, obj);
+                        } 
+                        else if (name.indexOf('physmedia-label') >= 0) {
+                            obj = unserializeLabel(value, obj);
+                       }
+                    });
+                    var anArray = null;
+                    if (localStorage.getItem("Physical Media Information") == undefined) {
+                        console.log("hi");
+                         var anArray = new Array();
+                         var aString = JSON.stringify(obj);
+                         anArray.push(aString);
+                         var stringArray = JSON.stringify(anArray)
+                    } 
+                    else {
+                         var anArray = JSON.parse(localStorage.getItem('Physical Media Information'));
+                         var aString = JSON.stringify(obj);
+                         anArray.push(aString);
+                         var stringArray = JSON.stringify(anArray);
+                     }
+                     localStorage.setItem('Physical Media Information', stringArray);
                 }
             });
         });
+    });
     </script>
     <div class="container">
         <div class="row">
