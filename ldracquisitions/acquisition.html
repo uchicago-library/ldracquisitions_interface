@@ -177,6 +177,7 @@
             <script type="text/javascript" src="static/html_element_makers.js"></script>
             <script type="text/javascript" src="static/misc.js"></script>
             <script type="text/javascript">
+
             $(document).ready(function() {
                 $(function() {
                     $("#acquisition-form").validator().on('submit', function(e) {
@@ -188,7 +189,8 @@
                             else 
                             {
                                 var inputs = document.getElementById("acquisition-form")[0].getElementsByTagName('input');
-                                var newObj = saveARecord(inputs, localStorage, 'AcquisitionRecord');
+                                console.log(inputs);
+                                //var newObj = saveARecord(inputs, localStorage, 'AcquisitionRecord');
                             }
                             return false;
                         }
