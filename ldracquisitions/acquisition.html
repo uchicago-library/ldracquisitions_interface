@@ -189,8 +189,14 @@
                             else 
                             {
                                 var inputs = document.getElementById("acquisition-form")[0].getElementsByTagName('input');
-                                console.log(inputs);
-                                //var newObj = saveARecord(inputs, localStorage, 'AcquisitionRecord');
+                                var newObj = groupEverythingIntoOneObject(inputs, localStorage, 'AcquisitionRecord');
+                                for (var key in newObj) {
+                                    console.log(key)
+                                    console.log(newObj[key]);
+                                    if (typeof(newObj[key]) == object) {
+                                        console.log(newObj[key]);
+                                    }
+                                }
                             }
                             return false;
                         }

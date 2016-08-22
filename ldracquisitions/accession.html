@@ -426,7 +426,7 @@
                                     );
                             }
                             var inputs = document.getElementById("accession-form")[0].getElementsByClassName('form-control');
-                            var newObj = saveARecord(inputs, localStorage, 'accession');
+                            var newObj = groupEverythingIntoOneObject(inputs, localStorage, 'accession');
                             console.log(newObj);
                             return false;
                         }

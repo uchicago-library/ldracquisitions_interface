@@ -69,55 +69,52 @@ function capitalize_Words(str) {
     });
 }
 
-function saveARecord(inputsArray, storedObject, recordTypeString)
+function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeString)
 {
     "use strict";
     //var anArray = storedObject.keys();
     var obj = new Object();
-    console.log("hello from inside saveARecord");
     $.each(inputsArray, function(index, value) {
         var name = value.getAttribute('name');
+        var displayName = '';
+        var nameWordList = name.split('-');
+        $.each(nameWordList, function(si, sv) {
+            displayName = displayName + ' ' + capitalize_Words(sv);
+        });
         var data = value.value;
         if (value.getAttribute("type") == "checkbox")
         {
             if (value.checked)
             {
-                obj[name] = true;
+                obj[displayName] = true;
             }
             else 
             {
-                obj[name] = false;
+                obj[displayName] = false;
             }
         }
         else
         {
             if (data != "")
             {
-                obj[name] = data;
+                obj[displayName] = data;
             }
         }
     });
-    var keys = storedObject.keys();
-    console.log(keys);
-    console.log(obj);
+    for (var key in storedObject) 
+    {
+        if (key != 'lastPage') {
+            var data = storedObject[key];
+            var unjsonified = JSON.parse(data);
+            var newArray = new Array();
+            $.each(unjsonified, function(ssi, ssv) {
+                newArray.push(JSON.parse(ssv)); 
+            });
+            obj[key] = unjsonified;
+        }
+    }
     return obj;
 }
-    //$.each(anArray, function(index, value) {
-    //    console.log("this is from " + value);
-    //     //var currentValue = JSON.parse(storedObjectArray);
-    //     var anArray = null;
-    //     if (obj[value] != undefined)
-    //     {
-    //         console.log("hi");
-    //         anArray = obj[value];
-    //     }
-    //     else {
-    //         console.log("foo");
-    //         anArray = new Array();
-    //     console.log(anArray);
-    //     obj[value] = anArray;
-    // });
-
 
 function isObjInArray(anArray, objectToFind) {
     "use strict";
