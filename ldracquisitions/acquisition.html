@@ -189,14 +189,100 @@
                             else 
                             {
                                 var inputs = document.getElementById("acquisition-form")[0].getElementsByTagName('input');
+                                var n = postNewRecord(new Object());
+                                var newRecordId = n.responseJSON.data.record_identifier;
+                                console.log(newRecordId);
                                 var newObj = groupEverythingIntoOneObject(inputs, localStorage, 'AcquisitionRecord');
-                                for (var key in newObj) {
-                                    console.log(key)
-                                    console.log(newObj[key]);
-                                    if (typeof(newObj[key]) == object) {
-                                        console.log(newObj[key]);
+                                for (key in newObj) 
+                                {
+                                    var fieldName = null;
+                                    var valueObj = null;
+                                    var currentValue = newObj[key];
+                                    if (typeof(currentValue) == 'string') 
+                                    {
+                                        fieldName = key+"0"; 
+                                        valueObj = new Object();
+                                        valueObj.value = currentValue;
+                                        addKeyValueToRecord(newRecordId, fieldName, valueObj);
+                                    }
+                                    else if (typeof(currentValue) == 'object')
+                                    {
+                                        if (key == "Restriction Information") 
+                                        {
+                                            for (var n in currentValue)
+                                            {
+                                                var val = currentValue[n];
+                                                val = JSON.parse(val);
+                                                for (subkey in val) 
+                                                {
+                                                    fieldName = key+n+subkey+"0";
+                                                    valueObj = new Object();
+                                                    valueObj.value = val[subkey];
+                                                    addKeyValueToRecord(newRecordId, fieldName, valueObj);
+                                                }
+                                            } 
+                                        } 
+                                        else if (key == "Physical Media Information")
+                                        {
+                                            for (var n in currentValue) 
+                                            {
+                                                var val = currentValue[n];
+                                                val = JSON.parse(val);
+                                                for (subkey in val) 
+                                                {
+                                                    fieldName = key+n+subkey+"0";
+                                                    valueObj = new Object();
+                                                    valueObj.value = val[subkey];
+                                                    addKeyValueToRecord(newRecordId, fieldName, valueObj);
+                                                }
+                                            }
+                                        }
+                                        else if (key == "Donor" || key == "Source") 
+                                        {
+                                            console.log(key);
+                                            console.log(currentValue);
+                                            for (var n in currentValue) 
+                                            {
+                                                var val = currentValue[n];
+                                                val = JSON.parse(val);
+                                                for (subkey in val)
+                                                {
+                                                    fieldName = key+n
+                                                    for (subval in val[subkey])
+                                                    {
+                                                        subcurval = val[subkey][subval];
+                                                        if (typeof(subcurval) == 'string') 
+                                                        {
+                                                            fieldName = key +n+ subkey+subval;
+                                                            console.log(fieldName+"="+subcurval);
+                                                        }
+                                                        else if (typeof(subcurval) == 'object') 
+                                                        {
+                                                            for (var l in subcurval) 
+                                                            {
+                                                                fieldName = key+n+subkey+subval+l+"0";
+                                                                val = subcurval[l];
+                                                                console.log(fieldName+"="+val);
+                                                            }
+
+                                                        }
+                                                        // if (subkey == 'Email' || subkey == 'Phone') 
+                                                        // {
+                                                        //     console.log(subcurval);
+                                                        // }
+                                                        // else if (typeof(subcurval) == 'object')
+                                                        // { 
+                                                             
+                                                        //     console.log(subkey);
+                                                        // }
+
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                                console.log(newRecordId);
                             }
                             return false;
                         }

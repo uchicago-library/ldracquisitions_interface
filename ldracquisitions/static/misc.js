@@ -79,9 +79,10 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
         var displayName = '';
         var nameWordList = name.split('-');
         $.each(nameWordList, function(si, sv) {
-            displayName = displayName + ' ' + capitalize_Words(sv);
+            displayName = displayName + capitalize_Words(sv) + ' ';
         });
         var data = value.value;
+        displayName = displayName.trim();
         if (value.getAttribute("type") == "checkbox")
         {
             if (value.checked)
@@ -113,6 +114,12 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
             obj[key] = unjsonified;
         }
     }
+    var curdate = new Date();
+    var date = curdate.getDate();
+    var month = curdate.getMonth();
+    var year = curdate.getFullYear();
+    var dateString = month+"/"+date+"/"+year;
+    obj["Acquisition Date"] = dateString;
     return obj;
 }
 

@@ -1,4 +1,5 @@
 function postNewRecord(o) {
+    console.log("hi from postNewRecord");
     return $.ajax({
         type: "POST",
         url: "http://127.0.0.1:5000/record",
@@ -13,9 +14,11 @@ function postNewRecord(o) {
     });
 }
 
-function addKeyValueToRecord(recordID, key, o) {
-    var urlString= "http://127.0.0.1:5000/record/" + recordID + "/" + key;
-    var json_obj = JSON.stringify(o);
+function addKeyValueToRecord(recordID, key, obj) {
+    var urlString= "http://127.0.0.1:5000/record/" + recordID + "/" + encodeURIComponent(key);
+    json_obj = JSON.stringify(obj);
+    console.log(urlString);
+    console.log("hi from addKeyValueToRecord");
     return $.ajax({
         type: "POST",
         url: urlString,
