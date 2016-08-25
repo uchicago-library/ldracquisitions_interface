@@ -87,6 +87,7 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
         {
             if (value.checked)
             {
+
                 obj[displayName] = true;
             }
             else 
@@ -105,6 +106,16 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
     for (var key in storedObject) 
     {
         if (key != 'lastPage') {
+            if (key == 'Accession Type')
+            {
+                var data = storedObject[key]; 
+                data = JSON.parse(data);
+                data = JSON.parse(data[0]);
+                data = data["Label"];
+                obj[key] = data;
+
+            }
+            else {
             var data = storedObject[key];
             var unjsonified = JSON.parse(data);
             var newArray = new Array();
@@ -112,6 +123,7 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
                 newArray.push(JSON.parse(ssv)); 
             });
             obj[key] = unjsonified;
+            }
         }
     }
     var curdate = new Date();

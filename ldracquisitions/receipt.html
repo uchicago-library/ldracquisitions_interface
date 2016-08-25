@@ -54,7 +54,7 @@
         console.log(localStorage);
         var placeToPutText = document.getElementById('receipt-info');
         var recordID = window.location['search'].split('=')[1];
-        textToPut = "Your new record has identifier is " + recordID;
+        textToPut = "Your new record has identifier " + recordID;
         var newP = document.createElement("p");
         newP_text = document.createTextNode(textToPut);
         newP.appendChild(newP_text);

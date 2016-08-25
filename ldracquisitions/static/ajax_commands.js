@@ -17,8 +17,6 @@ function postNewRecord(o) {
 function addKeyValueToRecord(recordID, key, obj) {
     var urlString= "http://127.0.0.1:5000/record/" + recordID + "/" + encodeURIComponent(key);
     json_obj = JSON.stringify(obj);
-    console.log(urlString);
-    console.log("hi from addKeyValueToRecord");
     return $.ajax({
         type: "POST",
         url: urlString,
@@ -74,6 +72,24 @@ function getRecordsByCategory(categoryName) {
         async: !1,
         error: function() {
             alert("Could not connect the endpoint for that category");
+        }
+    });
+}
+
+function addRecordToCategory(categoryName, obj) 
+{
+    var urlString = "http://127.0.0.1:5000/category/"+categoryName;
+    console.log(urlString);
+    console.log(obj);
+    return $.ajax({
+        type: "POST",
+        url: urlString,
+        data: JSON.stringify(obj),
+        contentType: "application/json",
+        dataType:"json",
+        async:!1,
+        error: function() {
+            alert("Could not connect to endpoint for that category");
         }
     });
 }

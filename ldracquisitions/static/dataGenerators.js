@@ -119,10 +119,12 @@ function generateRestrictionDataItem(restrictionDataObject) {
 
 function generatePersonDataItem(personDataObject, catName) {
     "use strict";
+    name = personDataObject["First Name"]+" "+personDataObject["Last Name"];
     var dt_text = name;
     var dd_text = "";
     var Email = personDataObject.Email;
     var Phone = personDataObject.Phone;
+    var Addresses = personDataObject["Address Information"];
     var j = 0;
     var curP = "";
     var curE = "";
@@ -148,13 +150,14 @@ function generatePersonDataItem(personDataObject, catName) {
     }
     return {
         category: category,
-        fields: ["first", "last", "emails", "phones", "mailings"],
+        fields: ["first", "last", "emails", "phones", "addresses"],
         dt_text: dt_text,
         dd_text: dd_text,
         first: personDataObject["First Name"][0],
         last: personDataObject["Last Name"][0],
         emails: Email,
-        phones: Phone
+        phones: Phone,
+        addresses: Addresses
     };
 }
 

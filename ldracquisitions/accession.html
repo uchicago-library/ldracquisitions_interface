@@ -89,17 +89,15 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label>
-                                    <input data-toggle="toggle" type="checkbox" name="public-access-restriction" /> Should the public access it?
-                                </label>
+                                <label for="public-access-restriction">Should the public access it?</label>
+                                <input type="checkbox" name="public-access-restriction" class="form-control"/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label>
-                                    <input data-toggle="toggle" type="checkbox" name="public-discovery-restriction" /> Should the public discover it?
-                                </label>
+                                <label for="public-discovery-restriction">Should the public discover it?</label>
+                                <input type="checkbox" name="public-discovery-restriction" class="form-control"/>
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -109,9 +107,8 @@
                             <div class="form-group">
                                 <div id="receipt-letter-required-errors">
                                 </div>
-                                <label>
-                                    <input data-toggle="toggle" type="checkbox" name="receipt-letter-required" /> Receipt Letter Required
-                                </label>
+                                <label for="receipt-letter-required">Receipt Letter Required</label>
+                                <input type="checkbox" name="receipt-letter-required" class="form-control"/> 
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -127,8 +124,8 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="form-group">
-                                <label>
-                                    <input data-toggle="toggle" type="checkbox" name="gift-acknowledgement-required" /> Gift Acknowledgement Required
+                                <label for="gift-acknowledgement-required">Gift Acknowledgement Required</label>>
+                                <input type="checkbox" name="gift-acknowledgement-required" class="form-control"/>
                                 </label>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -319,28 +316,40 @@
                     }
                     var record = getRecord(recordId).responseJSON;
                     var data = record.data.record;
-                    var divIds = [{name:"donors-list",
-                                   data: $.map(data.Donor, function(value, index) {
-                                       return buildADataItem(value, "person", "donor");
-                                  })},
-                                  {name:"sources-list",
-                                   data: $.map(data.Source, function(value, index) {
-                                       return buildADataItem(value, "person", "source");
-                                  })},
-                                  {name:"restriction-list",
-                                   data: $.map(data["Restriction Information"], function(value, index) {
-                                       return buildADataItem(value, "restriction"
-                                  )})},
-                                  {name:"physmedia-list",
-                                   data: $.map(data["Physical Media Information"], function(value, index) {
-                                       return buildADataItem(value, "media"
-                                  )})},
-                                  {name:"type-definition",
-                                   data:$.map(data["Accession Type"], function(value, index) {
-                                       return buildADataItem(value, "type"
-                                  )})}
-                                 ];
-                    var inputsToFill = [{name:"accession-id",
+                    console.log(data);
+                    var divIds = [
+                    {
+                        name: "donors-list",
+                        data: $.map(data.Donor, function(value, index) {
+                            return buildADataItem(value, "person", "donor");
+                        })
+                    }, 
+                    {
+                       name: "sources-list",
+                       data: $.map(data.Source, function(value, index) {
+                           return buildADataItem(value, "person", "source");
+                       })
+                    }, 
+                    {
+                       name: "physmedia-list",
+                       data: $.map(data["Physical Media Information"], function(value, index) {
+                           return buildADataItem(value, "media");
+                       })
+                    }, 
+                    {
+                       name: "restriction-list",
+                       data: $.map(data["Restriction Information"], function(value, index) {
+                           return buildADataItem(value, "restriction");;
+                       })
+                    },
+                    {
+                        name: "type-definition",
+                        data: $.map(data["Accession Type"], function(value, index) {
+                            return buildADataItem(value, "type");
+                        })
+                    }
+                   ];
+                   var inputsToFill = [{name:"accession-id",
                                          data:$.map(data['Accession Identifier'], function(value, index) {
                                              return buildADataItem(value, "accessionid");
                                          })},
@@ -382,24 +391,54 @@
                                           data: $.map(data["Gift Acknowledgement Received"], function(value, index) {
                                               return buildADataItem(value, "gift-ack-recv");
                                           })}
-                                       ];
-                    $.each(inputsToFill, function(index, value) {
-                        var attr = "name="+value.name;
-                        var input = $('*['+ attr + ']');
-                        $.each(value.data, function(subindex, subvalue)
-                        {
-                            var inputValue = subvalue.dt_text;
-                            input.val(inputValue);
-                            addADataObjectToLocalStorage(subvalue);
+                    ];
+                    var inputsOnPage = document.getElementsByClassName("form-control");
+                    console.log(inputsOnPage);
+                    //console.log(inputsToFill);
+                    $.each(inputsOnPage, function(index, value) {
+                        var curName = value.getAttribute("name");
+                        $.each(inputsToFill, function(subindex, subvalue) {
+                            toFillName = subvalue.name;
+                            if (toFillName == curName) {
+                                console.log("gonna do stuff to " +toFillName);
+                            }
                         });
                     });
+                    // $.each(inputsToFill, function(index, value) {
+                    //     var name_value = value.name;
+                    //     console.log(name_value);
+
+                    //     //var attr = "name="+value.name;
+                    //     // var input = $('*['+ attr + ']');
+                    //     // console.log(input);
+                    //     // $.each(value.data, function(subindex, subvalue)
+                    //     // {
+                    //     //     var inputValue = subvalue.dt_text;
+                    //     //     input.val(inputValue);
+                    //     //     input.prop('checked', subvalue.dt_text);
+                    //     //     addADataObjectToLocalStorage(subvalue);
+                    //     // });
+                    // });
 
                     $.each(divIds, function(index, value) {
                         var div = document.getElementById(value.name);
                         $.each(value.data, function(subindex, subvalue) {
                             var dt = document.createElement("dt");
                             var dd = document.createElement("dd");
+                            dt_edit_button = document.createElement("button");
+                            dt_edit_button.setAttribute("class", "btn btn-primary btn-xs")
+                            dt_edit_button.setAttribute("href","edit?n="+subvalue.dt_text);
+                            dt_edit_button.setAttribute("id", "edit-donor-"+subvalue.dt_text);
+                            dt_edit_button.appendChild(document.createTextNode("edit"));
+
+                            dt_delete_button = document.createElement("button");
+                            dt_delete_button.setAttribute("class", "btn btn-warning btn-xs")
+                            dt_delete_button.setAttribute("href","delete?n="+subvalue.dt_text);
+                            dt_delete_button.appendChild(document.createTextNode("delete"));
+                            dt_delete_button.setAttribute("id", "delete-donor-"+subvalue.dt_text);
                             dt.appendChild(document.createTextNode(subvalue.dt_text));
+                            dt.appendChild(dt_edit_button);
+                            dt.appendChild(dt_delete_button);
                             div.appendChild(dt);
                             if (subvalue.dd_text != null)
                             {
@@ -409,6 +448,7 @@
                             addADataObjectToLocalStorage(subvalue);
                         });
                     });
+                    console.log(localStorage);
                 });
 
                 $(function() {

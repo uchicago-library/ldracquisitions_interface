@@ -58,7 +58,7 @@
                                 <div class="col-sm-5">
                                     <div class="form-group col">
                                         <label>Receipt Letter Information Required</label>
-                                        <input type="checkbox" name="receipt-letter-information-required"/> 
+                                        <input type="checkbox" name="receipt-letter-information-required" class="form-control"/> 
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
@@ -72,14 +72,14 @@
                                 <div class="col-sm-5">
                                     <div class="form-group col">
                                         <label>Gift Acknowledgement Information Required</label>
-                                        <input type="checkbox" name="gift-acknowledgement-information-required"/>
+                                        <input type="checkbox" name="gift-acknowledgement-information-required" class="form-control input-sm"/>
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
                                     <div clsas="form-group">
                                         <label for="gift-acknowledgement-received">Gift Acknowledgement Information Received
                                         </label>
-                                        <input type="text" name="gift-acknowledgement-received" class="form-control" />
+                                        <input type="text" name="gift-acknowledgement-received" class="form-control input-sm" />
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
                             }
                             else 
                             {
-                                var inputs = document.getElementById("acquisition-form")[0].getElementsByTagName('input');
+                                var inputs = document.getElementById("acquisition-form")[0].getElementsByClassName('form-control');
                                 var n = postNewRecord(new Object());
                                 var newRecordId = n.responseJSON.data.record_identifier;
                                 console.log(newRecordId);
@@ -198,7 +198,15 @@
                                     var fieldName = null;
                                     var valueObj = null;
                                     var currentValue = newObj[key];
-                                    if (typeof(currentValue) == 'string') 
+                                    console.log(currentValue);
+                                    if (typeof(currentValue) == 'boolean') 
+                                    {
+                                        fieldName = key+"0";
+                                        valueObj = new Object();
+                                        valueObj.value = currentValue;
+                                        addKeyValueToRecord(newRecordId, fieldName, valueObj);
+                                    }
+                                    else if (typeof(currentValue) == 'string') 
                                     {
                                         fieldName = key+"0"; 
                                         valueObj = new Object();
@@ -215,7 +223,7 @@
                                                 val = JSON.parse(val);
                                                 for (subkey in val) 
                                                 {
-                                                    fieldName = key+n+subkey+"0";
+                                                    fieldName = key+n+'.'+subkey+"0";
                                                     valueObj = new Object();
                                                     valueObj.value = val[subkey];
                                                     addKeyValueToRecord(newRecordId, fieldName, valueObj);
@@ -230,7 +238,7 @@
                                                 val = JSON.parse(val);
                                                 for (subkey in val) 
                                                 {
-                                                    fieldName = key+n+subkey+"0";
+                                                    fieldName = key+n+'.'+subkey+"0";
                                                     valueObj = new Object();
                                                     valueObj.value = val[subkey];
                                                     addKeyValueToRecord(newRecordId, fieldName, valueObj);
@@ -239,8 +247,6 @@
                                         }
                                         else if (key == "Donor" || key == "Source") 
                                         {
-                                            console.log(key);
-                                            console.log(currentValue);
                                             for (var n in currentValue) 
                                             {
                                                 var val = currentValue[n];
@@ -253,37 +259,34 @@
                                                         subcurval = val[subkey][subval];
                                                         if (typeof(subcurval) == 'string') 
                                                         {
-                                                            fieldName = key +n+ subkey+subval;
-                                                            console.log(fieldName+"="+subcurval);
+                                                            fieldName = key +n+'.'+subkey+subval;
+                                                            var valOneObj = new Object();
+                                                            valOneObj.value = subcurval;
+                                                            addKeyValueToRecord(newRecordId, fieldName, valOneObj);
                                                         }
                                                         else if (typeof(subcurval) == 'object') 
                                                         {
                                                             for (var l in subcurval) 
                                                             {
-                                                                fieldName = key+n+subkey+subval+l+"0";
-                                                                val = subcurval[l];
-                                                                console.log(fieldName+"="+val);
+                                                                fieldName = key+n+'.'+subkey+subval+'.'+l+"0";
+                                                                var valtwo = subcurval[l];
+                                                                var valTwoObj = new Object();
+                                                                valTwoObj.value = valtwo;
+                                                                addKeyValueToRecord(newRecordId, fieldName, valTwoObj);
                                                             }
-
                                                         }
-                                                        // if (subkey == 'Email' || subkey == 'Phone') 
-                                                        // {
-                                                        //     console.log(subcurval);
-                                                        // }
-                                                        // else if (typeof(subcurval) == 'object')
-                                                        // { 
-                                                             
-                                                        //     console.log(subkey);
-                                                        // }
-
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                                console.log(newRecordId);
                             }
+                            var newCategoryObj = new Object();
+                            newCategoryObj.record_identifier = newRecordId
+                            var addedToCategory = addRecordToCategory('AcquisitionRecord', newCategoryObj)
+                            localStorage.clear();
+                            location.replace("receipt.html?search="+newRecordId);
                             return false;
                         }
                     });
