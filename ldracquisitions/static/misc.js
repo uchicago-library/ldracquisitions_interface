@@ -103,9 +103,10 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
             }
         }
     });
-    for (var key in storedObject) 
-    {
-        if (key != 'lastPage') {
+     for (var key in storedObject) 
+     {
+        if (key != 'lastPage') 
+        {
             if (key == 'Accession Type')
             {
                 var data = storedObject[key]; 
@@ -115,14 +116,18 @@ function groupEverythingIntoOneObject(inputsArray, storedObject, recordTypeStrin
                 obj[key] = data;
 
             }
-            else {
-            var data = storedObject[key];
-            var unjsonified = JSON.parse(data);
-            var newArray = new Array();
-            $.each(unjsonified, function(ssi, ssv) {
-                newArray.push(JSON.parse(ssv)); 
-            });
-            obj[key] = unjsonified;
+            else 
+            {
+            if (key == 'Donor' || key == 'Source' || key == 'Restriction Information' || key == 'Physical Media Information')
+                {
+                var data = storedObject[key];
+                var unjsonified = JSON.parse(data);
+                var newArray = new Array();
+                $.each(unjsonified, function(ssi, ssv) {
+                     newArray.push(JSON.parse(ssv)); 
+                });
+                obj[key] = unjsonified;
+                }
             }
         }
     }

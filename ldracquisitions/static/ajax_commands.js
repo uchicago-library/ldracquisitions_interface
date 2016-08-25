@@ -2,7 +2,7 @@ function postNewRecord(o) {
     console.log("hi from postNewRecord");
     return $.ajax({
         type: "POST",
-        url: "http://127.0.0.1:5000/record",
+        url: "https://y2.lib.uchicago.edu/hrapi/record",
         data: JSON.stringify(o),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -15,7 +15,7 @@ function postNewRecord(o) {
 }
 
 function addKeyValueToRecord(recordID, key, obj) {
-    var urlString= "http://127.0.0.1:5000/record/" + recordID + "/" + encodeURIComponent(key);
+    var urlString= "https://y2.lib.uchicago.edu/hrapi/record/" + recordID + "/" + encodeURIComponent(key);
     json_obj = JSON.stringify(obj);
     return $.ajax({
         type: "POST",
@@ -33,7 +33,7 @@ function addKeyValueToRecord(recordID, key, obj) {
 
 function getAValueInARecord(recordId, key) {
     "use strict";
-    var urlString = "http://127.0.0.1:5000/record/"+recordId+"/"+encodeURIComponent(key);
+    var urlString = "https://y2.lib.uchicago.edu/hrapi/record/"+recordId+"/"+encodeURIComponent(key);
     return $.ajax({
         type:"GET",
         url: urlString,
@@ -49,7 +49,7 @@ function getAValueInARecord(recordId, key) {
 function getRecord(recordID) {
     return $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5000/record/" + recordID,
+        url: "https://y2.lib.uchicago.edu/hrapi/record/" + recordID,
         data: JSON.stringify(new Object()),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -62,7 +62,7 @@ function getRecord(recordID) {
 }
 
 function getRecordsByCategory(categoryName) {
-    var urlString = "http://127.0.0.1:5000/category/" + categoryName;
+    var urlString = "https://y2.lib.uchicago.edu/hrapi/category/" + categoryName;
     return $.ajax({
         type: "GET",
         url: urlString,
@@ -78,7 +78,7 @@ function getRecordsByCategory(categoryName) {
 
 function addRecordToCategory(categoryName, obj) 
 {
-    var urlString = "http://127.0.0.1:5000/category/"+categoryName;
+    var urlString = "https://y2.lib.uchicago.edu/hrapi/category/"+categoryName;
     console.log(urlString);
     console.log(obj);
     return $.ajax({

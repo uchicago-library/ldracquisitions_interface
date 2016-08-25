@@ -180,13 +180,11 @@
 
             $(document).ready(function() {
                 $(function() {
-                    $("#acquisition-form").validator().on('submit', function(e)
-                    {
+                    $("#acquisition-form").validator().on('submit', function(e) {
                         if (!e.isDefaultPrevented())
                         {
-                            if (localStorage.getItem("Donor").length == 0 || localStorage.getItem("Source").length == 0 || localStorage.getItem("Physical Media Information").length == 0 || localStorage.getItem("Restriction Information").length == 0)
-                            {
-                                alert("You must fill out donor, source, physical media information and restriction information before submitting an acquisition form.");
+                            if (localStorage.getItem("Donor").length == 0 || localStorage.getItem("Source").length == 0 || localStorage.getItem("Physical Media Information").length == 0 || localStorage.getItem("Restriction Information").length == 0) {
+                                alert("nope");
                             }
                             else 
                             {
@@ -195,7 +193,6 @@
                                 var newRecordId = n.responseJSON.data.record_identifier;
                                 console.log(newRecordId);
                                 var newObj = groupEverythingIntoOneObject(inputs, localStorage, 'AcquisitionRecord');
-                                console.log(newObj);
                                 for (key in newObj) 
                                 {
                                     var fieldName = null;
@@ -209,7 +206,6 @@
                                         valueObj.value = currentValue;
                                         addKeyValueToRecord(newRecordId, fieldName, valueObj);
                                     }
- 
                                     else if (typeof(currentValue) == 'string') 
                                     {
                                         fieldName = key+"0"; 
@@ -249,7 +245,7 @@
                                                 }
                                             }
                                         }
-                                         else if (key == "Donor" || key == "Source") 
+                                        else if (key == "Donor" || key == "Source") 
                                         {
                                             for (var n in currentValue) 
                                             {
@@ -282,113 +278,19 @@
                                                     }
                                                 }
                                             }
-                                        }                                       
+                                        }
                                     }
-                                } 
-                                var newCategoryObj = new Object();
-                                newCategoryObj.record_identifier = newRecordId
-                                var addedToCategory = addRecordToCategory('AcquisitionRecord', newCategoryObj)
-                                localStorage.clear();
-                                location.replace("receipt.html?search="+newRecordId);
-                                return false;
- 
-                    //             for (key in newObj) 
-                    //             {
-                    //                 var fieldName = null;
-                    //                 var valueObj = null;
-                    //                 var currentValue = newObj[key];
-                    //                 console.log(currentValue);
-                    //                 if (typeof(currentValue) == 'boolean') 
-                    //                 {
-                    //                     fieldName = key+"0";
-                    //                     valueObj = new Object();
-                    //                     valueObj.value = currentValue;
-                    //                     addKeyValueToRecord(newRecordId, fieldName, valueObj);
-                    //                 }
-                    //                 else if (typeof(currentValue) == 'string') 
-                    //                 {
-                    //                     fieldName = key+"0"; 
-                    //                     valueObj = new Object();
-                    //                     valueObj.value = currentValue;
-                    //                     addKeyValueToRecord(newRecordId, fieldName, valueObj);
-                    //                 }
-                    //                 else if (typeof(currentValue) == 'object')
-                    //                 {
-                    //                     if (key == "Restriction Information") 
-                    //                     {
-                    //                         for (var n in currentValue)
-                    //                         {
-                    //                             var val = currentValue[n];
-                    //                             val = JSON.parse(val);
-                    //                             for (subkey in val) 
-                    //                             {
-                    //                                 fieldName = key+n+'.'+subkey+"0";
-                    //                                 valueObj = new Object();
-                    //                                 valueObj.value = val[subkey];
-                    //                                 addKeyValueToRecord(newRecordId, fieldName, valueObj);
-                    //                             }
-                    //                         } 
-                    //                     } 
-                    //                     else if (key == "Physical Media Information")
-                    //                     {
-                    //                         for (var n in currentValue) 
-                    //                         {
-                    //                             var val = currentValue[n];
-                    //                             val = JSON.parse(val);
-                    //                             for (subkey in val) 
-                    //                             {
-                    //                                 fieldName = key+n+'.'+subkey+"0";
-                    //                                 valueObj = new Object();
-                    //                                 valueObj.value = val[subkey];
-                    //                                 addKeyValueToRecord(newRecordId, fieldName, valueObj);
-                    //                             }
-                    //                         }
-                    //                     }
-                    //                     else if (key == "Donor" || key == "Source") 
-                    //                     {
-                    //                         for (var n in currentValue) 
-                    //                         {
-                    //                             var val = currentValue[n];
-                    //                             val = JSON.parse(val);
-                    //                             for (subkey in val)
-                    //                             {
-                    //                                 fieldName = key+n
-                    //                                 for (subval in val[subkey])
-                    //                                 {
-                    //                                     subcurval = val[subkey][subval];
-                    //                                     if (typeof(subcurval) == 'string') 
-                    //                                     {
-                    //                                         fieldName = key +n+'.'+subkey+subval;
-                    //                                         var valOneObj = new Object();
-                    //                                         valOneObj.value = subcurval;
-                    //                                         addKeyValueToRecord(newRecordId, fieldName, valOneObj);
-                    //                                     }
-                    //                                     else if (typeof(subcurval) == 'object') 
-                    //                                     {
-                    //                                         for (var l in subcurval) 
-                    //                                         {
-                    //                                             fieldName = key+n+'.'+subkey+subval+'.'+l+"0";
-                    //                                             var valtwo = subcurval[l];
-                    //                                             var valTwoObj = new Object();
-                    //                                             valTwoObj.value = valtwo;
-                    //                                             addKeyValueToRecord(newRecordId, fieldName, valTwoObj);
-                    //                                         }
-                    //                                     }
-                    //                                 }
-                    //                             }
-                    //                         }
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                   //         return false;
-                    //     }
-                           }
+                                }
+                            }
+                            var newCategoryObj = new Object();
+                            newCategoryObj.record_identifier = newRecordId
+                            var addedToCategory = addRecordToCategory('AcquisitionRecord', newCategoryObj)
+                            localStorage.clear();
+                            location.replace("receipt.html?search="+newRecordId);
+                            return false;
                         }
                     });
                 });
-
-                    // });
 
                 $(function() {
                     var recordID = null;
