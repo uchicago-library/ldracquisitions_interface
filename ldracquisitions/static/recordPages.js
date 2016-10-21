@@ -111,6 +111,8 @@ $(document).ready(function() {
         var label = null;
         var helpblock = document.createElement("div");
         helpblock.setAttribute("class", "help-block-with-errors");
+	var inputName = innerElement.getAttribute("name");
+
         if (innerElement.getAttribute("type") === "checkbox") {
             label = formLabel(labelName);
 	    label.setAttribute("class", "center-block");
@@ -424,6 +426,18 @@ $(document).ready(function() {
                 var restrictionkeys = Object.keys(restrictionObj);
                 var newObj = Object.create(null);
                 for (var r in restrictionkeys) {
+		    var aRestrictionObj = Object.create(null);
+		    if (restrictionObj["Restriction"] !== null) {
+			aRestrictionObj["Restriction Code"] = restrictionObj["Restriction"];	
+		    } else {
+			aRestrictionObj["Restriction Code"] = restrictionObj["Restriction Code"];
+		    }
+		    if (restrictionObj["Comment"] !== null) {
+			aRestrictionObj["Restriction Comment"] = restrictionObj["Comment"];
+		    } else {
+			aRestrictionObj["Restriction Comment"] = restrictionObj["Restriction Comment"];
+		    }
+		    
                     newObj[parseInt(r)] = restrictionObj[r];
                 }
                 localStorage.setItem("Restriction Information", JSON.stringify(newObj));
@@ -1508,7 +1522,6 @@ $(document).ready(function() {
         return recordID;
     }
 
-
     $(function() {
         $("#donor-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
@@ -1565,7 +1578,6 @@ $(document).ready(function() {
                     saveRestrictionForm(null);
                 }
             }
-
         });
     });
 
@@ -1640,6 +1652,12 @@ $(document).ready(function() {
     });
 
     $(function() {
+	$("#start-over").click(function() {
+	    localStorage.clear();
+	});
+    });
+
+    $(function() {
         $("button[id^='delete']").click(function() {
             var id = this.getAttribute("id");
             var idParts = id.split('-');
@@ -1658,6 +1676,17 @@ $(document).ready(function() {
             location.reload();
         });
     });
+
+    $(function() {
+        $("button[id^='abort-']").click(function() {
+            var id = this.getAttribute("id").split("abort-")[1];
+	    var divone = this.closest("div");
+	
+	    console.log(divone);
+        });
+    });
+
+
 
     $(function() {
         $('input[name="gift-acknowledgement-information-received"]').datepicker();
