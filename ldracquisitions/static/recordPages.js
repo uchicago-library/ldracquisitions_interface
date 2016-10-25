@@ -1120,6 +1120,7 @@ $(document).ready(function() {
             var highestNum = sortedAllNums[sortedAllNums.length - 1];
             var newNumber = highestNum + 1;
             var newEmailInput = makeEmailInput(newNumber);
+
             addInputToGroupDiv(newEmailInput, "emails");
         });
     });
@@ -1614,9 +1615,8 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("acquisition");
 		console.log(newRecordID);
-		return false;
-		//localStorage.clear();
-		//this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
+		localStorage.clear();
+		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
                	 
             }
         });
@@ -1696,17 +1696,6 @@ $(document).ready(function() {
             location.reload();
         });
     });
-
-    $(function() {
-        $("button[id^='abort-']").click(function() {
-            var id = this.getAttribute("id").split("abort-")[1];
-	    var divone = this.closest("div");
-	
-	    console.log(divone);
-        });
-    });
-
-
 
     $(function() {
         $('input[name="gift-acknowledgement-information-received"]').datepicker();
