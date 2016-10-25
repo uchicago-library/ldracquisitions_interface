@@ -837,25 +837,26 @@ $(document).ready(function() {
         var mixedAcquisition = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("mixed-acquisition", "text", "true or false")), "true|false", "must be either \'true\' or \'false\'"));
         var accessionId = formGroup(makeAFormInputRequired(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2016-002")), "\\d{4}[-]\\d{3}", "should look like 2001-001")));
         var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "John Doe Manuscripts. Digital Collection.")));
+	var eadid = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("EADID", "text", "ICU.SPCL.CAMPUB"), "ICU.SPCL.\\w{3,}", "should look like ICU.SPCL.CAMPUB or ICU.SPCL.TEST")));
         var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-199"), "[\\d{2}]?[/]?\\d{4}-[\\d{2}]?[/]?\\d{4}", "should look like 02/1980-04/1999 or 1980-1999"));
         var access = formGroup(formCheckBoxField("access"));
         var discover = formGroup(formCheckBoxField("discover"));
-        var receiptRequired = formGroup(formCheckBoxField("receipt-letter-information-required"));
+        var receiptRequired = formGroup(formCheckBoxField("receipt-letter-required"));
         var giftAckRequired = formGroup(formCheckBoxField("gift-acknowledgement-required"));
         var receiptLetterDate = formGroup(formInputField("receipt-letter-information-sent", "text", "02/01/1999"));
         var fiscalYear = formGroup(setRegexValidatorInput(formInputField("fiscal-year", "text", "2006-2007"), "\\d{4}-\\d{4}", "should look like 2016-2017"));
         var giftAckDate = formGroup(formInputField("gift-acknowledgement-information-received", "text", "10/20/1999"));
-        var organization = formGroup(formInputField("organization", "text", "University of Chicago Special Collections Research Center"));
+        var organization = formGroup(formInputField("organization-name", "text", "University of Chicago Special Collections Research Center"));
         var summary = formGroup(formTextAreaField("summary", "This is a description of the accession"));
         var orginDescription = formGroup(formTextAreaField("origin-description", "This is a description of the origin of this accession"));
         var rights = formGroup(formTextAreaField("rights", "This is a description of the rights for this accession"));
         var accessDescription = formGroup(formTextAreaField("access-description", "This is a description of the access constraints for this accession"));
         var adminContent = formGroup(formTextAreaField("administrative-content", "This is a note that the processor shouild know about this accession"));
         var ownershipStatus = formGroup(setRegexValidatorInput(formInputField("ownership-status", "text", "Owned or Donated or Other"), "Owned|Deposited|Other", "should be either Owned or Deposited or Other"));
-        var filesReceived = formGroup(makeAFormInputRequired(formInputField("files-received-date", ",text", "The date LDR received the files")));
-        var materialsReceived = formGroup(makeAFormInputRequired(formInputField("materials-received-date", "text", "The date SPCL received materials")));
+        var filesReceived = formGroup(makeAFormInputRequired(formInputField("date-files-received", ",text", "The date LDR received the files")));
+        var materialsReceived = formGroup(formInputField("date-materials-received", "text", "The date SPCL received materials"));
         var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]);
-        var secondRow = formRow([formRowWholeColumn(accessionId)]);
+        var secondRow = formRow([formRowHalfColumn(accessionId), formRowHalfColumn(eadid)]);
         var thirdRow = formRow([formRowHalfColumn(collectionTitle), formRowHalfColumn(spanDate)]);
         var fourthRow = formRow([formRowWholeColumn(summary)]);
         var fifthRow = formRow([formRowHalfColumn(access), formRowHalfColumn(discover)]);
@@ -892,10 +893,8 @@ $(document).ready(function() {
         var mm = today.getMonth() + 1;
         var yyyy = today.getFullYear();
         var currentDate = yyyy + "-" + mm + "-" + dd;
-        var accessionDate = formHiddenField("accession-date", currentDate);
-        var acquisitionDate = formHiddenField("acquisition-date", currentDate);
-        fieldset.appendChild(accessionDate);
-        fieldset.appendChild(acquisitionDate);
+        var recordCreationDate = formHiddenField("date-record-created", currentDate);
+        fieldset.appendChild(recordCreationDate);
         fieldset.appendChild(submitButton());
         form.appendChild(fieldset);
         formdiv.html(form);
@@ -957,15 +956,15 @@ $(document).ready(function() {
         var fieldset = document.createElement("fieldset");
         fieldset.appendChild(legend);
 
-        var mixedAcquisition = formGroup(setRegexValidatorInput(formInputField("mixed-acquisition", "text", "true or false"), "true|false", "must be either \'true\' or \'false\'"));
+        var mixedAcquisition = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("mixed-acquisition", "text", "true or false"), "true|false", "must be either \'true\' or \'false\'")));
         var accessionId = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2017-001")), "\\d{4}[-]\\d{3}", "must look like 2007-001"));
         var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "McQuowan Papers. Digital Collection.")));
-        var spanDate = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("span-date", "text", "1980-1999")), "[\\d{2}]?[/]?\\d{4}-[\\d{2}]?[/]?\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"));
-        var receiptRequired = formGroup(formCheckBoxField("receipt-letter-information-required"));
+        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "[\\d{2}]?[/]?\\d{4}-[\\d{2}]?[/]?\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"));
+        var receiptRequired = formGroup(formCheckBoxField("receipt-letter-required"));
         var giftAckRequired = formGroup(formCheckBoxField("gift-acknowledgement-required"));
         var receiptLetterDate = formGroup(formInputField("receipt-letter-information-sent", "text", "04/01/1970"));
         var giftAckDate = formGroup(formInputField("gift-acknowledgement-information-received", "text", "01/12/1971"));
-        var organization = formGroup(formInputField("organization", "text", "University of Chicago Special Collections Research Center"));
+        var organization = formGroup(formInputField("organization-name", "text", "University of Chicago Special Collections Research Center"));
         var summary = formGroup(formTextAreaField("summary", "This acquisition is part of long term digitization effort"));
         var orginDescription = formGroup(formTextAreaField("origin-description", "This originates from some place"));
         var adminContent = formGroup(formTextAreaField("administrative-content", "Here is some information that a processor needs to know that is exceptional about this acquisition"));
@@ -1201,7 +1200,7 @@ $(document).ready(function() {
             localStorage.setItem("Physical Media Information", stringN);
         } else {
             var newPhysmedia = Object.create(null);
-            newPhysmedia["1"] = newObj;
+            newPhysmedia["0"] = newObj;
             localStorage.setItem("Physical Media Information", JSON.stringify(newPhysmedia));
         }
         var action = localStorage.getItem("action");
@@ -1209,7 +1208,6 @@ $(document).ready(function() {
         if (item !== null) {
             var newurl = "form.html?action=" + action + "&item=" + item;
         } else {
-            console("empty item");
             newurl = "form.html?action=" + localStorage.getItem("action");
         }
         form.setAttribute("action", newurl);
@@ -1247,8 +1245,10 @@ $(document).ready(function() {
             var stringN = JSON.stringify(n);
             localStorage.setItem("Restriction Information", stringN);
         } else {
+	   console.log("hi");
             var newRestriction = Object.create(null);
-            newRestriction["1"] = newObj;
+            newRestriction["0"] = newObj;
+	    console.log(newRestriction);
             localStorage.setItem("Restriction Information", JSON.stringify(newRestriction));
         }
         var action = localStorage.getItem("action");
@@ -1256,7 +1256,7 @@ $(document).ready(function() {
         if (item !== null) {
             var newurl = "form.html?action=" + action + "&item=" + item;
         } else {
-            console("empty item");
+            console.log("empty item");
             newurl = "form.html?action=" + localStorage.getItem("action");
         }
         form.setAttribute("action", newurl);
@@ -1343,8 +1343,8 @@ $(document).ready(function() {
             localStorage.setItem(displayWord, stringN);
         } else {
             var newDonor = Object.create(null);
-            newDonor["1"] = newObj;
-            localStorage.setItem(displayWord, JSON.stringify(newDonor));
+            newPerson["0"] = newObj;
+            localStorage.setItem(displayWord, JSON.stringify(newPerson));
         }
         var action = localStorage.getItem("action");
         var item = localStorage.getItem("acquisitionBeingCompleted");
@@ -1473,19 +1473,33 @@ $(document).ready(function() {
             fieldName = displayAMachinePhrase(field).replace(' ', '') + "0";
             if (fieldName === "Mixed Acquisition") {
                 if (value === "yes") {
-                    value = true;
+                    value = Boolean(true);
                 } else {
-                    value = false;
+                    value = Boolean(false);
                 }
             }
         }
+
+
 	if (fieldName.indexOf('-') > -1) {
 		fieldName = fieldName.replace('-', '');
 		fieldName = fieldName.replace('-', '');
 	} 
-	if (value != "") {
-       		addKeyValueToRecord(recordID, fieldName, value);
+	if (value !== "") {
+		if (value === "false") {
+			value = Boolean(false);
+		} 
+		if (value === "true") {
+			value = Boolean(true);
+		}
+       	 	else {
+			value = value;
+		}	
+		console.log(fieldName)
+		console.log(value)
+		addKeyValueToRecord(recordID, fieldName, value);
 	}
+
     }
 
     function saveMajorForm(formTypeString) {
@@ -1505,18 +1519,22 @@ $(document).ready(function() {
             var cur = inputs[i];
             if (cur.getAttribute("type") === "checkbox") {
                 var t = $("input[name=\'" + cur.getAttribute("name") + "\']");
-                var value = t.is(":checked");
+                var value = t.is(":checked").toString();
+		console.log(cur);
+		console.log(value);
             } else if (cur.value === "") {
                 var value = null;
             } else {
                 var value = cur.value;
             }
             if (value !== null) {
+		console.log(value);
                 addFieldToARecord(recordID, cur.getAttribute("name"), value)
             }
         }
         for (i = 0; i < textareas.length; i += 1) {
             var cur = textareas[i];
+	    console.log(cur.value);
             addFieldToARecord(recordID, cur.getAttribute("name"), cur.value);
         }
         return recordID;
@@ -1562,7 +1580,6 @@ $(document).ready(function() {
     		   console.log("hi");
                    savePhysmediaForm(null);
                 }
-		return false;
             }
         });
     });
@@ -1574,6 +1591,7 @@ $(document).ready(function() {
                 var editable = findStringInArray(p, "item=");
                 if (editable !== null) {
                     saveRestrictionForm(editable.split("=")[1]);
+
                 } else {
                     saveRestrictionForm(null);
                 }
@@ -1595,9 +1613,11 @@ $(document).ready(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("acquisition");
-		localStorage.clear();
-		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
-                
+		console.log(newRecordID);
+		return false;
+		//localStorage.clear();
+		//this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
+               	 
             }
         });
     });
@@ -1697,11 +1717,11 @@ $(document).ready(function() {
     });
 
     $(function() {
-        $('input[name="files-received-date"]').datepicker();
+        $('input[name="date-files-received"]').datepicker();
     });
 
     $(function() {
-        $('input[name="materials-received-date"]').datepicker();
+        $('input[name="date-materials-received"]').datepicker();
     });
 
     var params = getURLQueryParams();

@@ -185,6 +185,7 @@ $(document).ready(function () {
         decision = decision.split("action=")[1];
     }
     var data = getRecordsByCategory(displayAWord(decision) + "Record");
+    console.log(data);
     var ids = data.responseJSON.data.record_identifiers;
     var htmlToFill = $("#listing-div");
     var header = $("#listing-header");
