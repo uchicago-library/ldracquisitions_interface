@@ -108,6 +108,9 @@ $(document).ready(function() {
         var div = document.createElement("div");
         div.setAttribute("class", "form-group");
         var labelName = innerElement.getAttribute("name");
+	if (labelName.indexOf("address-information-") >= 0) {
+		labelName = labelName.split(/address-information-\d+-/)[1]
+	}
         var label = null;
         var helpblock = document.createElement("div");
         helpblock.setAttribute("class", "help-block-with-errors");
@@ -233,7 +236,7 @@ $(document).ready(function() {
             type: "POST",
             url: urlString,
             data: JSON.stringify(newObj),
-            async: false,
+            async: true,
             success: function(data) {
                 return data;
             },
@@ -294,15 +297,21 @@ $(document).ready(function() {
     }
 
     function getCollectionTitleList() {
-        var collection_category = getRecordsByCategory('Collection');
-        var records = collection_category.responseJSON.data.record_identifiers;
-        var out = new Array();
-        $.each(records, function(index, value) {
-            var vdata = getAValueInARecord(value, "Collection Title");
-            var vdata = vdata.responseJSON.data.value[0];
-            out.push(vdata);
-        });
-        return out;
+	if (localStorage["Collections"] == undefined) {
+        	var collection_category = getRecordsByCategory('Collection');
+		var records = collection_category.responseJSON.data.record_identifiers;
+	      	var out = new Array();
+        	$.each(records, function(index, value) {
+            		var vdata = getAValueInARecord(value, "Collection Title");
+            		var vdata = vdata.responseJSON.data.value[0];
+	            	out.push(vdata);
+        	});
+                localStorage.setItem("Collections", JSON.stringify(out));
+		return out;
+	} else {
+		var collections = JSON.parse(localStorage.getItem("Collections"));
+		return collections;
+	}
     }
 
     function postNewRecord(o) {
@@ -489,20 +498,15 @@ $(document).ready(function() {
 
     function prePopPersonForm(word) {
         buildPersonForm(word);
-	console.log(id);
         var currentRecord = findObjectInAnArray(id, displayAWord(word));
-	console.log(currentRecord);
         var emaildiv = document.getElementById("emails");
         var phonediv = document.getElementById("phone-numbers");
         var addresses = document.getElementById("addresses");
         var recordEmails = currentRecord["Email"];
         var recordPhones = currentRecord["Phone"];
-	console.log(recordEmails);
-	console.log(recordPhones);
         var recordAddresses = currentRecord["Address Information"];
         if (recordEmails !== undefined) {
             var emailKeys = Object.keys(recordEmails);
-	    console.log(emailKeys);
             var copied = emailKeys.splice(1, emailKeys.length - 1);
             for (var i in copied) {
                 if (i == "0") {
@@ -514,17 +518,13 @@ $(document).ready(function() {
             }
             for (var j in Object.keys(currentRecord["Email"])) {
                 var newNumber = (parseInt(j) + 1).toString();
-		console.log(newNumber);
                 var cur = recordEmails[j];
                 var a = $("input[name='email-" + newNumber.toString() + "']");
-		console.log(a);
-		console.log(cur);
                 a.val(cur);
             }
         }
         if (recordPhones !== undefined) {
             var phoneKeys = Object.keys(recordPhones);
-	    console.log(phoneKeys);
             for (var i in phoneKeys.splice(1, phoneKeys.length - 1)) {
                 if (i == "0") {
                     i = "2";
@@ -534,18 +534,13 @@ $(document).ready(function() {
             }
             for (var j in Object.keys(currentRecord["Phone"])) {
                 var newNumber = (parseInt(j) + 1).toString();
-		console.log(newNumber);
                 var cur = recordPhones[j];
-		console.log(cur);
                 var a = $("input[name='phone-" + newNumber + "']")
-		console.log(a);
                 a.val(cur);
             }
         }
         if (recordAddresses !== undefined) {
             var addressKeys = Object.keys(recordAddresses);
-	    console.log(addressKeys);
-	    console.log(recordAddresses);
             for (var i in addressKeys.splice(1, addressKeys.length - 1)) {
                 if (i == "0") {
                     i = "2";
@@ -610,7 +605,6 @@ $(document).ready(function() {
         } else if (word === 'restriction') {
             prePopRestrictionForm();
         } else {
-            console.log("this should never hapen");
         }
     }
 
@@ -681,9 +675,9 @@ $(document).ready(function() {
         legend.appendChild(document.createTextNode(" "));
         legend.appendChild(addAddress);
         fieldset.appendChild(legend);
-        var firstName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("first-name", "text", "Jane"))));
+        var firstName = formRowHalfColumn(formGroup(formInputField("first-name", "text", "Jane")));
 
-        var lastName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("last-name", "text", "Doe"))));
+        var lastName = formRowHalfColumn(formGroup(formInputField("last-name", "text", "Doe")));
 
         var affiliatedOrganization = formRowHalfColumn(formGroup(formInputField("affiliated-organization", "text", "University of Chicago Physics Department")));
         var jobTitle = formRowHalfColumn(formGroup(formInputField("job-title", "text", "Department Chair")));
@@ -1066,7 +1060,6 @@ $(document).ready(function() {
         } else if (word === 'restriction') {
             buildRestrictionForm();
         } else {
-            console.log("this should never hapen");
         }
     }
 
@@ -1246,10 +1239,8 @@ $(document).ready(function() {
             var stringN = JSON.stringify(n);
             localStorage.setItem("Restriction Information", stringN);
         } else {
-	   console.log("hi");
             var newRestriction = Object.create(null);
             newRestriction["0"] = newObj;
-	    console.log(newRestriction);
             localStorage.setItem("Restriction Information", JSON.stringify(newRestriction));
         }
         var action = localStorage.getItem("action");
@@ -1257,7 +1248,6 @@ $(document).ready(function() {
         if (item !== null) {
             var newurl = "form.html?action=" + action + "&item=" + item;
         } else {
-            console.log("empty item");
             newurl = "form.html?action=" + localStorage.getItem("action");
         }
         form.setAttribute("action", newurl);
@@ -1332,7 +1322,7 @@ $(document).ready(function() {
             donors[thingToBeEdited] = newObj;
             localStorage.setItem(displayWord, JSON.stringify(donors));
 
-        } else if (localStorage.Donor !== undefined) {
+        } else if (localStorage[displayWord] !== undefined) {
             var n = JSON.parse(localStorage.getItem(displayWord));
             var donorsNumbered = Object.keys(n);
             var sortedDonorsNumbered = donorsNumbered.sort();
@@ -1352,7 +1342,6 @@ $(document).ready(function() {
         if (item !== null) {
             var newurl = "form.html?action=" + action + "&item=" + item;
         } else {
-            console.log("empty item");
             newurl = "form.html?action=" + localStorage.getItem("action");
         }
         form.setAttribute("action", newurl);
@@ -1376,7 +1365,6 @@ $(document).ready(function() {
         } else if (listName === "physmedia-list") {
             localStorageLookup = "Physical Media Information";
         } else {
-            console.log("no such lookup for " + listName);
         }
         var dataToLoad = JSON.parse(localStorage.getItem(localStorageLookup));
         if (dataToLoad !== null) {
@@ -1496,8 +1484,6 @@ $(document).ready(function() {
        	 	else {
 			value = value;
 		}	
-		console.log(fieldName)
-		console.log(value)
 		addKeyValueToRecord(recordID, fieldName, value);
 	}
 
@@ -1521,21 +1507,17 @@ $(document).ready(function() {
             if (cur.getAttribute("type") === "checkbox") {
                 var t = $("input[name=\'" + cur.getAttribute("name") + "\']");
                 var value = t.is(":checked").toString();
-		console.log(cur);
-		console.log(value);
             } else if (cur.value === "") {
                 var value = null;
             } else {
                 var value = cur.value;
             }
             if (value !== null) {
-		console.log(value);
                 addFieldToARecord(recordID, cur.getAttribute("name"), value)
             }
         }
         for (i = 0; i < textareas.length; i += 1) {
             var cur = textareas[i];
-	    console.log(cur.value);
             addFieldToARecord(recordID, cur.getAttribute("name"), cur.value);
         }
         return recordID;
@@ -1561,11 +1543,12 @@ $(document).ready(function() {
                 var p = getURLQueryParams();
                 var editable = findStringInArray(p, "item=");
                 if (editable !== null) {
-                    savePersonForm("source", editable.split("=")[1]);
+                    answer = savePersonForm("source", editable.split("=")[1]);
                 } else {
                     savePersonForm("source", null);
                 }
             }
+
         });
     });
 
@@ -1574,11 +1557,9 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var p = getURLQueryParams();
                 var editable = findStringInArray(p, "item=");
-		console.log(editable);	
                 if (editable !== null) {
                    savePhysmediaForm(editable.split("=")[1]);
                 } else {
-    		   console.log("hi");
                    savePhysmediaForm(null);
                 }
             }
@@ -1614,7 +1595,6 @@ $(document).ready(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("acquisition");
-		console.log(newRecordID);
 		localStorage.clear();
 		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
                	 

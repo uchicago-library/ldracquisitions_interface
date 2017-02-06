@@ -150,13 +150,6 @@ $(document).ready(function () {
     }
 
     $(function() {
-        $("button[id^=transform-").click(function () {
-            var yourChoice = $(this).attr("id").split("transform-")[1];
-            window.location.replace("form.html?action=accession&item=" + yourChoice);
-        });
-    });
-
-    $(function() {
         $("button[id^='export-']").click(function() {
             var id = this.getAttribute("id").split("export-")[1];
 	    var n = "div[class='export-" + id + "']";
@@ -167,16 +160,19 @@ $(document).ready(function () {
 
     $(function() {
         $("button[id^='view-']").click(function() {
+	    try {
             var id = this.getAttribute("id").split("view-")[1];
 	    console.log(id);
 	    var n = "div[class='export-" + id + "']";
 	    var d = displayAnAccessionRecord(getRecord(id).responseJSON.data.record);
 	    var p = $(n).html(d);
+            } catch (TypeError) {
+             alert("Cannot view that record. Try viewing it as raw string");
+            }
         });
     });
 
 
-    localStorage.clear()
     var params = getURLQueryParams();
     var decision = findStringInArray(params, "action=");
     if (decision === "") {
@@ -244,18 +240,11 @@ $(document).ready(function () {
             viewButton.setAttribute("id", "view-" + value);
             viewButton.appendChild(document.createTextNode("View Record"));
 	
-	    var transformButton = document.createElement("button");
-            transformButton.setAttribute("class", "btn btn-primary btn-sm");
-            transformButton.setAttribute("role", "button")
-            transformButton.setAttribute("id", "transform-" + value);
-            transformButton.appendChild(document.createTextNode("Transform to Accession"));
-	
+
 	    var dd = document.createElement("dd");
 	    dd.appendChild(exportButton);
 	    dd.appendChild(document.createTextNode(" "));
 	    dd.appendChild(viewButton);
-	    dd.appendChild(document.createTextNode(" "));
-	    dd.appendChild(transformButton);
             var dt = document.createElement("dt");
             var title = getAValueInARecord(value, "Collection Title").responseJSON.data.value[0];
             var accessionid = getAValueInARecord(value, "Accession Identifier").responseJSON.data.value[0];
