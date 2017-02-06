@@ -1343,7 +1343,7 @@ $(document).ready(function() {
             var stringN = JSON.stringify(n);
             localStorage.setItem(displayWord, stringN);
         } else {
-            var newDonor = Object.create(null);
+            var newPerson = Object.create(null);
             newPerson["0"] = newObj;
             localStorage.setItem(displayWord, JSON.stringify(newPerson));
         }
@@ -1352,7 +1352,7 @@ $(document).ready(function() {
         if (item !== null) {
             var newurl = "form.html?action=" + action + "&item=" + item;
         } else {
-            console("empty item");
+            console.log("empty item");
             newurl = "form.html?action=" + localStorage.getItem("action");
         }
         form.setAttribute("action", newurl);
@@ -1423,7 +1423,7 @@ $(document).ready(function() {
                 var deleteButton = document.createElement("button");
                 deleteButton.setAttribute("class", "btn btn-danger btn-sm");
                 deleteButton.setAttribute("role", "button")
-                deleteButton.setAttribute("id", "delete-" + editType + "-" + (i + 1).toString());
+                deleteButton.setAttribute("id", "delete-" + editType + "-" + i.toString());
                 deleteButton.appendChild(document.createTextNode("Delete"));
 
                 dd.appendChild(editButton);
