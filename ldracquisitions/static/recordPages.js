@@ -279,6 +279,24 @@ $(document).ready(function() {
         });
     }
 
+    function getCollections() {
+        var urlString = "https://y2.lib.uchicago.edu/inventory/inventories/collections.json";
+        var newObj = Object.create(null);
+        return $.ajax({
+            type: "GET",
+            url: urlString,
+            data: JSON.stringify(newObj),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+                return data;
+            }
+        });
+    }
+
+
+
     function getAValueInARecord(recordId, key) {
         "use strict";
         var urlString = ajaxURL + "record/" + recordId + "/" + encodeURIComponent(key);
@@ -297,7 +315,9 @@ $(document).ready(function() {
     }
 
     function getCollectionTitleList() {
-	if (localStorage["Collections"] == undefined) {
+	var collections = getCollections().responseJSON.Collections
+	return collections
+	/*if (localStorage["Collections"] == undefined) {
         	var collection_category = getRecordsByCategory('Collection');
 		var records = collection_category.responseJSON.data.record_identifiers;
 	      	var out = new Array();
@@ -311,7 +331,7 @@ $(document).ready(function() {
 	} else {
 		var collections = JSON.parse(localStorage.getItem("Collections"));
 		return collections;
-	}
+	}*/
     }
 
     function postNewRecord(o) {
@@ -1091,7 +1111,6 @@ $(document).ready(function() {
 
     $(function() {
         var availableTags = getCollectionTitleList() //getRecordsByCategory('Collection').responseJSON.data.record_identifiers;
-
         $('input[name="collection-title"]').autocomplete({
             source: availableTags
         });
