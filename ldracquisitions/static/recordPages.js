@@ -58,6 +58,7 @@ $(document).ready(function() {
         select.setAttribute("name", inputName);
         select.setAttribute("class", "form-control");
         var i = null;
+        console.log(innerElementList)
         for (i = 0; i < innerElementList.length; i += 1) {
             select.appendChild(innerElementList[i]);
         }
@@ -145,6 +146,13 @@ $(document).ready(function() {
         return div;
     }
 
+    function physMediaGroupDiv(innerElement) {
+        var div = document.createElement("div");
+        div.setAttribute("id", "physmedia");
+        div.appendChild(innerElement);
+        return div;
+    }
+
     function formRow(innerElementList) {
         var div = document.createElement("div");
         div.setAttribute("class", "row");
@@ -206,20 +214,41 @@ $(document).ready(function() {
         return formRow([email]);
     }
 
-    function submitButton() {
+    function makePhysMediaInput(num) {
+        var name = "physmedia-" + num.toString();
+        var physmediaOptions = ["", "3.5in floppy disk", "5.25 floppy disk", "8in floppy disk", "CD", "DVD", "USB storage", "Hard drive (external)", "Hard drive (internal)", "Zip disk", "Computer (laptop)", "Computer (desktop)"]
+        var mediaRealOptions = []
+        var i = null;
+        for (i = 0; i < physmediaOptions.length; i += 1) {
+            mediaRealOptions.push(formSelectOptionItem(physmediaOptions[i]));
+        }
+        var physmedialabel = formGroup(makeAFormInputRequired(formSelectField("name-label-" + num, mediaRealOptions)));
+        var physmediaquantity = formGroup(formInputField(name + "-quantity", "num", "10"));
+        var aFormRow = formRow([formRowHalfColumn(physmedialabel), formRowHalfColumn(physmediaquantity)]);
+        return aFormRow;
+    }
+
+
+
+    function submitButton(buttonLabel, abandonHopeButtonLabel) {
         var button = document.createElement("button");
         var cancel = document.createElement("a");
         button.setAttribute("name", "save");
         button.setAttribute("type", "submit");
         button.setAttribute("class", "btn btn-primary");
-        button.appendChild(document.createTextNode("Save"));
+        button.appendChild(document.createTextNode(buttonLabel));
+        if (abandonHopeButtonLabel !== null) {
         cancel.setAttribute("href", "null");
         cancel.setAttribute("name", "cancel");
         cancel.setAttribute("class", "btn btn-warning");
         cancel.setAttribute("role", "button");
-        cancel.appendChild(document.createTextNode("Cancel"));
-
+        cancel.appendChild(document.createTextNode(abandonHopeButtonLabel));
         return formRow([formRowHalfColumn(formGroup(button)), formRowHalfColumn(formGroup(cancel))]);
+        } else {
+        return formRow([formRowHalfColumn(formGroup(button))])
+        }
+
+
     }
 
     function getPrePopElements() {
@@ -713,7 +742,7 @@ $(document).ready(function() {
         var anAddressForm = buildAddressForm("1");
         addressGroupDiv.appendChild(anAddressForm);
         fieldset.appendChild(addressGroupDiv);
-        fieldset.appendChild(submitButton());
+        fieldset.appendChild(submitButton("Add to Form", "Forget and go back"));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -825,7 +854,7 @@ $(document).ready(function() {
         addPhysmedia.setAttribute("id", "new-physmedia-button");
         addPhysmedia.setAttribute("class", "btn btn-primary");
         addPhysmedia.setAttribute("role", "button");
-        addPhysmedia.appendChild(document.createTextNode("Add a Physical Media"));
+        addPhysmedia.appendChild(document.createTextNode("Add Physical Media"));
 
         var addRestriction = document.createElement("a");
         addRestriction.setAttribute("href", "#");
@@ -852,7 +881,7 @@ $(document).ready(function() {
         var accessionId = formGroup(makeAFormInputRequired(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2016-002")), "\\d{4}[-]\\d{3}", "should look like 2001-001")));
         var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "John Doe Manuscripts. Digital Collection.")));
 	var eadid = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("EADID", "text", "ICU.SPCL.CAMPUB"), "ICU.SPCL.\\w{3,}", "should look like ICU.SPCL.CAMPUB or ICU.SPCL.TEST")));
-        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-199"), "[\\d{2}]?[/]?\\d{4}-[\\d{2}]?[/]?\\d{4}", "should look like 02/1980-04/1999 or 1980-1999"));
+        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-199"), "[\d{4}]?", "should look like 02/1980-04/1999 or 1980-1999"));
         var access = formGroup(formCheckBoxField("access"));
         var discover = formGroup(formCheckBoxField("discover"));
         var receiptRequired = formGroup(formCheckBoxField("receipt-letter-required"));
@@ -909,7 +938,7 @@ $(document).ready(function() {
         var currentDate = yyyy + "-" + mm + "-" + dd;
         var recordCreationDate = formHiddenField("date-record-created", currentDate);
         fieldset.appendChild(recordCreationDate);
-        fieldset.appendChild(submitButton());
+        fieldset.appendChild(submitButton("Submit", null));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -970,23 +999,36 @@ $(document).ready(function() {
         var fieldset = document.createElement("fieldset");
         fieldset.appendChild(legend);
 
-        var mixedAcquisition = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("mixed-acquisition", "text", "true or false"), "true|false", "must be either \'true\' or \'false\'")));
+        var mixedOptions = ["", "Digital only" ,"Paper and Digital"]
+        var mixedRealOptions = []
+        var i = null;
+        for (i = 0; i < mixedOptions.length; i += 1) {
+            mixedRealOptions.push(formSelectOptionItem(mixedOptions[i]));
+        }
+        var mixedAcquisition = formGroup(makeAFormInputRequired(formSelectField("mixed-acquisition", mixedRealOptions)));
+
+        //var mixedAcquisition = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("mixed-acquisition", "text", "true or false"), "true|false", "must be either \'true\' or \'false\'")));
         var accessionId = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2017-001")), "\\d{4}[-]\\d{3}", "must look like 2007-001"));
         var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "McQuowan Papers. Digital Collection.")));
-        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "[\\d{2}]?[/]?\\d{4}-[\\d{2}]?[/]?\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"));
-        var receiptRequired = formGroup(formCheckBoxField("receipt-letter-required"));
-        var giftAckRequired = formGroup(formCheckBoxField("gift-acknowledgement-required"));
-        var receiptLetterDate = formGroup(formInputField("receipt-letter-information-sent", "text", "04/01/1970"));
-        var giftAckDate = formGroup(formInputField("gift-acknowledgement-information-received", "text", "01/12/1971"));
-        var organization = formGroup(formInputField("organization-name", "text", "University of Chicago Special Collections Research Center"));
+        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "\\d{2}[/]\\d{4}-\\d{4}|\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}|\\d{4}|\\d{4}-\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"));
+
+        var organizationOptions = ["", "Special Collections Research Center", "Preservation", "Law", "DLDC"];
+        var orgRealOptions = []
+        var i = null;
+        for (i = 0; i < organizationOptions.length; i += 1) {
+            orgRealOptions.push(formSelectOptionItem(organizationOptions[i]));
+        }
+        var organization = formGroup(makeAFormInputRequired(formSelectField("organization", orgRealOptions)));
         var summary = formGroup(formTextAreaField("summary", "This acquisition is part of long term digitization effort"));
-        var orginDescription = formGroup(formTextAreaField("origin-description", "This originates from some place"));
-        var adminContent = formGroup(formTextAreaField("administrative-content", "Here is some information that a processor needs to know that is exceptional about this acquisition"));
-        var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]);
-        var secondRow = formRow([formRowWholeColumn(accessionId)]);
+        var collectionStatusOptions = ["","Gift", "Transfer", "Deposit", "Purchase"];
+        var realOptions = [];
+        var i = null;
+        for (i = 0; i < collectionStatusOptions.length; i += 1) {
+            realOptions.push(formSelectOptionItem(collectionStatusOptions[i]));
+        }
+        var orginDescription = formGroup(formSelectField("collection-status", realOptions));
+        var adminContent = formGroup(formTextAreaField("staff-comment", "Here is some information that a processor needs to know that is exceptional about this acquisition")); var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]); var secondRow = formRow([formRowWholeColumn(accessionId)]);
         var thirdRow = formRow([formRowHalfColumn(collectionTitle), formRowHalfColumn(spanDate)]);
-        var fourthRow = formRow([formRowHalfColumn(receiptRequired), formRowHalfColumn(receiptLetterDate)]);
-        var fifthRow = formRow([formRowHalfColumn(giftAckRequired), formRowHalfColumn(giftAckDate)]);
         var sixthRow = formRow([formRowWholeColumn(organization)]);
         var seventhRow = formRow([formRowWholeColumn(summary)]);
         var eighthRow = formRow([formRowWholeColumn(orginDescription)]);
@@ -996,8 +1038,6 @@ $(document).ready(function() {
         fieldset.appendChild(firstRow);
         fieldset.appendChild(secondRow);
         fieldset.appendChild(thirdRow);
-        fieldset.appendChild(fourthRow);
-        fieldset.appendChild(fifthRow);
         fieldset.appendChild(sixthRow);
         fieldset.appendChild(seventhRow);
         fieldset.appendChild(eighthRow);
@@ -1013,7 +1053,7 @@ $(document).ready(function() {
         var acquisitionDate = formHiddenField("acquisition-date", currentDate);
         fieldset.appendChild(acquisitionDate);
 
-        fieldset.appendChild(submitButton());
+        fieldset.appendChild(submitButton("Submit", null));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1029,13 +1069,26 @@ $(document).ready(function() {
         form.setAttribute("form", "form-horizontal");
         var fieldset = document.createElement("fieldset");
         var legend = document.createElement("legend");
-        legend.appendChild(document.createTextNode("Adding a Physical Media"));
+
+        var header = document.createElement("h3");
+        header.appendChild(document.createTextNode("Adding Physical Media"));
+        var addPhysmedia = document.createElement("a");
+        addPhysmedia.setAttribute("href", "#");
+        addPhysmedia.setAttribute("id", "addPhysMedium");
+        addPhysmedia.setAttribute("class", "btn btn-primary");
+        addPhysmedia.setAttribute("role", "button");
+        addPhysmedia.appendChild(document.createTextNode("Add a Physical Medium"));
+
+
+        legend.appendChild(header);
+        legend.appendChild(addPhysmedia)
         fieldset.appendChild(legend);
-        var physmedialabel = formGroup(setRegexValidatorInput(formInputField("label", "text", "disk"), "\\w{2,10}", "Should be a word that has at least 2 characters and at most 10 characters."));
-        var physmediaquantity = formGroup(formInputField("quantity", "num", "10"));
-        var aFormRow = formRow([formRowHalfColumn(physmedialabel), formRowHalfColumn(physmediaquantity)]);
-        fieldset.appendChild(aFormRow);
-        fieldset.appendChild(submitButton());
+
+        var newInput = makePhysMediaInput(0);
+        var physmediaDiv = physMediaGroupDiv(newInput);
+
+        fieldset.appendChild(physmediaDiv);
+        fieldset.appendChild(submitButton("Add to Form", "Forget and go back"));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1053,7 +1106,7 @@ $(document).ready(function() {
         var legend = document.createElement("legend");
         legend.appendChild(document.createTextNode("Adding a Restriction"));
         fieldset.appendChild(legend);
-        var restrictionCodes = ["", "O", "OU", "DR-##", "R-DA", "R-30", "R-50", "R-80", "R-##D", "R-X", "R-P30", "MR", "R-S", "R-C"];
+        var restrictionCodes = ["", "O", "OU", "DR-##", "R-DA", "R-30", "R-50", "R-80", "R-X", "R-P30", "R-S", "R-C", "E"];
         var restrictionOptions = [];
         var i = null;
         for (i = 0; i < restrictionCodes.length; i += 1) {
@@ -1064,7 +1117,7 @@ $(document).ready(function() {
         fieldset.appendChild(restrictionCode);
         fieldset.appendChild(restrictionComment);
         form.appendChild(fieldset);
-        form.appendChild(submitButton());
+        form.appendChild(submitButton("Add to Form", "Forget and go back"));
         formdiv.html(form);
     }
 
@@ -1116,6 +1169,24 @@ $(document).ready(function() {
         });
     });
 
+    $(function() {
+        $("#addPhysMedium").click(function() {
+            var physmediaDiv = document.getElementById("physmedia");
+            var array = physmediaDiv.getElementsByTagName("input");
+            var i = null;
+            var allnums = []
+            for (i = 0; i < array.length; i++) {
+                var n = array[i];
+                var num = parseInt(n.getAttribute("name").split('-')[1]);
+                allnums.push(num);
+            }
+            var sortedAllNums = allnums.sort();
+            var highestNum = sortedAllNums[sortedAllNums.length -1];
+            var newNumber = highestNum + 1;
+            var newInput = makePhysMediaInput(newNumber);
+            addInputToGroupDiv(newInput, "physmedia");
+        });
+    });
 
     $(function() {
         $("#addEmail").click(function() {
@@ -1616,7 +1687,6 @@ $(document).ready(function() {
                 var newRecordID = saveMajorForm("acquisition");
 		localStorage.clear();
 		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
-               	 
             }
         });
     });
