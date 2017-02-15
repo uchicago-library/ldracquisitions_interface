@@ -1072,6 +1072,7 @@ $(document).ready(function() {
         var submit = document.createElement("button");
         submit.setAttribute("name", "save");
         submit.setAttribute("type", "submit");
+        submit.setAttribute("id", "submit-acquisition");
         submit.setAttribute("class", "btn btn-primary");
         submit.appendChild(document.createTextNode("Submit Acquisition"));
 
@@ -1848,13 +1849,28 @@ $(document).ready(function() {
     } else {
         id = id.split("item=")[1];
     }
+  
     if (id !== null) {
         prePopSwitchFunc(decision, id);
     } else {
         emptyFormSwitchFunc(decision);
     }
+   
     loadAList("donors-list");
     loadAList("sources-list");
     loadAList("physmedia-list");
     loadAList("restriction-list");
+
+    if (((localStorage.getItem("Donor") === null) | (localStorage.getItem("Source") == null)) & (localStorage.getItem("Restriction Information") === null) & (localStorage.getItem("Physical Media Informatioo") === null)) {
+        console.log("hello, world");
+        var d = document.getElementById("submit-acquisition");
+        console.log(d);
+        d.setAttribute("class", "hidden")
+    }
+
+    // console.log(document.getElementById("submit-acquisition"));
+    // console.log($("#submit-acquisition"));
+
+
+
 });
