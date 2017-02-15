@@ -58,7 +58,6 @@ $(document).ready(function() {
         select.setAttribute("name", inputName);
         select.setAttribute("class", "form-control");
         var i = null;
-        console.log(innerElementList)
         for (i = 0; i < innerElementList.length; i += 1) {
             select.appendChild(innerElementList[i]);
         }
@@ -78,7 +77,6 @@ $(document).ready(function() {
         input.setAttribute("name", inputName);
         input.setAttribute("type", inputType);
         input.setAttribute("id", inputName);
-        input.setAttribute("placeholder", placeholder);
         return input;
     }
 
@@ -94,7 +92,6 @@ $(document).ready(function() {
         var textfield = document.createElement("textarea");
         textfield.setAttribute("class", "form-control");
         textfield.setAttribute("name", inputName);
-        textfield.setAttribute("placeholder", placeholder);
         return textfield;
     }
 
@@ -105,29 +102,42 @@ $(document).ready(function() {
         return checkbox;
     }
 
-    function formGroup(innerElement) {
+    function formGroup(innerElement, helpText) {
         var div = document.createElement("div");
         div.setAttribute("class", "form-group");
         var labelName = innerElement.getAttribute("name");
+        var popOverElement = document.createElement("a");
+        popOverElement.setAttribute("data-toggle", "popover");
+        popOverElement.setAttribute("data-placement", "right");
+        popOverElement.setAttribute("data-content", helpText);
+        popOverElement.setAttribute("href", "#");
+        popOverElement.appendChild(document.createTextNode("Help"));
 	if (labelName.indexOf("address-information-") >= 0) {
 		labelName = labelName.split(/address-information-\d+-/)[1]
-	}
-        var label = null;
-        var helpblock = document.createElement("div");
-        helpblock.setAttribute("class", "help-block-with-errors");
+	} else if (labelName.indexOf("physmedia") >= 0) {
+        labelName = labelName.split('-')[2];
+    }
+    var label = null;
 	var inputName = innerElement.getAttribute("name");
-
         if (innerElement.getAttribute("type") === "checkbox") {
             label = formLabel(labelName);
 	    label.setAttribute("class", "center-block");
             div.appendChild(label);
+        label.appendChild(document.createElement("?"));
+        div.appendChild(document.createTextNode(" "));
+        div.appendChild(popOverElement);
 	    div.appendChild(innerElement);
-	    div.appendChild(helpblock); 
+        } else if ((innerElement.getAttribute("type") === "submit") | (innerElement.getAttribute("name") === "cancel")) {
+            label = formLabel(labelName);
+            div.appendChild(label);
+            div.appendChild(document.createTextNode(" "));
+            div.appendChild(innerElement);
         } else {
             label = formLabel(labelName);
             div.appendChild(label);
+            div.appendChild(document.createTextNode(" "));
+            div.appendChild(popOverElement);
             div.appendChild(innerElement);
-            div.appendChild(helpblock);
         }
         return div;
     }
@@ -197,7 +207,7 @@ $(document).ready(function() {
 
     function makePhoneInput(num) {
         var name = "phone-" + num.toString();
-        var phone = formRowWholeColumn(formGroup(setRegexValidatorInput(formInputField(name, "tel", "773-555-5555 or 1-2345"), "\\d{3}[-]\\d{3}[-]\\d{4}|\\d{1}[-]\\d{4}", "should look like 7773-444-5555 or 1-2345")));
+        var phone = formRowWholeColumn(formGroup(setRegexValidatorInput(formInputField(name, "tel", "773-555-5555 or 1-2345"), "\\d{3}[-]\\d{3}[-]\\d{4}|\\d{1}[-]\\d{4}", "should look like 7773-444-5555 or 1-2345"), "Enter a phone number at which we can reach the individual or the organization." ));
         return formRow([phone]);
     }
 
@@ -210,7 +220,7 @@ $(document).ready(function() {
 
     function makeEmailInput(num) {
         var name = "email-" + num.toString();
-        var email = formRowWholeColumn(formGroup(formInputField(name, "email", "example@uchicago.edu", "should be a valid email address")));
+        var email = formRowWholeColumn(formGroup(formInputField(name, "email", "example@uchicago.edu", "should be a valid email address"), "Enter the individual's primary email address here."));
         return formRow([email]);
     }
 
@@ -222,12 +232,11 @@ $(document).ready(function() {
         for (i = 0; i < physmediaOptions.length; i += 1) {
             mediaRealOptions.push(formSelectOptionItem(physmediaOptions[i]));
         }
-        var physmedialabel = formGroup(makeAFormInputRequired(formSelectField("name-label-" + num, mediaRealOptions)));
-        var physmediaquantity = formGroup(formInputField(name + "-quantity", "num", "10"));
+        var physmedialabel = formGroup(makeAFormInputRequired(formSelectField(name +  "-label-" + num, mediaRealOptions)), "Select the medium name that matches the item that you are looking at. If there are more than types of physical media, than add a lne for each type");
+        var physmediaquantity = formGroup(formInputField(name + "-quantity-" + num, "num", "10"), "Enter the number of total pieces of this type of physical media represented in the accession.");
         var aFormRow = formRow([formRowHalfColumn(physmedialabel), formRowHalfColumn(physmediaquantity)]);
         return aFormRow;
     }
-
 
 
     function submitButton(buttonLabel, abandonHopeButtonLabel) {
@@ -665,11 +674,11 @@ $(document).ready(function() {
         var addressFieldSet = document.createElement("fieldset");
         addressLegend.appendChild(document.createTextNode("Mailing Address Information " + numString));
         addressFieldSet.appendChild(addressLegend);
-        var streetAddress = formRowHalfColumn(formGroup(formInputField("address-information-" + numString + "-street-address", "text", "123 Example Street")));
-        var unitNumber = formRowHalfColumn(formGroup(formInputField("address-information-" + numString + "-unit-number", "text", "12B")));
-        var city = formRowThirdColumn(formGroup(formInputField("address-information-" + numString + "-city", "text", "Demo City")));
-        var state = formRowThirdColumn(formGroup(setRegexValidatorInput(formInputField("address-information-" + numString + "-state", "text", "IL"), "\\w{2}", "should be a mailing address state code like IL")));
-        var zipCode = formRowThirdColumn(formGroup(setRegexValidatorInput(formInputField("address-information-" + numString + "-zip-code", "zipcode", "55555"), "\\d{5}[-]?[\\d{4}]?", "should look like 60637")));
+        var streetAddress = formRowHalfColumn(formGroup(formInputField("address-information-" + numString + "-street-address", "text"), "Enter the mailing address including street number and street name"));
+        var unitNumber = formRowHalfColumn(formGroup(formInputField("address-information-" + numString + "-unit-number", "text"), "Enter the unit or suite number for the address if it exists"));
+        var city = formRowThirdColumn(formGroup(formInputField("address-information-" + numString + "-city", "text"), "Enter the name of the city for the address"));
+        var state = formRowThirdColumn(formGroup(setRegexValidatorInput(formInputField("address-information-" + numString + "-state", "text"), "\\w{2}", "should be a mailing address state code like IL"), "Enter the two character state code. For example: WI for Wisconsin, IL for Illinois, NY for New York"));
+        var zipCode = formRowThirdColumn(formGroup(setRegexValidatorInput(formInputField("address-information-" + numString + "-zip-code", "zipcode"), "\\d{5}[-]?[\\d{4}]?", "should look like 60637"), "Enter the five digit zipcode"));
         addressFieldSet.appendChild(formRow([streetAddress, unitNumber]));
         addressFieldSet.appendChild(formRow([city, state, zipCode]));
         individualAddressDiv.appendChild(addressFieldSet);
@@ -724,13 +733,12 @@ $(document).ready(function() {
         legend.appendChild(document.createTextNode(" "));
         legend.appendChild(addAddress);
         fieldset.appendChild(legend);
-        var firstName = formRowHalfColumn(formGroup(formInputField("first-name", "text", "Jane")));
+        var firstName = formRowHalfColumn(formGroup(formInputField("first-name", "text", "Jane"), "Enter the " + correctTerm + "'s given name in this field. For example, it might be Jane or John."));
 
-        var lastName = formRowHalfColumn(formGroup(formInputField("last-name", "text", "Doe")));
+        var lastName = formRowHalfColumn(formGroup(formInputField("last-name", "text", "Doe"), "Enter the " + correctTerm  + "'s family name in this field. For example, it might be Smith."));
 
-        var affiliatedOrganization = formRowHalfColumn(formGroup(formInputField("affiliated-organization", "text", "University of Chicago Physics Department")));
-        var jobTitle = formRowHalfColumn(formGroup(formInputField("job-title", "text", "Department Chair")));
-
+        var affiliatedOrganization = formRowHalfColumn(formGroup(formInputField("affiliated-organization", "text", "University of Chicago Physics Department"), "Enter the " + correctTerm + "'s insititution. For example, University of Chicago Physics Department or University of Chicago Press"));
+        var jobTitle = formRowHalfColumn(formGroup(formInputField("job-title", "text", "Department Chair"), "Enter the " + correctTerm + "'s job title or role with the affiliated organization. For example: dean or associate professor or club president."));
         var phone = phoneGroupDiv(makePhoneInput(1), "phone-numbers");
         var email = emailGroupDiv(makeEmailInput(1), "emails");
         fieldset.appendChild(formRow([firstName, lastName]));
@@ -1005,12 +1013,11 @@ $(document).ready(function() {
         for (i = 0; i < mixedOptions.length; i += 1) {
             mixedRealOptions.push(formSelectOptionItem(mixedOptions[i]));
         }
-        var mixedAcquisition = formGroup(makeAFormInputRequired(formSelectField("mixed-acquisition", mixedRealOptions)));
+        var mixedAcquisition = formGroup(makeAFormInputRequired(formSelectField("mixed-acquisition", mixedRealOptions)), "If you select Digital only, this means that the accession you are recording only has digital material. If you are selecting Paper and digital, this means that the accession you are recording has both a paper component and a digital component.");
 
-        //var mixedAcquisition = formGroup(makeAFormInputRequired(setRegexValidatorInput(formInputField("mixed-acquisition", "text", "true or false"), "true|false", "must be either \'true\' or \'false\'")));
-        var accessionId = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2017-001")), "\\d{4}[-]\\d{3}", "must look like 2007-001"));
-        var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "McQuowan Papers. Digital Collection.")));
-        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "\\d{2}[/]\\d{4}-\\d{4}|\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}|\\d{4}|\\d{4}-\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"));
+        var accessionId = formGroup(setRegexValidatorInput(makeAFormInputRequired(formInputField("accession-identifier", "text", "2017-001")), "\\d{4}[-]\\d{3}", "must look like 2007-001"), "You must use a valid SPCL identifier. This is the only way for SPCL to link this record with the corresponding physical accession.");
+        var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "McQuowan Papers. Digital Collection.")), "Enter the collection title that this accession belongs to. If the collection title has alreaydy been entered, then you can type any word or combination of letters that exist in the title and select from the dropdown that appears. If this is the first time that ths collection is being recorded then you will have to type the entire collection title.");
+        var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "\\d{2}[/]\\d{4}-\\d{4}|\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}|\\d{4}|\\d{4}-\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"), "The Span Date is the range of time represented by the content in the accession. For example, a collection of President Barack Obama's Presidential Papers would have a span date of 01/2009-01/2017.");
 
         var organizationOptions = ["", "Special Collections Research Center", "Preservation", "Law", "DLDC"];
         var orgRealOptions = []
@@ -1018,16 +1025,18 @@ $(document).ready(function() {
         for (i = 0; i < organizationOptions.length; i += 1) {
             orgRealOptions.push(formSelectOptionItem(organizationOptions[i]));
         }
-        var organization = formGroup(makeAFormInputRequired(formSelectField("organization", orgRealOptions)));
-        var summary = formGroup(formTextAreaField("summary", "This acquisition is part of long term digitization effort"));
+        var organization = formGroup(makeAFormInputRequired(formSelectField("organization", orgRealOptions)), "The organization is the organization that initially recieved the accession. Most of the time, this will be Special Collections Research Center");
+        var summary = formGroup(formTextAreaField("summary", "This acquisition is part of long term digitization effort"), "You should enter as much descriptive information about the access as you have available to you in this field");
         var collectionStatusOptions = ["","Gift", "Transfer", "Deposit", "Purchase"];
         var realOptions = [];
         var i = null;
         for (i = 0; i < collectionStatusOptions.length; i += 1) {
             realOptions.push(formSelectOptionItem(collectionStatusOptions[i]));
         }
-        var orginDescription = formGroup(formSelectField("collection-status", realOptions));
-        var adminContent = formGroup(formTextAreaField("staff-comment", "Here is some information that a processor needs to know that is exceptional about this acquisition")); var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]); var secondRow = formRow([formRowWholeColumn(accessionId)]);
+        var orginDescription = formGroup(formSelectField("collection-status", realOptions), "need to fill out");
+        var adminContent = formGroup(formTextAreaField("staff-comment", "Here is some information that a processor needs to know that is exceptional about this acquisition"), "Enter any information that you the recorder thinks is relevant about this accession. For example: do the CDs have scratches on them, is their water damage on any of the documents");
+        var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]);
+        var secondRow = formRow([formRowWholeColumn(accessionId)])
         var thirdRow = formRow([formRowHalfColumn(collectionTitle), formRowHalfColumn(spanDate)]);
         var sixthRow = formRow([formRowWholeColumn(organization)]);
         var seventhRow = formRow([formRowWholeColumn(summary)]);
@@ -1112,8 +1121,8 @@ $(document).ready(function() {
         for (i = 0; i < restrictionCodes.length; i += 1) {
             restrictionOptions.push(formSelectOptionItem(restrictionCodes[i]));
         }
-        var restrictionCode = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formSelectField("restriction-code", restrictionOptions))))]);
-        var restrictionComment = formRow([formRowWholeColumn(formGroup(formTextAreaField("restriction-comment", "There are financial records in this acquisition")))]);
+        var restrictionCode = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formSelectField("restriction-code", restrictionOptions)), "Select the SPCL restriction code that has been attached to this accession."))]);
+        var restrictionComment = formRow([formRowWholeColumn(formGroup(formTextAreaField("restriction-comment", "There are financial records in this acquisition"), "Enter any additional information that you think might be pertinent about the restrictions on this accession."))]);
         fieldset.appendChild(restrictionCode);
         fieldset.appendChild(restrictionComment);
         form.appendChild(fieldset);
@@ -1261,40 +1270,39 @@ $(document).ready(function() {
         for (i = 0; i < forminputs.length; i += 1) {
             currentInput = (forminputs[i]);
             name = currentInput.getAttribute("name");
+            var num = name.split('-')[1]
+            if (newObj[num] === undefined) {
+                newObj[num] = Object.create(null);
+            }
             if (name.indexOf("label") > -1 && forminputs[i].value !== "") {
-                newObj.Label = forminputs[i].value;
+                newObj[num].Label = forminputs[i].value;
             } else if (name.indexOf("quantity") > -1 && forminputs[i].value !== "") {
-                newObj.Quantity = forminputs[i].value;
+                newObj[num].Quantity = forminputs[i].value;
             }
         }
-        if (thingToBeEdited !== null) {
-            var donors = JSON.parse(localStorage.getItem("Physical Media Information"));
-            var donorkeys = Object.keys(donors);
-            donors[thingToBeEdited] = newObj;
-            localStorage.setItem("Physical Media Information", JSON.stringify(donors));
-        } else if (localStorage.getItem("Physical Media Information") !== null) {
-            var n = JSON.parse(localStorage.getItem("Physical Media Information"));
-            var physmediaNumbered = Object.keys(n);
-            var sortedPhysmediaNumbered = physmediaNumbered.sort();
-            var lastPhysmediaNumber = sortedPhysmediaNumbered[sortedPhysmediaNumbered.length - 1];
-            lastPhysmediaNumber = parseInt(lastPhysmediaNumber);
-            var newPhysmediaNumber = lastPhysmediaNumber + 1;
-            n[newPhysmediaNumber.toString()] = newObj;
-            var stringN = JSON.stringify(n);
-            localStorage.setItem("Physical Media Information", stringN);
+        console.log(newObj);
+        var data = localStorage.getItem("Physical Media Information");
+
+        var highest = 0;
+        if (data !== null) {
+             data = JSON.parse(data);
+             $.each(Object.keys(data), function(index,value) {
+                 if (parseInt(value) > highest) {
+                     highest = parseInt(value);
+                 }
+             });
+             console.log(highest);
+            var newObjKeys = Object.keys(newObj);
+            $.each(newObjKeys, function(index, value) {
+                data[highest + 1] = newObj[value];
+                highest += 1;
+            });
+           var new_physmedia_info = JSON.stringify(data);
+           localStorage.setItem("Physical Media Information", new_physmedia_info);
         } else {
-            var newPhysmedia = Object.create(null);
-            newPhysmedia["0"] = newObj;
-            localStorage.setItem("Physical Media Information", JSON.stringify(newPhysmedia));
+             var new_physmedia_info = JSON.stringify(newObj);
+             localStorage.setItem("Physical Media Information", new_physmedia_info);
         }
-        var action = localStorage.getItem("action");
-        var item = localStorage.getItem("acquisitionBeingCompleted");
-        if (item !== null) {
-            var newurl = "form.html?action=" + action + "&item=" + item;
-        } else {
-            newurl = "form.html?action=" + localStorage.getItem("action");
-        }
-        form.setAttribute("action", newurl);
     }
 
     function saveRestrictionForm(thingToBeEdited) {
@@ -1648,11 +1656,12 @@ $(document).ready(function() {
                 var p = getURLQueryParams();
                 var editable = findStringInArray(p, "item=");
                 if (editable !== null) {
-                   savePhysmediaForm(editable.split("=")[1]);
+                   var t = savePhysmediaForm(editable.split("=")[1]);
                 } else {
-                   savePhysmediaForm(null);
+                   var t = savePhysmediaForm(null);
                 }
             }
+
         });
     });
 
@@ -1760,10 +1769,29 @@ $(document).ready(function() {
             }
             var l = JSON.parse(localStorage.getItem(word));
             var record = idParts[2];
+            console.log(l);
             delete l[record];
-            localStorage.setItem(word, JSON.stringify(l));
+            console.log(l);
+            var numKeys = Object.keys(l).length;
+            console.log(numKeys);
+            var newObj = Object.create(null);
+            var next = 0;
+            $.each(l, function(index, value) {
+                if (value !== record) {
+                    newObj[next] = value;
+                    next += 1;
+                }
+            });
+            console.log(numKeys);
+            if (numKeys == 0) {
+                localStorage.removeItem(word);
+            } else {
+                localStorage.setItem(word, JSON.stringify(newObj));
+                console.log("hello");
+
+            }
             location.reload();
-        });
+         });
     });
 
     $(function() {
@@ -1780,6 +1808,10 @@ $(document).ready(function() {
 
     $(function() {
         $('input[name="date-materials-received"]').datepicker();
+    });
+
+    $(function() {
+        $('[data-toggle="popover"]').popover();
     });
 
     var params = getURLQueryParams();
