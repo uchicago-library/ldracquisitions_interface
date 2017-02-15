@@ -107,11 +107,13 @@ $(document).ready(function() {
         div.setAttribute("class", "form-group");
         var labelName = innerElement.getAttribute("name");
         var popOverElement = document.createElement("a");
-        popOverElement.setAttribute("data-toggle", "popover");
-        popOverElement.setAttribute("data-placement", "right");
-        popOverElement.setAttribute("data-content", helpText);
-        popOverElement.setAttribute("href", "#");
-        popOverElement.appendChild(document.createTextNode("Help"));
+        if (helpText !== undefined) {
+            popOverElement.setAttribute("data-toggle", "popover");
+            popOverElement.setAttribute("data-placement", "right");
+            popOverElement.setAttribute("data-content", helpText);
+            popOverElement.setAttribute("href", "#");
+            popOverElement.appendChild(document.createTextNode("Help"));
+        }
 	if (labelName.indexOf("address-information-") >= 0) {
 		labelName = labelName.split(/address-information-\d+-/)[1]
 	} else if (labelName.indexOf("physmedia") >= 0) {
@@ -136,7 +138,9 @@ $(document).ready(function() {
             label = formLabel(labelName);
             div.appendChild(label);
             div.appendChild(document.createTextNode(" "));
-            div.appendChild(popOverElement);
+            if (helpText !== undefined) {
+                div.appendChild(popOverElement);
+            }
             div.appendChild(innerElement);
         }
         return div;
@@ -638,6 +642,7 @@ $(document).ready(function() {
     function prePopPhysmediaForm(word) {
         buildPhysmediaForm();
         var currentRecord = findObjectInAnArray(id, "Physical Media Information");
+        console.log(currentRecord);
         prePopInputs(currentRecord);
     }
 
@@ -1062,7 +1067,20 @@ $(document).ready(function() {
         var acquisitionDate = formHiddenField("acquisition-date", currentDate);
         fieldset.appendChild(acquisitionDate);
 
-        fieldset.appendChild(submitButton("Submit", null));
+        var save = submitButton("save Record", null);
+
+        var submit = document.createElement("button");
+        submit.setAttribute("name", "save");
+        submit.setAttribute("type", "submit");
+        submit.setAttribute("class", "btn btn-primary");
+        submit.appendChild(document.createTextNode("Submit Acquisition"));
+
+        var save = document.createElement("button");
+        save.setAttribute("name", "save");
+        save.setAttribute("class", "btn btn-primary");
+        save.appendChild(document.createTextNode("Save Record"));
+        var buttonrow = formRow([formRowHalfColumn(formGroup(submit)), formRowHalfColumn(formGroup(save))]);
+        fieldset.appendChild(buttonrow);
         form.appendChild(fieldset);
         formdiv.html(form);
     }
