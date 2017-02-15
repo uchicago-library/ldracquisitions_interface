@@ -447,6 +447,7 @@ $(document).ready(function() {
             getAValueFromCurrentRecord(currentRecord, selects[n]);
         }
         for (var n in inputs) {
+            console.log(n);
             getAValueFromCurrentRecord(currentRecord, inputs[n]);
         }
         for (var n in textareas) {
@@ -642,8 +643,11 @@ $(document).ready(function() {
     function prePopPhysmediaForm(word) {
         buildPhysmediaForm();
         var currentRecord = findObjectInAnArray(id, "Physical Media Information");
-        console.log(currentRecord);
-        prePopInputs(currentRecord);
+        var newObj = Object.create(null);
+        newObj["Physmedia 0 Label 0"] = currentRecord.Label;
+        newObj["Physmedia 0 Quantity 0"] = currentRecord.Quantity;
+        console.log(newObj);
+        prePopInputs(newObj);
     }
 
     function prePopRestrictionForm(word) {
@@ -1071,17 +1075,20 @@ $(document).ready(function() {
 
         var submit = document.createElement("button");
         submit.setAttribute("name", "save");
-        submit.setAttribute("type", "submit");
         submit.setAttribute("id", "submit-acquisition");
         submit.setAttribute("class", "btn btn-primary");
         submit.appendChild(document.createTextNode("Submit Acquisition"));
 
-        var save = document.createElement("button");
+        var save = document.createElement("a");
+        save.setAttribute("role", "button");
         save.setAttribute("name", "save");
+        save.setAttribute("id", "save-acquisition");
         save.setAttribute("class", "btn btn-primary");
         save.appendChild(document.createTextNode("Save Record"));
-        var buttonrow = formRow([formRowHalfColumn(formGroup(submit)), formRowHalfColumn(formGroup(save))]);
+        var buttonrow = formRow([formRowHalfColumn(formGroup(submit))]);
+
         fieldset.appendChild(buttonrow);
+        fieldset.appendChild(save);
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1303,7 +1310,11 @@ $(document).ready(function() {
         var data = localStorage.getItem("Physical Media Information");
 
         var highest = 0;
-        if (data !== null) {
+        if (thingToBeEdited !== null) {
+            var donors = JSON.parse(data);
+            donors[thingToBeEdited] = newObj[0];
+            localStorage.setItem("Physical Media Information", JSON.stringify(donors));
+        } else if (data !== null) {
              data = JSON.parse(data);
              $.each(Object.keys(data), function(index,value) {
                  if (parseInt(value) > highest) {
@@ -1674,6 +1685,7 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var p = getURLQueryParams();
                 var editable = findStringInArray(p, "item=");
+                console.log(editable);
                 if (editable !== null) {
                    var t = savePhysmediaForm(editable.split("=")[1]);
                 } else {
@@ -1769,9 +1781,15 @@ $(document).ready(function() {
     });
 
     $(function() {
-	$("#start-over").click(function() {
-	    localStorage.clear();
-	});
+        $("#save-acquisition").click(function() {
+            console.log("hello, world");
+        });
+    });
+
+    $(function() {
+	    $("#start-over").click(function() {
+	        localStorage.clear();
+	    });
     });
 
     $(function() {
