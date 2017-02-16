@@ -447,7 +447,6 @@ $(document).ready(function() {
             getAValueFromCurrentRecord(currentRecord, selects[n]);
         }
         for (var n in inputs) {
-            console.log(n);
             getAValueFromCurrentRecord(currentRecord, inputs[n]);
         }
         for (var n in textareas) {
@@ -456,107 +455,19 @@ $(document).ready(function() {
     }
 
     function prePopMajorForm(word) {
-        var currentRecord = getRecord(id);
-        var record = currentRecord.responseJSON.data.record;
-        if (record["Donor"]) {
-            if (localStorage.getItem("Donor") === null) {
-                var donorObj = record["Donor"];
-                var donorkeys = Object.keys(donorObj);
-                var newObj = Object.create(null);
-                for (var r in donorkeys) {
-                    newObj[parseInt(r)] = donorObj[r];
-                }
-                localStorage.setItem("Donor", JSON.stringify(newObj));
-            }
+        buildAcquisitionForm();
+        var n = localStorage.getItem("Major Form");
+        var data = null
+        if (n !== null) {
+            data = JSON.parse(n);
         }
-        if (record["Source"]) {
-            if (localStorage.getItem("Source") === null) {
-                var sourceObj = record["Source"];
-                var sourcekeys = Object.keys(sourceObj);
-                var newObj = Object.create(null);
-                for (var r in sourcekeys) {
-                    newObj[parseInt(r)] = sourceObj[r];
-                }
-                localStorage.setItem("Source", JSON.stringify(newObj));
-            }
-        }
-        if (record["Physical Media Information"]) {
-            if (localStorage.getItem("Physical Media Information") === null) {
-                var physmediaObj = record["Physical Media Information"];
-                var physmediakeys = Object.keys(physmediaObj);
-                var newObj = Object.create(null);
-                for (var r in physmediakeys) {
-                    newObj[parseInt(r)] = physmediaObj[r];
-                }
-                localStorage.setItem("Physical Media Information", JSON.stringify(newObj));
-            }
-        }
-        if (record["Restriction Information"]) {
-            if (localStorage.getItem("Restriction Information") === null) {
-                var restrictionObj = record["Restriction Information"];
-                var restrictionObj = record["Restriction Information"];
-                var restrictionkeys = Object.keys(restrictionObj);
-                var newObj = Object.create(null);
-                for (var r in restrictionkeys) {
-		    var aRestrictionObj = Object.create(null);
-		    if (restrictionObj["Restriction"] !== null) {
-			aRestrictionObj["Restriction Code"] = restrictionObj["Restriction"];	
-		    } else {
-			aRestrictionObj["Restriction Code"] = restrictionObj["Restriction Code"];
-		    }
-		    if (restrictionObj["Comment"] !== null) {
-			aRestrictionObj["Restriction Comment"] = restrictionObj["Comment"];
-		    } else {
-			aRestrictionObj["Restriction Comment"] = restrictionObj["Restriction Comment"];
-		    }
-		    
-                    newObj[parseInt(r)] = restrictionObj[r];
-                }
-                localStorage.setItem("Restriction Information", JSON.stringify(newObj));
-            }
-        }
-        loadAList("donors-list");
-        loadAList("sources-list");
-        loadAList("physmedia-list");
-        loadAList("restriction-list");
-        if (word === 'accession') {
-            buildAccessionForm();
-        } else if (word === 'acquisition') {
-            buildAcquisitionForm();
-        }
-        var fieldset = document.getElementsByTagName("fieldset")[0];
-        var inputs = fieldset.getElementsByTagName("input");
-        var textareas = fieldset.getElementsByTagName("textarea");
-        for (var n in inputs) {
-            if (typeof(inputs[n]) === 'object') {
-                if (inputs[n].getAttribute("type") === "checkbox") {
-                    var dname = displayAMachinePhrase(inputs[n].getAttribute("name")).replace(' ', '');
-                    if (record[dname] !== undefined) {
-                        var l = record[dname];
-                        if (l.indexOf(true) > -1) {
-                            inputs[n].setAttribute("checked", "true");
-                        }
-                    }
-                }
-                var a = inputs[n];
-                var name = a.getAttribute("name");
-                var displayName = displayAMachinePhrase(name).replace(' ', '');
-                if (record[displayName] !== undefined) {
-                    a.value = record[displayName][0];
-                }
-            }
-        }
-        for (var z in textareas) {
-            if (typeof(textareas[z]) === 'object') {
-                var b = textareas[z];
-                var name = b.getAttribute("name");
-                var displayName = displayAMachinePhrase(name).replace(' ', '');
-                record[displayName];
-                if (record[displayName] !== undefined) {
-                    b.value = record[displayName];
-                }
-            }
-        }
+        var d = data[0];
+        $.each(Object.keys(d), function(index, value) {
+            console.log(value);
+            var st = "[name='" + value + "']";
+            var t = $(st);
+            t.val(d[value]);
+        });
     }
 
     function prePopPersonForm(word) {
@@ -646,7 +557,6 @@ $(document).ready(function() {
         var newObj = Object.create(null);
         newObj["Physmedia 0 Label 0"] = currentRecord.Label;
         newObj["Physmedia 0 Quantity 0"] = currentRecord.Quantity;
-        console.log(newObj);
         prePopInputs(newObj);
     }
 
@@ -759,7 +669,7 @@ $(document).ready(function() {
         var anAddressForm = buildAddressForm("1");
         addressGroupDiv.appendChild(anAddressForm);
         fieldset.appendChild(addressGroupDiv);
-        fieldset.appendChild(submitButton("Add to Form", "Forget and go back"));
+        fieldset.appendChild(submitButton("Save", "Get me out of here"));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1084,7 +994,7 @@ $(document).ready(function() {
         save.setAttribute("name", "save");
         save.setAttribute("id", "save-acquisition");
         save.setAttribute("class", "btn btn-primary");
-        save.appendChild(document.createTextNode("Save Record"));
+        save.appendChild(document.createTextNode("Save"));
         var buttonrow = formRow([formRowHalfColumn(formGroup(submit))]);
 
         fieldset.appendChild(buttonrow);
@@ -1123,7 +1033,7 @@ $(document).ready(function() {
         var physmediaDiv = physMediaGroupDiv(newInput);
 
         fieldset.appendChild(physmediaDiv);
-        fieldset.appendChild(submitButton("Add to Form", "Forget and go back"));
+        fieldset.appendChild(submitButton("Save", "Get me out of here"));
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1152,7 +1062,7 @@ $(document).ready(function() {
         fieldset.appendChild(restrictionCode);
         fieldset.appendChild(restrictionComment);
         form.appendChild(fieldset);
-        form.appendChild(submitButton("Add to Form", "Forget and go back"));
+        form.appendChild(submitButton("Save", "Get me out of here"));
         formdiv.html(form);
     }
 
@@ -1286,6 +1196,23 @@ $(document).ready(function() {
         });
     });
 
+    function saveMajorFormState(thingToBeEdited) {
+        var form = document.getElementById("acquisition-form");
+        var forminputs = form.getElementsByClassName("form-control");
+        var newObj = Object.create(null);
+        newObj[0] = Object.create(null);
+        $.each(forminputs, function(index, value) {
+            var val = value.value;
+            var name = value.getAttribute("name");
+            newObj[0][name] = val;
+        });
+        var string_data = JSON.stringify(newObj);
+        if (localStorage.getItem("Major Form") === null) {
+            localStorage.setItem("Major Form", string_data);
+        } else {
+        }
+    }
+
     function savePhysmediaForm(thingToBeEdited) {
         var form = document.getElementById("physmedia-form");
         var forminputs = form.getElementsByClassName("form-control");
@@ -1306,9 +1233,7 @@ $(document).ready(function() {
                 newObj[num].Quantity = forminputs[i].value;
             }
         }
-        console.log(newObj);
         var data = localStorage.getItem("Physical Media Information");
-
         var highest = 0;
         if (thingToBeEdited !== null) {
             var donors = JSON.parse(data);
@@ -1321,7 +1246,6 @@ $(document).ready(function() {
                      highest = parseInt(value);
                  }
              });
-             console.log(highest);
             var newObjKeys = Object.keys(newObj);
             $.each(newObjKeys, function(index, value) {
                 data[highest + 1] = newObj[value];
@@ -1492,6 +1416,8 @@ $(document).ready(function() {
             localStorageLookup = "Restriction Information";
         } else if (listName === "physmedia-list") {
             localStorageLookup = "Physical Media Information";
+        } else if (listName === "acquisition-list") {
+            localStorageLookup = "Major Form";
         } else {
         }
         var dataToLoad = JSON.parse(localStorage.getItem(localStorageLookup));
@@ -1524,29 +1450,30 @@ $(document).ready(function() {
                 } else if (listName === "physmedia-list") {
                     dt = document.createElement("dt");
                     dt.appendChild(document.createTextNode(dataToLoad[i].Label + " (amount: " + dataToLoad[i].Quantity + ")"));
+                    dl.appendChild(dt);
                 }
-                var dd = document.createElement("dd");
                 var itemNum = i;
                 itemNum = itemNum.toString();
+                if (listName !== "acquisitions-list") {
+                    var dd = document.createElement("dd");
+                    var editButton = document.createElement("a");
+                    editButton.setAttribute("href", "form.html?action=" + editType + "&item=" + itemNum);
+                    editButton.setAttribute("class", "btn btn-primary btn-sm");
+                    editButton.setAttribute("role", "button")
+                    editButton.setAttribute("id", "edit-" + editType + (i + 1).toString());
+                    editButton.appendChild(document.createTextNode("Edit"));
 
-                var editButton = document.createElement("a");
-                editButton.setAttribute("href", "form.html?action=" + editType + "&item=" + itemNum);
-                editButton.setAttribute("class", "btn btn-primary btn-sm");
-                editButton.setAttribute("role", "button")
-                editButton.setAttribute("id", "edit-" + editType + (i + 1).toString());
-                editButton.appendChild(document.createTextNode("Edit"));
+                    var deleteButton = document.createElement("button");
+                    deleteButton.setAttribute("class", "btn btn-danger btn-sm");
+                    deleteButton.setAttribute("role", "button")
+                    deleteButton.setAttribute("id", "delete-" + editType + "-" + i.toString());
+                    deleteButton.appendChild(document.createTextNode("Delete"));
+                    dd.appendChild(editButton);
+                    dd.appendChild(document.createTextNode(" "));
+                    dd.appendChild(deleteButton);
+                    dl.appendChild(dd);
+                }
 
-                var deleteButton = document.createElement("button");
-                deleteButton.setAttribute("class", "btn btn-danger btn-sm");
-                deleteButton.setAttribute("role", "button")
-                deleteButton.setAttribute("id", "delete-" + editType + "-" + i.toString());
-                deleteButton.appendChild(document.createTextNode("Delete"));
-
-                dd.appendChild(editButton);
-                dd.appendChild(document.createTextNode(" "));
-                dd.appendChild(deleteButton);
-                dl.appendChild(dt);
-                dl.appendChild(dd);
                 listDiv.html(dl);
             }
         }
@@ -1601,17 +1528,17 @@ $(document).ready(function() {
 	if (fieldName.indexOf('-') > -1) {
 		fieldName = fieldName.replace('-', '');
 		fieldName = fieldName.replace('-', '');
-	} 
+	}
 	if (value !== "") {
 		if (value === "false") {
 			value = Boolean(false);
-		} 
+		}
 		if (value === "true") {
 			value = Boolean(true);
 		}
        	 	else {
 			value = value;
-		}	
+		}
 		addKeyValueToRecord(recordID, fieldName, value);
 	}
 
@@ -1685,7 +1612,6 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var p = getURLQueryParams();
                 var editable = findStringInArray(p, "item=");
-                console.log(editable);
                 if (editable !== null) {
                    var t = savePhysmediaForm(editable.split("=")[1]);
                 } else {
@@ -1716,7 +1642,7 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("accession")
         	localStorage.clear();
-		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=accession");
+		    this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=accession");
             }
         });
     });
@@ -1725,9 +1651,20 @@ $(document).ready(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("acquisition");
-		localStorage.clear();
-		this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
+		        // localStorage.clear();
+                // console.log("hi");
+		        // this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
+                console.log("hi"); 
+                return false;
+
             }
+        });
+    });
+
+    $(function() {
+        $("#save-acquisition").click(function() {
+            saveMajorFormState();
+            location.reload();
         });
     });
 
@@ -1782,7 +1719,6 @@ $(document).ready(function() {
 
     $(function() {
         $("#save-acquisition").click(function() {
-            console.log("hello, world");
         });
     });
 
@@ -1801,16 +1737,15 @@ $(document).ready(function() {
                 var word = "Physical Media Information";
             } else if (idCategory == "restriction") {
                 var word = "Restriction Information";
+            } else if (idCategory == "acquisition") {
+                var word = "Major Form";
             } else {
                 word = displayAWord(idParts[1]).replace(' ', '');
             }
             var l = JSON.parse(localStorage.getItem(word));
             var record = idParts[2];
-            console.log(l);
             delete l[record];
-            console.log(l);
             var numKeys = Object.keys(l).length;
-            console.log(numKeys);
             var newObj = Object.create(null);
             var next = 0;
             $.each(l, function(index, value) {
@@ -1819,12 +1754,10 @@ $(document).ready(function() {
                     next += 1;
                 }
             });
-            console.log(numKeys);
             if (numKeys == 0) {
                 localStorage.removeItem(word);
             } else {
                 localStorage.setItem(word, JSON.stringify(newObj));
-                console.log("hello");
 
             }
             location.reload();
@@ -1867,22 +1800,19 @@ $(document).ready(function() {
     } else {
         id = id.split("item=")[1];
     }
-  
     if (id !== null) {
         prePopSwitchFunc(decision, id);
     } else {
         emptyFormSwitchFunc(decision);
     }
-   
     loadAList("donors-list");
     loadAList("sources-list");
     loadAList("physmedia-list");
     loadAList("restriction-list");
+    loadAList("acquisition-list");
 
     if (((localStorage.getItem("Donor") === null) | (localStorage.getItem("Source") == null)) & (localStorage.getItem("Restriction Information") === null) & (localStorage.getItem("Physical Media Informatioo") === null)) {
-        console.log("hello, world");
         var d = document.getElementById("submit-acquisition");
-        console.log(d);
         d.setAttribute("class", "hidden")
     }
 
