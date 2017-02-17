@@ -879,33 +879,41 @@ $(document).ready(function() {
         form.setAttribute("role", "form");
         form.setAttribute("action", "form.html?action=acquisition");
         form.setAttribute("form", "form-horizontal");
+
         var addDonor = document.createElement("a");
         addDonor.setAttribute("href", "#");
         addDonor.setAttribute("id", "new-donor-button");
         addDonor.setAttribute("class", "btn btn-primary");
         addDonor.setAttribute("role", "button");
-        addDonor.appendChild(document.createTextNode("Add a Donor"));
+        addDonor.appendChild(document.createTextNode("Donor"));
 
         var addSource = document.createElement("a");
         addSource.setAttribute("href", "#");
         addSource.setAttribute("id", "new-source-button");
         addSource.setAttribute("class", "btn btn-primary");
         addSource.setAttribute("role", "button");
-        addSource.appendChild(document.createTextNode("Add a Source"));
+        addSource.appendChild(document.createTextNode("Source"));
 
         var addPhysmedia = document.createElement("a");
         addPhysmedia.setAttribute("href", "#");
         addPhysmedia.setAttribute("id", "new-physmedia-button");
         addPhysmedia.setAttribute("class", "btn btn-primary");
         addPhysmedia.setAttribute("role", "button");
-        addPhysmedia.appendChild(document.createTextNode("Add a Physical Media"));
+        addPhysmedia.appendChild(document.createTextNode("Physical Media"));
 
         var addRestriction = document.createElement("a");
         addRestriction.setAttribute("href", "#");
         addRestriction.setAttribute("id", "new-restriction-button");
         addRestriction.setAttribute("class", "btn btn-primary");
         addRestriction.setAttribute("role", "button");
-        addRestriction.appendChild(document.createTextNode("Add a Restriction"));
+        addRestriction.appendChild(document.createTextNode("Restriction"));
+
+        var mainForm = document.createElement("a");
+        mainForm.setAttribute("href", "#");
+        mainForm.setAttribute("id", "main-form");
+        mainForm.setAttribute("class", "btn btn-primary");
+        mainForm.setAttribute("role", "button");
+        mainForm.appendChild(document.createTextNode("Main Form"));
 
         var legend = document.createElement("legend");
 
@@ -920,6 +928,8 @@ $(document).ready(function() {
         legendP.appendChild(addPhysmedia);
         legendP.appendChild(document.createTextNode(" "));
         legendP.appendChild(addRestriction);
+        legendP.appendChild(document.createTextNode(" "));
+        legendP.appendChild(mainForm);
         legend.appendChild(legendH3);
         legend.appendChild(legendP);
 
@@ -981,24 +991,18 @@ $(document).ready(function() {
         var acquisitionDate = formHiddenField("acquisition-date", currentDate);
         fieldset.appendChild(acquisitionDate);
 
-        var save = submitButton("save Record", null);
-
-        var submit = document.createElement("button");
-        submit.setAttribute("name", "save");
-        submit.setAttribute("id", "submit-acquisition");
-        submit.setAttribute("class", "btn btn-primary");
-        submit.appendChild(document.createTextNode("Submit Acquisition"));
-
         var save = document.createElement("a");
         save.setAttribute("role", "button");
         save.setAttribute("name", "save");
         save.setAttribute("id", "save-acquisition");
         save.setAttribute("class", "btn btn-primary");
-        save.appendChild(document.createTextNode("Save"));
-        var buttonrow = formRow([formRowHalfColumn(formGroup(submit))]);
-
-        fieldset.appendChild(buttonrow);
+        save.appendChild(document.createTextNode("Save My Work"));
         fieldset.appendChild(save);
+
+        var div = document.createElement("div");
+        div.setAttribute("id", "submit-acquisition");
+        fieldset.appendChild(div);
+
         form.appendChild(fieldset);
         formdiv.html(form);
     }
@@ -1721,6 +1725,14 @@ $(document).ready(function() {
     });
 
     $(function() {
+        $("#main-form").click(function() {
+            location.replace("form.html?action=acquisition");
+        });
+    });
+
+
+
+    $(function() {
         $("#save-acquisition").click(function() {
         });
     });
@@ -1814,10 +1826,24 @@ $(document).ready(function() {
     loadAList("restriction-list");
     loadAList("acquisition-list");
 
-    if (((localStorage.getItem("Donor") === null) | (localStorage.getItem("Source") == null)) & (localStorage.getItem("Restriction Information") === null) & (localStorage.getItem("Physical Media Informatioo") === null)) {
+    var donorFilled = localStorage.getItem("Donor");
+    var sourceFilled = localStorage.getItem("Source");
+    var physmediaFilled = localStorage.getItem("Physical Media Information");
+    var restrictionFilled = localStorage.getItem("Restriction Information");
+    if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null) & (physmediaFilled !== null)) {
+        console.log("hi");
+        var submit = document.createElement("button");
+        submit.setAttribute("name", "save");
+        submit.setAttribute("id", "submit-acquisition");
+        submit.setAttribute("class", "btn btn-primary");
+        submit.appendChild(document.createTextNode("Submit Acquisition"));
+
         var d = document.getElementById("submit-acquisition");
-        d.setAttribute("class", "hidden")
+        var form = document.getElementById("submit-acquisition");
+        form.appendChild(submit)
+        
     }
+
 
     // console.log(document.getElementById("submit-acquisition"));
     // console.log($("#submit-acquisition"));
