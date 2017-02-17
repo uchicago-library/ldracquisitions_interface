@@ -1575,6 +1575,7 @@ $(document).ready(function() {
             var cur = textareas[i];
             addFieldToARecord(recordID, cur.getAttribute("name"), cur.value);
         }
+	console.log(recordID);
         return recordID;
     }
 
@@ -1642,7 +1643,8 @@ $(document).ready(function() {
             if (!e.isDefaultPrevented()) {
                 var newRecordID = saveMajorForm("accession")
         	localStorage.clear();
-		    this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=accession");
+	        this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=accession");
+		return false;
             }
         });
     });
@@ -1650,10 +1652,11 @@ $(document).ready(function() {
     $(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
-                var newRecordID = saveMajorForm("acquisition");
+                //var newRecordID = saveMajorForm("acquisition");
 		        // localStorage.clear();
                 // console.log("hi");
-		        // this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
+		var formElement = document.getElementById("#acquisition-form")
+		formElement.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
                 console.log("hi"); 
                 return false;
 
