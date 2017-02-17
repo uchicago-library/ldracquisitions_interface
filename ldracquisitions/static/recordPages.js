@@ -997,10 +997,10 @@ $(document).ready(function() {
         save.setAttribute("id", "save-acquisition");
         save.setAttribute("class", "btn btn-primary");
         save.appendChild(document.createTextNode("Save My Work"));
-        fieldset.appendChild(save);
 
         var div = document.createElement("div");
         div.setAttribute("id", "submit-acquisition");
+	div.appendChild(save);
         fieldset.appendChild(div);
 
         form.appendChild(fieldset);
@@ -1201,6 +1201,7 @@ $(document).ready(function() {
     });
 
     function saveMajorFormState(thingToBeEdited) {
+	console.log(thingToBeEdited);
         var form = document.getElementById("acquisition-form");
         var forminputs = form.getElementsByClassName("form-control");
         var newObj = Object.create(null);
@@ -1210,11 +1211,15 @@ $(document).ready(function() {
             var name = value.getAttribute("name");
             newObj[0][name] = val;
         });
-        var string_data = JSON.stringify(newObj);
         if (localStorage.getItem("Major Form") === null) {
-            localStorage.setItem("Major Form", string_data);
+	        var string_data = JSON.stringify(newObj);
+        	localStorage.setItem("Major Form", string_data);
         } else {
-        }
+		var t = JSON.parse(localStorage.getItem("Major Form"));
+		t[thingToBeEdited] = newObj[0];
+		var string_data = JSON.stringify(t);
+		localStorage.setItem("Major Form", string_data);
+       	}
     }
 
     function savePhysmediaForm(thingToBeEdited) {
@@ -1465,13 +1470,13 @@ $(document).ready(function() {
                     editButton.setAttribute("class", "btn btn-primary btn-sm");
                     editButton.setAttribute("role", "button")
                     editButton.setAttribute("id", "edit-" + editType + (i + 1).toString());
-                    editButton.appendChild(document.createTextNode("Edit"));
+                    editButton.appendChild(document.createTextNode("Review This"));
 
                     var deleteButton = document.createElement("button");
                     deleteButton.setAttribute("class", "btn btn-danger btn-sm");
                     deleteButton.setAttribute("role", "button")
                     deleteButton.setAttribute("id", "delete-" + editType + "-" + i.toString());
-                    deleteButton.appendChild(document.createTextNode("Delete"));
+                    deleteButton.appendChild(document.createTextNode("Delete This"));
                     dd.appendChild(editButton);
                     dd.appendChild(document.createTextNode(" "));
                     dd.appendChild(deleteButton);
@@ -1579,7 +1584,6 @@ $(document).ready(function() {
             var cur = textareas[i];
             addFieldToARecord(recordID, cur.getAttribute("name"), cur.value);
         }
-	console.log(recordID);
         return recordID;
     }
 
@@ -1656,21 +1660,23 @@ $(document).ready(function() {
     $(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
-                //var newRecordID = saveMajorForm("acquisition");
-		        // localStorage.clear();
-                // console.log("hi");
-		var formElement = document.getElementById("#acquisition-form")
-		formElement.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=acquisition");
-                console.log("hi"); 
-                return false;
-
+		var newRecordId = saveMajorForm("acquisition");
+		localStorage.clear();
+		location.replace("receipt.html?id=" + newRecordId + "&action=acquisition");
+		return false;
             }
         });
     });
 
     $(function() {
         $("#save-acquisition").click(function() {
-            saveMajorFormState();
+            var p = getURLQueryParams();
+            var editable = findStringInArray(p, "item=");
+	    if (editable !== null) {
+		saveMajorFormState(editable.split("=")[1]);
+	    } else {
+            	saveMajorFormState();
+	    }
             location.reload();
         });
     });
@@ -1840,6 +1846,7 @@ $(document).ready(function() {
 
         var d = document.getElementById("submit-acquisition");
         var form = document.getElementById("submit-acquisition");
+	form.appendChild(document.createTextNode(" "));
         form.appendChild(submit)
         
     }

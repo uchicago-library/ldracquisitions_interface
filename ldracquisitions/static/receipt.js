@@ -58,7 +58,7 @@ $(document).ready(function () {
     console.log(headerText);
     var div = $("#receipt-div");
     var p = document.createElement("p");
-    var pText = document.createTextNode("Your receipt is " + id);
+    var pText = document.createTextNode("You have created a new acquisition record. If you want to verify with the DAS, please give him this identifier:  " + id + ". Otherwise, you can review the record you just created by clicking on the List Acquisitions link at the top of the screen and finding the identifier in the list that will be displayed. Thank you for your submission.");
     p.appendChild(pText);
     div.html(p);
 });
