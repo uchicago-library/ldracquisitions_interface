@@ -111,7 +111,6 @@ $(document).ready(function() {
             popOverElement.setAttribute("data-toggle", "popover");
             popOverElement.setAttribute("data-placement", "right");
             popOverElement.setAttribute("data-content", helpText);
-            popOverElement.setAttribute("href", "#");
             popOverElement.appendChild(document.createTextNode("Help"));
         }
 	if (labelName.indexOf("address-information-") >= 0) {
@@ -463,8 +462,21 @@ $(document).ready(function() {
         }
         var d = data[0];
         $.each(Object.keys(d), function(index, value) {
-            console.log(value);
             var st = "[name='" + value + "']";
+	    if (value == "other-collection-status") {
+        	var otherCollectionStatus = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("other-collection-status", "text", ""))))]);
+		var theDiv = document.getElementById("collection-status-definition");
+		theDiv.appendChild(otherCollectionStatus);
+		console.log(st);
+	    }
+	    if (value == "other-organization") {
+		var input = formInputField("other-organization", "text", "")
+		var requiredInput = makeAFormInputRequired(input);
+		var theGroup = formGroup(requiredInput);
+		var theRow = formRow([formRowWholeColumn(theGroup)]);
+		var theDiv = document.getElementById("organization-definition");
+		theDiv.appendChild(theRow);	
+	    }
             var t = $(st);
             t.val(d[value]);
         });
@@ -948,37 +960,51 @@ $(document).ready(function() {
         var collectionTitle = formGroup(makeAFormInputRequired(formInputField("collection-title", "text", "McQuowan Papers. Digital Collection.")), "Enter the collection title that this accession belongs to. If the collection title has alreaydy been entered, then you can type any word or combination of letters that exist in the title and select from the dropdown that appears. If this is the first time that ths collection is being recorded then you will have to type the entire collection title.");
         var spanDate = formGroup(setRegexValidatorInput(formInputField("span-date", "text", "1980-1999"), "\\d{2}[/]\\d{4}-\\d{4}|\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}-\\d{2}[/]\\d{4}|\\d{2}[/]\\d{4}|\\d{4}|\\d{4}-\\d{4}", "must look like 01/1980-02/1980 or 01/1980-1999 or 1980-1999"), "The Span Date is the range of time represented by the content in the accession. For example, a collection of President Barack Obama's Presidential Papers would have a span date of 01/2009-01/2017.");
 
-        var organizationOptions = ["", "Special Collections Research Center", "Preservation", "Law", "DLDC"];
+        var organizationOptions = ["", "DLDC", "Law", "Preservation", "Special Collections Research Center", "Other"];
         var orgRealOptions = []
         var i = null;
         for (i = 0; i < organizationOptions.length; i += 1) {
             orgRealOptions.push(formSelectOptionItem(organizationOptions[i]));
         }
         var organization = formGroup(makeAFormInputRequired(formSelectField("organization", orgRealOptions)), "The organization is the organization that initially recieved the accession. Most of the time, this will be Special Collections Research Center");
+
+        var sixthRow = formRow([formRowWholeColumn(organization)]);
+	var organizationDefinitionDiv = document.createElement("div");
+	organizationDefinitionDiv.setAttribute("id", "organization-definition");
+	organizationDefinitionDiv.append(sixthRow);	
+
         var summary = formGroup(formTextAreaField("summary", "This acquisition is part of long term digitization effort"), "You should enter as much descriptive information about the access as you have available to you in this field");
-        var collectionStatusOptions = ["","Gift", "Transfer", "Deposit", "Purchase"];
+        var collectionStatusOptions = ["","Gift", "Deposit", "Purchase", "Transfer", "Other"];
         var realOptions = [];
         var i = null;
         for (i = 0; i < collectionStatusOptions.length; i += 1) {
             realOptions.push(formSelectOptionItem(collectionStatusOptions[i]));
         }
+
         var orginDescription = formGroup(formSelectField("collection-status", realOptions), "need to fill out");
+        var eighthRow = formRow([formRowWholeColumn(orginDescription)]);
+
+	var originDescriptionDiv = document.createElement("div");
+	originDescriptionDiv.setAttribute("id", "collection-status-definition");
+	originDescriptionDiv.append(eighthRow);	
+
+	
         var adminContent = formGroup(formTextAreaField("staff-comment", "Here is some information that a processor needs to know that is exceptional about this acquisition"), "Enter any information that you the recorder thinks is relevant about this accession. For example: do the CDs have scratches on them, is their water damage on any of the documents");
         var firstRow = formRow([formRowWholeColumn(mixedAcquisition)]);
         var secondRow = formRow([formRowWholeColumn(accessionId)])
         var thirdRow = formRow([formRowHalfColumn(collectionTitle), formRowHalfColumn(spanDate)]);
-        var sixthRow = formRow([formRowWholeColumn(organization)]);
+       
         var seventhRow = formRow([formRowWholeColumn(summary)]);
-        var eighthRow = formRow([formRowWholeColumn(orginDescription)]);
+
         var ninthRow = formRow([formRowWholeColumn(adminContent)]);
         var hiddenFields = addHiddenFields();
         fieldset.appendChild(legend);
         fieldset.appendChild(firstRow);
         fieldset.appendChild(secondRow);
         fieldset.appendChild(thirdRow);
-        fieldset.appendChild(sixthRow);
+        fieldset.appendChild(organizationDefinitionDiv);
         fieldset.appendChild(seventhRow);
-        fieldset.appendChild(eighthRow);
+        fieldset.appendChild(originDescriptionDiv);
         fieldset.appendChild(ninthRow);
         fieldset.appendChild(hiddenFields);
 
@@ -996,7 +1022,7 @@ $(document).ready(function() {
         save.setAttribute("name", "save");
         save.setAttribute("id", "save-acquisition");
         save.setAttribute("class", "btn btn-primary");
-        save.appendChild(document.createTextNode("Save My Work"));
+        save.appendChild(document.createTextNode("Save This Part of The Record"));
 
         var div = document.createElement("div");
         div.setAttribute("id", "submit-acquisition");
@@ -1660,13 +1686,18 @@ $(document).ready(function() {
     $(function() {
         $("#acquisition-form").validator().on('submit', function(e) {
             if (!e.isDefaultPrevented()) {
-		var newRecordId = saveMajorForm("acquisition");
-		localStorage.clear();
-		location.replace("receipt.html?id=" + newRecordId + "&action=acquisition");
+		var answer = confirm("You are about to submit your complete acquisition record including: donor/source, physical media, restriction and main form information, to the LDR. Are you sure that you want to do this?");
+		if (answer == true) {
+		    var newRecordId = saveMajorForm("acquisition");
+		    localStorage.clear();
+		    location.replace("receipt.html?id=" + newRecordId + "&action=acquisition");
+
+		} 
 		return false;
             }
         });
-    });
+    }); 
+
 
     $(function() {
         $("#save-acquisition").click(function() {
@@ -1733,6 +1764,12 @@ $(document).ready(function() {
     $(function() {
         $("#main-form").click(function() {
             location.replace("form.html?action=acquisition");
+	    var majorFormData = localStorage.getItem("Major Form");
+	    console.log(maorFormData);	
+	    //if (majorFormData !== null) {
+	//	prePopSwitchFunc("acquisition", 0);
+         //   }
+	   console.log("hello");
         });
     });
 
@@ -1794,6 +1831,32 @@ $(document).ready(function() {
     });
 
     $(function() {
+       $('[name="collection-status"]').change(function() {
+	   var selected_value = $(this).val();
+	   if ((selected_value == 'Other') & (document.getElementById("other-=collection-status") === null)) {
+        	var otherCollectionStatus = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("other-collection-status", "text", ""))))]);
+		var theDiv = document.getElementById("collection-status-definition");
+		theDiv.appendChild(otherCollectionStatus);
+           }
+       });
+    });
+
+    $(function() {
+       $('[name="organization"]').change(function() {
+	   var selected_value = $(this).val();
+	   if ((selected_value == 'Other') & (document.getElementById("other-organization") === null)) {
+		var input = formInputField("other-organization", "text", "")
+		var requiredInput = makeAFormInputRequired(input);
+		var theGroup = formGroup(requiredInput);
+		var theRow = formRow([formRowWholeColumn(theGroup)]);
+		var theDiv = document.getElementById("organization-definition");
+		theDiv.appendChild(theRow);	
+           }
+       });
+    });
+
+
+    $(function() {
         $('input[name="date-files-received"]').datepicker();
     });
 
@@ -1837,24 +1900,14 @@ $(document).ready(function() {
     var physmediaFilled = localStorage.getItem("Physical Media Information");
     var restrictionFilled = localStorage.getItem("Restriction Information");
     if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null) & (physmediaFilled !== null)) {
-        console.log("hi");
         var submit = document.createElement("button");
         submit.setAttribute("name", "save");
         submit.setAttribute("id", "submit-acquisition");
         submit.setAttribute("class", "btn btn-primary");
         submit.appendChild(document.createTextNode("Submit Acquisition"));
-
         var d = document.getElementById("submit-acquisition");
         var form = document.getElementById("submit-acquisition");
 	form.appendChild(document.createTextNode(" "));
         form.appendChild(submit)
-        
     }
-
-
-    // console.log(document.getElementById("submit-acquisition"));
-    // console.log($("#submit-acquisition"));
-
-
-
 });
