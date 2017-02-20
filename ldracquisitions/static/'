@@ -690,7 +690,7 @@ $(document).ready(function() {
         for (var n in peopleRecords) {
             var anObj = peopleRecords[n];
 	    if (anObj['notApplicable'] !== undefined) {
-		var newhiddenfield = formHiddenField(term + "-not-applicable", "not-applicable");
+		var newhiddenfield = formHiddenField("donor-0", "not-applicable");
 		appendableDiv.appendChild(newhiddenfield);
 	    } else {
             var firstNameField = term + "-" + n.toString() + "-" + "first-name";
@@ -1634,9 +1634,6 @@ $(document).ready(function() {
         var added = addRecordToCategory(displayAWord(formTypeString) + "Record", recordID);
         for (i = 0; i < inputs.length; i += 1) {
             var cur = inputs[i];
-	    if ((cur.getAttribute("name") == "donor-not-applicable") || (cur.getAttribute("source-not-applicable"))) {
-		var value = null;
-	    } 
             if (cur.getAttribute("type") === "checkbox") {
                 var t = $("input[name=\'" + cur.getAttribute("name") + "\']");
                 var value = t.is(":checked").toString();
@@ -1773,7 +1770,6 @@ $(document).ready(function() {
 	    newObj[0]['notApplicable'] = true;
 	    localStorage.setItem("Donor", JSON.stringify(newObj));
 	    localStorage.setItem("Source", JSON.stringify(newObj));
-	    location.reload();
 	    return false;	
         });
     });
@@ -2044,7 +2040,7 @@ $(document).ready(function() {
     var sourceFilled = localStorage.getItem("Source");
     var physmediaFilled = localStorage.getItem("Physical Media Information");
     var restrictionFilled = localStorage.getItem("Restriction Information");
-    if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null)) {
+    if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null) & (physmediaFilled !== null)) {
         var submit = document.createElement("button");
         submit.setAttribute("name", "save");
         submit.setAttribute("id", "submit-acquisition");
