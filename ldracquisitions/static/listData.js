@@ -100,7 +100,6 @@ $(document).ready(function () {
 	div.appendChild(twop);
 	var threep = document.createElement("p");
 	if (data["Date Files Received"] !== undefined) {
-		console.log(data);
 		threep.appendChild(document.createTextNode("Date Files Received: " + data["Date Files Received"][0]));
 		div.appendChild(threep);
 	}
@@ -118,12 +117,9 @@ $(document).ready(function () {
 		var restrictionKeys = Object.keys(restrictions);
         	for (var n in restrictionKeys) {	
 			var li = document.createElement("li");		
-			console.log(restrictions[n]);
 			if (restrictions[n]["Restriction Code"] !== undefined) {
-				console.log("hello");
 				li.appendChild(document.createTextNode(restrictions[n]["Restriction Code"])); 
 			} else {
-				console.log(restrictions[n]);
 				li.appendChild(document.createTextNode(restrictions[n]["Restriction"]));
 			}
 			ul.appendChild(li);
@@ -162,7 +158,6 @@ $(document).ready(function () {
         $("button[id^='view-']").click(function() {
 	    try {
             var id = this.getAttribute("id").split("view-")[1];
-	    console.log(id);
 	    var n = "div[class='export-" + id + "']";
 	    var d = displayAnAccessionRecord(getRecord(id).responseJSON.data.record);
 	    var p = $(n).html(d);
@@ -181,7 +176,6 @@ $(document).ready(function () {
         decision = decision.split("action=")[1];
     }
     var data = getRecordsByCategory(displayAWord(decision) + "Record");
-    console.log(data);
     var ids = data.responseJSON.data.record_identifiers;
     var htmlToFill = $("#listing-div");
     var header = $("#listing-header");
@@ -192,18 +186,7 @@ $(document).ready(function () {
     if (decision === 'accession') {
         for (var n in ids) {
             var value = ids[n];
-            var exportButton = document.createElement("button");
-            exportButton.setAttribute("class", "btn btn-primary btn-sm");
-            exportButton.setAttribute("role", "button")
-            exportButton.setAttribute("id", "export-" + value);
-            exportButton.appendChild(document.createTextNode("As Raw String"));
 
-	    var viewButton = document.createElement("button");
-	    viewButton.setAttribute("class", "btn btn-primary btn-sm");
-            viewButton.setAttribute("role", "button")
-            viewButton.setAttribute("id", "view-" + value);
-            viewButton.appendChild(document.createTextNode("View Record"));
-	
 	    var dd = document.createElement("dd");
 	    dd.appendChild(exportButton);
 	    dd.appendChild(document.createTextNode(" "));
@@ -228,11 +211,13 @@ $(document).ready(function () {
     } else if (decision == 'acquisition') {
         for (var n in ids) {
             var value = ids[n];
+
             var exportButton = document.createElement("button");
             exportButton.setAttribute("class", "btn btn-primary btn-sm");
             exportButton.setAttribute("role", "button")
             exportButton.setAttribute("id", "export-" + value);
             exportButton.appendChild(document.createTextNode("As Raw String"));
+
 
 	    var viewButton = document.createElement("button");
 	    viewButton.setAttribute("class", "btn btn-primary btn-sm");
@@ -240,28 +225,36 @@ $(document).ready(function () {
             viewButton.setAttribute("id", "view-" + value);
             viewButton.appendChild(document.createTextNode("View Record"));
 	
-
 	    var dd = document.createElement("dd");
 	    dd.appendChild(exportButton);
 	    dd.appendChild(document.createTextNode(" "));
 	    dd.appendChild(viewButton);
+
+           	
+            var title = getAValueInARecord(value, "Collection Title").responseJSON;
+	    var accessionid = getAValueInARecord(value, "Accession Identifier").responseJSON;
+	    if ((title.data !== null) & (accessionid.data != null)) {
+	    title = title.data.value[0]
+	    accessionid = accessionid.data.value[0];
             var dt = document.createElement("dt");
-            var title = getAValueInARecord(value, "Collection Title").responseJSON.data.value[0];
-            var accessionid = getAValueInARecord(value, "Accession Identifier").responseJSON.data.value[0];
-            var val = accessionid + " from " + title;
 	    var listItemDiv = document.createElement("div");
-	    var exportDiv = document.createElement("div");
-	    exportDiv.setAttribute("class", "export-" + value);
-
-
 	    listItemDiv.setAttribute("class", "list-group-item");
 	    listItemDiv.setAttribute("id", value);
-            dt.appendChild(document.createTextNode(val));
+	    var exportDiv = document.createElement("div");
+	    exportDiv.setAttribute("class", "export-" + value);
+     	    dt.appendChild(document.createTextNode(accessionid + " from " + title));
             listItemDiv.appendChild(dt);
 	    listItemDiv.appendChild(dd);
 	    listItemDiv.appendChild(exportDiv);
             dl.appendChild(listItemDiv);
             count += 1;
+
+	    }
+
+
+	    
+
+           
        }
     }
     if (count == 0) {

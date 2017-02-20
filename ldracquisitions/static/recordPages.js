@@ -1538,7 +1538,7 @@ $(document).ready(function() {
                     editButton.setAttribute("id", "edit-" + editType + (i + 1).toString());
                     editButton.appendChild(document.createTextNode("Review This"));
 
-                    var deleteButton = document.createElement("button");
+                    var deleteButton = document.createElement("a");
                     deleteButton.setAttribute("class", "btn btn-danger btn-sm");
                     deleteButton.setAttribute("role", "button")
                     deleteButton.setAttribute("id", "delete-" + editType + "-" + i.toString());
@@ -1844,25 +1844,45 @@ $(document).ready(function() {
     });
 
     $(function() {
-        $("button[id^='delete']").click(function() {
-            var id = this.getAttribute("id");
-            var idParts = id.split('-');
-            var idCategory = idParts[1];
-            if (idCategory == "physmedia") {
+        $("[id^='delete']").click(function() {
+            var check = confirm("Are you sure?");
+	   
+	    if (check == true) {
+            	var id = this.getAttribute("id");
+            	var idParts = id.split('-');
+            	var idCategory = idParts[1];
+            	if (idCategory == "physmedia") {
                 var word = "Physical Media Information";
-            } else if (idCategory == "restriction") {
+            	} else if (idCategory == "restriction") {
                 var word = "Restriction Information";
-            } else if (idCategory == "acquisition") {
+            	} else if (idCategory == "acquisition") {
                 var word = "Major Form";
-            } else {
+            	} else {
                 word = displayAWord(idParts[1]).replace(' ', '');
-            }
-            var l = JSON.parse(localStorage.getItem(word));
-            var record = idParts[2];
-            delete l[record];
-            var numKeys = Object.keys(l).length;
-            var newObj = Object.create(null);
-            var next = 0;
+          	}
+            	var l = JSON.parse(localStorage.getItem(word));
+            	var record = idParts[2];
+            	delete l[record];
+            	var numKeys = Object.keys(l).length;
+            	var newObj = Object.create(null);
+            	var next = 0;
+            	$.each(l, function(index, value) {
+                    if (value !== record) {
+                        newObj[next] = value;
+                        next += 1;
+               	    }
+            	});
+            	if (numKeys == 0) {
+                    localStorage.removeItem(word);
+                } else {
+                    localStorage.setItem(word, JSON.stringify(newObj));
+                }
+		location.load();
+	    } else {
+		console.log("never mind");
+
+	    }
+      	    return false;
         });
     });
 
@@ -1946,6 +1966,7 @@ $(document).ready(function() {
                 word = displayAWord(idParts[1]).replace(' ', '');
             }
             var l = JSON.parse(localStorage.getItem(word));
+	    console.log(l);
             var record = idParts[2];
             delete l[record];
             var numKeys = Object.keys(l).length;
