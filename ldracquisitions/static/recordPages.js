@@ -1282,7 +1282,6 @@ $(document).ready(function() {
     });
 
     function saveMajorFormState(thingToBeEdited) {
-	console.log(thingToBeEdited);
         var form = document.getElementById("acquisition-form");
         var forminputs = form.getElementsByClassName("form-control");
         var newObj = Object.create(null);
@@ -1389,7 +1388,6 @@ $(document).ready(function() {
 
     function savePersonForm(word, thingToBeEdited) {
         var form = document.getElementById(word + "-form");
-	console.log(form);
         var displayWord = displayAWord(word);
         var forminputs = form.getElementsByClassName("form-control");
         var i = null;
@@ -1425,8 +1423,6 @@ $(document).ready(function() {
             } else if (name.indexOf('institution-name') > -1 && forminputs[i].value !== "") {
 	       var v = forminputs[i].value;
 	       newObj["Institution Name"] = v;
-	       console.log(v);
-	       console.log("hi");
 	
             } else if (name.indexOf('first-name') > -1 && forminputs[i].value !== "") {
                 newObj["First Name"] = forminputs[i].value;
@@ -1695,7 +1691,6 @@ $(document).ready(function() {
             	}
 		return false;
 	    } else {
-		console.log("form is not valid");
 	    }
 	});
 
@@ -1712,9 +1707,7 @@ $(document).ready(function() {
              	 } else {
                      answer = savePersonForm("source", null);
              	 }
-		 console.log(answer);
             } else {
-		console.log("form is not valid");
 	    }
         });
     });
@@ -1731,7 +1724,6 @@ $(document).ready(function() {
                     var t = savePhysmediaForm(null);
             	}
 	    } else {
-		console.log("form is not valid");
 	    }
 	});
     });
@@ -1748,7 +1740,6 @@ $(document).ready(function() {
                    saveRestrictionForm(null);
                 }
             } else {
-		console.log("form is not valid.");
 	    }
         });
 
@@ -1767,7 +1758,6 @@ $(document).ready(function() {
 		   return false;
 		}
 	    } else {
-		console.log("form is not valid");
 	    }
         });
     }); 
@@ -1853,11 +1843,6 @@ $(document).ready(function() {
         $("#main-form").click(function() {
             location.replace("form.html?action=acquisition");
 	    var majorFormData = localStorage.getItem("Major Form");
-	    console.log(maorFormData);	
-	    //if (majorFormData !== null) {
-	//	prePopSwitchFunc("acquisition", 0);
-         //   }
-	   console.log("hello");
         });
     });
 
@@ -1909,7 +1894,6 @@ $(document).ready(function() {
                 }
 		location.reload();
 	    } else {
-		console.log("never mind");
 
 	    }
         });
@@ -1957,11 +1941,6 @@ $(document).ready(function() {
         $("#main-form").click(function() {
             location.replace("form.html?action=acquisition");
 	    var majorFormData = localStorage.getItem("Major Form");
-	    console.log(maorFormData);	
-	    //if (majorFormData !== null) {
-	//	prePopSwitchFunc("acquisition", 0);
-         //   }
-	   console.log("hello");
         });
     });
 
@@ -1993,7 +1972,6 @@ $(document).ready(function() {
                 word = displayAWord(idParts[1]).replace(' ', '');
             }
             var l = JSON.parse(localStorage.getItem(word));
-	    console.log(l);
             var record = idParts[2];
             delete l[record];
             var numKeys = Object.keys(l).length;
@@ -2055,8 +2033,6 @@ $(document).ready(function() {
 	    var institutionName = formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("institution-name", "text", "Jane")), "Enter the institution's given name in this field. For example, it might be Jane or John."));
 	    var newRow = formRow([institutionName]);
 	    t.html(newRow); 
-	    console.log(t);	
-	    console.log("hello");
        });
     });
 
