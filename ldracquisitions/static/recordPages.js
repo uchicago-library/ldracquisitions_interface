@@ -236,7 +236,7 @@ $(document).ready(function() {
             mediaRealOptions.push(formSelectOptionItem(physmediaOptions[i]));
         }
         var physmedialabel = formGroup(makeAFormInputRequired(formSelectField(name +  "-label-" + num, mediaRealOptions)), "Select the medium name that matches the item that you are looking at. If there are more than types of physical media, than add a lne for each type");
-        var physmediaquantity = formGroup(formInputField(name + "-quantity-" + num, "num", "10"), "Enter the number of total pieces of this type of physical media represented in the accession.");
+        var physmediaquantity = formGroup(makeAFormInputRequired(formInputField(name + "-quantity-" + num, "num", "10")), "Enter the number of total pieces of this type of physical media represented in the accession.");
         var aFormRow = formRow([formRowHalfColumn(physmedialabel), formRowHalfColumn(physmediaquantity)]);
         return aFormRow;
     }
@@ -246,7 +246,7 @@ $(document).ready(function() {
         var button = document.createElement("button");
         var cancel = document.createElement("a");
         button.setAttribute("name", "save");
-        button.setAttribute("type", "submit");
+        //button.setAttribute("type", "submit");
         button.setAttribute("class", "btn btn-primary");
         button.appendChild(document.createTextNode(buttonLabel));
         if (abandonHopeButtonLabel !== null) {
@@ -467,7 +467,6 @@ $(document).ready(function() {
         	var otherCollectionStatus = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("other-collection-status", "text", ""))))]);
 		var theDiv = document.getElementById("collection-status-definition");
 		theDiv.appendChild(otherCollectionStatus);
-		console.log(st);
 	    }
 	    if (value == "other-organization") {
 		var input = formInputField("other-organization", "text", "")
@@ -623,7 +622,7 @@ $(document).ready(function() {
         form.setAttribute("id", correctTerm + "-form");
         form.setAttribute("data-toggle", "validator");
         form.setAttribute("role", "form");
-        form.setAttribute("action", "form.html?action=" + localStorage.getItem("action"));
+        form.setAttribute("action", "form.html?action=acquisition");
         form.setAttribute("form", "form-horizontal");
 
         var addPhone = document.createElement("a");
@@ -649,6 +648,21 @@ $(document).ready(function() {
         var legend = document.createElement("legend");
         var legendH3 = document.createElement("h3");
         var legendP = document.createElement("p");
+
+	var setType = document.createElement("a");
+        setType.setAttribute("id", "setInstitutionType");
+        setType.setAttribute("class", "btn btn-primary");
+        setType.setAttribute("role", "button");
+        setType.appendChild(document.createTextNode("Is An Institution"));
+
+	var unsetType = document.createElement("a");
+        unsetType.setAttribute("id", "unsetInstitutionType");
+        unsetType.setAttribute("class", "btn btn-primary");
+        unsetType.setAttribute("role", "button");
+        unsetType.appendChild(document.createTextNode("Is Not An Institution"));
+
+
+
         legendH3.appendChild(document.createTextNode("Creating a " + displayAWord(correctTerm)));
         legendP = document.createElement("p");
         legendP.appendChild(addPhone);
@@ -663,16 +677,28 @@ $(document).ready(function() {
         legend.appendChild(addEmail);
         legend.appendChild(document.createTextNode(" "));
         legend.appendChild(addAddress);
+        legend.appendChild(document.createTextNode(" "));
+	legend.appendChild(setType);
+        legend.appendChild(document.createTextNode(" "));
+	legend.appendChild(unsetType);
         fieldset.appendChild(legend);
-        var firstName = formRowHalfColumn(formGroup(formInputField("first-name", "text", "Jane"), "Enter the " + correctTerm + "'s given name in this field. For example, it might be Jane or John."));
 
-        var lastName = formRowHalfColumn(formGroup(formInputField("last-name", "text", "Doe"), "Enter the " + correctTerm  + "'s family name in this field. For example, it might be Smith."));
+	var nameDiv = document.createElement("div");
+	nameDiv.setAttribute("id", "nameInputArea");
+	
+        var firstName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("first-name", "text", "Jane")), "Enter the " + correctTerm + "'s given name in this field. For example, it might be Jane or John."));
+
+        var lastName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("last-name", "text", "Doe")), "Enter the " + correctTerm  + "'s family name in this field. For example, it might be Smith."));
 
         var affiliatedOrganization = formRowHalfColumn(formGroup(formInputField("affiliated-organization", "text", "University of Chicago Physics Department"), "Enter the " + correctTerm + "'s insititution. For example, University of Chicago Physics Department or University of Chicago Press"));
+	var nameRow = formRow([firstName, lastName]);
+	nameDiv.appendChild(nameRow);
+
         var jobTitle = formRowHalfColumn(formGroup(formInputField("job-title", "text", "Department Chair"), "Enter the " + correctTerm + "'s job title or role with the affiliated organization. For example: dean or associate professor or club president."));
+	
         var phone = phoneGroupDiv(makePhoneInput(1), "phone-numbers");
         var email = emailGroupDiv(makeEmailInput(1), "emails");
-        fieldset.appendChild(formRow([firstName, lastName]));
+        fieldset.appendChild(nameDiv);
         fieldset.appendChild(formRow([affiliatedOrganization, jobTitle]));
         fieldset.appendChild(phone);
         fieldset.appendChild(email);
@@ -907,7 +933,7 @@ $(document).ready(function() {
         form.setAttribute("id", "acquisition-form");
         form.setAttribute("data-toggle", "validator");
         form.setAttribute("role", "form");
-        form.setAttribute("action", "form.html?action=acquisition");
+        form.setAttribute("action", "receipt.html");
         form.setAttribute("form", "form-horizontal");
 
 	var noDonorOrSource = document.createElement("a");
@@ -1068,7 +1094,7 @@ $(document).ready(function() {
         form.setAttribute("id", "physmedia-form");
         form.setAttribute("data-toggle", "validator");
         form.setAttribute("role", "form");
-        form.setAttribute("action", "form.html?action=" + localStorage.getItem("action"));
+        form.setAttribute("action", "form.html?action=acquisition&last=acquisition");
         form.setAttribute("form", "form-horizontal");
         var fieldset = document.createElement("fieldset");
         var legend = document.createElement("legend");
@@ -1103,8 +1129,9 @@ $(document).ready(function() {
         form.setAttribute("id", "restriction-form");
         form.setAttribute("data-toggle", "validator");
         form.setAttribute("role", "form");
-        form.setAttribute("action", "form.html?action=" + localStorage.getItem("action"));
+        form.setAttribute("action", "form.html?action=acquisition");
         form.setAttribute("form", "form-horizontal");
+
         var fieldset = document.createElement("fieldset");
         var legend = document.createElement("legend");
         legend.appendChild(document.createTextNode("Adding a Restriction"));
@@ -1358,18 +1385,11 @@ $(document).ready(function() {
             newRestriction["0"] = newObj;
             localStorage.setItem("Restriction Information", JSON.stringify(newRestriction));
         }
-        var action = localStorage.getItem("action");
-        var item = localStorage.getItem("acquisitionBeingCompleted");
-        if (item !== null) {
-            var newurl = "form.html?action=" + action + "&item=" + item;
-        } else {
-            newurl = "form.html?action=" + localStorage.getItem("action");
-        }
-        form.setAttribute("action", newurl);
     }
 
     function savePersonForm(word, thingToBeEdited) {
         var form = document.getElementById(word + "-form");
+	console.log(form);
         var displayWord = displayAWord(word);
         var forminputs = form.getElementsByClassName("form-control");
         var i = null;
@@ -1402,6 +1422,12 @@ $(document).ready(function() {
                     newObj.Phone = Object.create(null);
                 }
                 newObj.Phone[phoneNum] = forminputs[i].value;
+            } else if (name.indexOf('institution-name') > -1 && forminputs[i].value !== "") {
+	       var v = forminputs[i].value;
+	       newObj["Institution Name"] = v;
+	       console.log(v);
+	       console.log("hi");
+	
             } else if (name.indexOf('first-name') > -1 && forminputs[i].value !== "") {
                 newObj["First Name"] = forminputs[i].value;
             } else if (name.indexOf('last-name') > -1 && forminputs[i].value !== "") {
@@ -1452,14 +1478,6 @@ $(document).ready(function() {
             newPerson["0"] = newObj;
             localStorage.setItem(displayWord, JSON.stringify(newPerson));
         }
-        var action = localStorage.getItem("action");
-        var item = localStorage.getItem("acquisitionBeingCompleted");
-        if (item !== null) {
-            var newurl = "form.html?action=" + action + "&item=" + item;
-        } else {
-            newurl = "form.html?action=" + localStorage.getItem("action");
-        }
-        form.setAttribute("action", newurl);
     }
 
     function loadAList(listName) {
@@ -1497,7 +1515,11 @@ $(document).ready(function() {
                     	dt.appendChild(document.createTextNode("You said that donors are not applicable to this record."));
                     	dl.appendChild(dt);
 		    } else {
-                    	string = dataToLoad[i]["First Name"] + " " + dataToLoad[i]["Last Name"];
+			if (dataToLoad[i]["Institution Name"] !== undefined) {
+			    string = dataToLoad[i]["Institution Name"];
+			} else {
+                    	    string = dataToLoad[i]["First Name"] + " " + dataToLoad[i]["Last Name"];
+                        }
                     	dt = document.createElement("dt");
                     	dt.appendChild(document.createTextNode(string));
                     	dl.appendChild(dt);
@@ -1508,7 +1530,11 @@ $(document).ready(function() {
                     	dt.appendChild(document.createTextNode("You said that sources are not applicable to this record."));
                     	dl.appendChild(dt);
 		    } else  {
-                    	string = dataToLoad[i]["First Name"] + " " + dataToLoad[i]["Last Name"];
+			if (dataToLoad[i]["Institution Name"] !== undefined) {
+			    string = dataToLoad[i]["Institution Name"];
+			} else {
+                    	    string = dataToLoad[i]["First Name"] + " " + dataToLoad[i]["Last Name"];
+			}
                     	dt = document.createElement("dt");
                     	dt.appendChild(document.createTextNode(string));
                     	dl.appendChild(dt);
@@ -1657,87 +1683,92 @@ $(document).ready(function() {
     }
 
     $(function() {
-        $("#donor-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-                var p = getURLQueryParams();
-                var editable = findStringInArray(p, "item=");
-                if (editable !== null) {
-                    savePersonForm("donor", editable.split("=")[1]);
+	$("#donor-form").on('submit', function(event) {
+	    var isValid = event.currentTarget.checkValidity();
+	    if (isValid == true) {
+	    	var p = getURLQueryParams();
+            	var editable = findStringInArray(p, "item=");
+            	if (editable !== null) {
+                    var t = savePersonForm("donor", editable.split("=")[1]);
                 } else {
-                    savePersonForm("donor", null);
-                }
-            }
-        });
-    });
-
-    $(function() {
-        $("#source-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-                var p = getURLQueryParams();
-                var editable = findStringInArray(p, "item=");
-                if (editable !== null) {
-                    answer = savePersonForm("source", editable.split("=")[1]);
-                } else {
-                    savePersonForm("source", null);
-                }
-            }
-
-        });
-    });
-
-    $(function() {
-        $("#physmedia-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-                var p = getURLQueryParams();
-                var editable = findStringInArray(p, "item=");
-                if (editable !== null) {
-                   var t = savePhysmediaForm(editable.split("=")[1]);
-                } else {
-                   var t = savePhysmediaForm(null);
-                }
-            }
-
-        });
-    });
-
-    $(function() {
-        $("#restriction-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-                var p = getURLQueryParams();
-                var editable = findStringInArray(p, "item=");
-                if (editable !== null) {
-                    saveRestrictionForm(editable.split("=")[1]);
-
-                } else {
-                    saveRestrictionForm(null);
-                }
-            }
-        });
-    });
-
-    $(function() {
-        $("#accession-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-                var newRecordID = saveMajorForm("accession")
-        	localStorage.clear();
-	        this.setAttribute("action", "receipt.html?id=" + newRecordID + "&action=accession");
+                    var t = savePersonForm("donor", null);
+            	}
 		return false;
-            }
+	    } else {
+		console.log("form is not valid");
+	    }
+	});
+
+    });
+
+    $(function() {
+        $("#source-form").on('submit', function(event) {
+	    var isValid = event.currentTarget.checkValidity();
+	    if (isValid == true) {
+                 var p = getURLQueryParams();
+                 var editable = findStringInArray(p, "item=");
+             	 if (editable !== null) {
+                     answer = savePersonForm("source", editable.split("=")[1]);
+             	 } else {
+                     answer = savePersonForm("source", null);
+             	 }
+		 console.log(answer);
+            } else {
+		console.log("form is not valid");
+	    }
         });
     });
 
     $(function() {
-        $("#acquisition-form").validator().on('submit', function(e) {
-            if (!e.isDefaultPrevented()) {
-		var answer = confirm("You are about to submit your complete acquisition record including: donor/source, physical media, restriction and main form information, to the LDR. Are you sure that you want to do this?");
+	$("#physmedia-form").on('submit', function(event) {
+	    var isValid = event.currentTarget.checkValidity();
+	    if (isValid == true) {
+	    	var p = getURLQueryParams();
+            	var editable = findStringInArray(p, "item=");
+            	if (editable !== null) {
+                    var t = savePhysmediaForm(editable.split("=")[1]);
+                } else {
+                    var t = savePhysmediaForm(null);
+            	}
+	    } else {
+		console.log("form is not valid");
+	    }
+	});
+    });
+
+    $(function() {
+	$("#restriction-form").on('submit', function(e) {
+	    var isValid = event.currentTarget.checkValidity();
+	    if (isValid == true) {
+                var p = getURLQueryParams();
+            	var editable = findStringInArray(p, "item=");
+            	if (editable !== null) {
+            	    saveRestrictionForm(editable.split("=")[1]);
+            	} else {
+                   saveRestrictionForm(null);
+                }
+            } else {
+		console.log("form is not valid.");
+	    }
+        });
+
+    });
+
+    $(function() {
+        $("#acquisition-form").on('submit', function(event) {
+	    var isValid = event.currentTarget.checkValidity();
+	    if (isValid == true) {
+	        var answer = confirm("You are about to submit your complete acquisition record including: donor/source, physical media, restriction and main form information, to the LDR. Are you sure that you want to do this?");
 		if (answer == true) {
-		    var newRecordId = saveMajorForm("acquisition");
-		    localStorage.clear();
-		    location.replace("receipt.html?id=" + newRecordId + "&action=acquisition");
+	    	    var recordID = saveMajorForm("acquisition");
+		    localStorage.setItem("New Record", recordID);
 
-		} 
-		return false;
-            }
+		} else {
+		   return false;
+		}
+	    } else {
+		console.log("form is not valid");
+	    }
         });
     }); 
 
@@ -1846,7 +1877,6 @@ $(document).ready(function() {
     $(function() {
         $("[id^='delete']").click(function() {
             var check = confirm("Are you sure?");
-	   
 	    if (check == true) {
             	var id = this.getAttribute("id");
             	var idParts = id.split('-');
@@ -1877,16 +1907,13 @@ $(document).ready(function() {
                 } else {
                     localStorage.setItem(word, JSON.stringify(newObj));
                 }
-		location.load();
+		location.reload();
 	    } else {
 		console.log("never mind");
 
 	    }
-      	    return false;
         });
     });
-
-  
 
     $(function() {
         $("#new-donor-button").click(function() {
@@ -2020,6 +2047,31 @@ $(document).ready(function() {
            }
        });
     });
+
+
+    $(function() {
+       $("#setInstitutionType").click(function() {
+	    var t = $("#nameInputArea");
+	    var institutionName = formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("institution-name", "text", "Jane")), "Enter the institution's given name in this field. For example, it might be Jane or John."));
+	    var newRow = formRow([institutionName]);
+	    t.html(newRow); 
+	    console.log(t);	
+	    console.log("hello");
+       });
+    });
+
+    $(function() {
+       $("#unsetInstitutionType").click(function() {
+    		var t = $("#nameInputArea");
+        	var firstName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("first-name", "text", "Jane")), "Enter the person's given name in this field. For example, it might be Jane or John."));
+
+        	var lastName = formRowHalfColumn(formGroup(makeAFormInputRequired(formInputField("last-name", "text", "Doe")), "Enter the person's family name in this field. For example, it might be Smith."));
+			
+		var nameRow = formRow([firstName, lastName]);
+	    	t.html(nameRow); 
+       });
+    });
+
 
 
     $(function() {

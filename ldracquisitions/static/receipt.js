@@ -7,55 +7,15 @@ var ajaxURL = "http://127.0.0.1:5000/";
 $(document).ready(function () {
     "use strict";
 
-    function displayAWord(aString) {
-        var firstLetter = aString[0].toUpperCase();
-        var restOfString = aString.slice(1, aString.length);
-        return firstLetter + restOfString;
-    }
-
-    function getURLQueryParams() {
-        var url = window.location;
-        var searchParams = url.search;
-        var out = null;
-        if (searchParams.indexOf("&") > -1) {
-            out = searchParams.split("?")[1].split("&");
-        } else {
-            out = searchParams.split("?"); //.split("&");
-        }
-        return out;
-    }
-
-    function findStringInArray(aList, stringValue) {
-        var cur = null;
-        var out = null;
-        var i = 0;
-        for (i = 0; i < aList.length; i += 1) {
-            cur = aList[i];
-            if (cur.indexOf(stringValue) > -1) {
-                out = cur;
-            }
-        }
-        return out;
-    }
-
-    var params = getURLQueryParams();
-    var decision = findStringInArray(params, "action=");
-    var id = findStringInArray(params, "id=");
-    if (id === "") {
-        id = null;
-    } else {
-        id = id.split("id=")[1];
-    }
-    if (decision === "") {
-        decision = null;
-    } else {
-        decision = decision.split("action=")[1];
-    }
+    var id = localStorage.getItem("New Record");
+    localStorage.removeItem("Donor");
+    localStorage.removeItem("Source");
+    localStorage.removeItem("Physical Media Information");
+    localStorage.removeItem("Restriction Information");
+    localStorage.removeItem("Major Form");
     var header = $("#receipt-header");
-    var headerText = document.createTextNode("Receipt for " + displayAWord(decision));
+    var headerText = document.createTextNode("Receipt for new Acquisition");
     header.html(headerText);
-    console.log(header);
-    console.log(headerText);
     var div = $("#receipt-div");
     var p = document.createElement("p");
     var pText = document.createTextNode("You have created a new acquisition record. If you want to verify with the DAS, please give him this identifier:  " + id + ". Otherwise, you can review the record you just created by clicking on the List Acquisitions link at the top of the screen and finding the identifier in the list that will be displayed. Thank you for your submission.");
