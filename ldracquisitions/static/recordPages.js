@@ -459,26 +459,28 @@ $(document).ready(function() {
         var data = null
         if (n !== null) {
             data = JSON.parse(n);
-        }
-        var d = data[0];
-        $.each(Object.keys(d), function(index, value) {
-            var st = "[name='" + value + "']";
-	    if (value == "other-collection-status") {
-        	var otherCollectionStatus = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("other-collection-status", "text", ""))))]);
-		var theDiv = document.getElementById("collection-status-definition");
-		theDiv.appendChild(otherCollectionStatus);
-	    }
-	    if (value == "other-organization") {
-		var input = formInputField("other-organization", "text", "")
-		var requiredInput = makeAFormInputRequired(input);
-		var theGroup = formGroup(requiredInput);
-		var theRow = formRow([formRowWholeColumn(theGroup)]);
-		var theDiv = document.getElementById("organization-definition");
-		theDiv.appendChild(theRow);	
-	    }
-            var t = $(st);
-            t.val(d[value]);
-        });
+	    if (data !== null) {
+                var d = data[0];
+            	$.each(Object.keys(d), function(index, value) {
+                    var st = "[name='" + value + "']";
+	    	    if (value == "other-collection-status") {
+        	        var otherCollectionStatus = formRow([formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("other-collection-status", "text", ""))))]);
+		    	var theDiv = document.getElementById("collection-status-definition");
+		    	theDiv.appendChild(otherCollectionStatus);
+	            }
+	    	    if (value == "other-organization") {
+		        var input = formInputField("other-organization", "text", "")
+		    	var requiredInput = makeAFormInputRequired(input);
+		    	var theGroup = formGroup(requiredInput);
+		    	var theRow = formRow([formRowWholeColumn(theGroup)]);
+		    	var theDiv = document.getElementById("organization-definition");
+		    	theDiv.appendChild(theRow);	
+	            }
+                    var t = $(st);
+                    t.val(d[value]);
+                });
+            }
+	}
     }
 
     function prePopPersonForm(word) {
@@ -487,9 +489,22 @@ $(document).ready(function() {
         var emaildiv = document.getElementById("emails");
         var phonediv = document.getElementById("phone-numbers");
         var addresses = document.getElementById("addresses");
+	var namearea = document.getElementById("nameInputArea");
+	console.log(namearea);
         var recordEmails = currentRecord["Email"];
         var recordPhones = currentRecord["Phone"];
         var recordAddresses = currentRecord["Address Information"];
+	var recordInstitutionName = currentRecord["Institution Name"];
+	var personFirstName = currentRecord["First Name"];
+	console.log(personFirstName);
+	console.log(recordInstitutionName);
+	if (recordInstitutionName !== undefined) {
+	    var t = $("#nameInputArea");
+	    var institutionName = formRowWholeColumn(formGroup(makeAFormInputRequired(formInputField("institution-name", "text", "Jane")), "Enter the institution's given name in this field. For example, it might be Jane or John."));
+	    var newRow = formRow([institutionName]);
+	    t.html(newRow); 
+	    var a = $("input[name='institution-name']").val(recordInstitutionName);
+	}
         if (recordEmails !== undefined) {
             var emailKeys = Object.keys(recordEmails);
             var copied = emailKeys.splice(1, emailKeys.length - 1);
@@ -936,68 +951,12 @@ $(document).ready(function() {
         form.setAttribute("action", "receipt.html");
         form.setAttribute("form", "form-horizontal");
 
-	var noDonorOrSource = document.createElement("a");
-        noDonorOrSource.setAttribute("href", "#");
-        noDonorOrSource.setAttribute("id", "no-donorSource-button");
-        noDonorOrSource.setAttribute("class", "btn btn-primary");
-        noDonorOrSource.setAttribute("role", "button");
-        noDonorOrSource.appendChild(document.createTextNode("No Donor/Source"));
-
-        var addDonor = document.createElement("a");
-        addDonor.setAttribute("href", "#");
-        addDonor.setAttribute("id", "new-donor-button");
-        addDonor.setAttribute("class", "btn btn-primary");
-        addDonor.setAttribute("role", "button");
-        addDonor.appendChild(document.createTextNode("Donor"));
-
-        var addSource = document.createElement("a");
-        addSource.setAttribute("href", "#");
-        addSource.setAttribute("id", "new-source-button");
-        addSource.setAttribute("class", "btn btn-primary");
-        addSource.setAttribute("role", "button");
-        addSource.appendChild(document.createTextNode("Source"));
-
-        var addPhysmedia = document.createElement("a");
-        addPhysmedia.setAttribute("href", "#");
-        addPhysmedia.setAttribute("id", "new-physmedia-button");
-        addPhysmedia.setAttribute("class", "btn btn-primary");
-        addPhysmedia.setAttribute("role", "button");
-        addPhysmedia.appendChild(document.createTextNode("Physical Media"));
-
-        var addRestriction = document.createElement("a");
-        addRestriction.setAttribute("href", "#");
-        addRestriction.setAttribute("id", "new-restriction-button");
-        addRestriction.setAttribute("class", "btn btn-primary");
-        addRestriction.setAttribute("role", "button");
-        addRestriction.appendChild(document.createTextNode("Restriction"));
-
-        var mainForm = document.createElement("a");
-        mainForm.setAttribute("href", "#");
-        mainForm.setAttribute("id", "main-form");
-        mainForm.setAttribute("class", "btn btn-primary");
-        mainForm.setAttribute("role", "button");
-        mainForm.appendChild(document.createTextNode("Main Form"));
-
         var legend = document.createElement("legend");
-
         var legendH3 = document.createElement("h3");
+        var actionP = document.createElement("p");
+        legendH3.appendChild(document.createTextNode("Defining Acquisition Details"));
 
-        var legendP = document.createElement("p");
-        legendH3.appendChild(document.createTextNode("Creating an Acquisition"));
-
-	legendP.appendChild(noDonorOrSource);
-        legendP.appendChild(document.createTextNode(" "));
-        legendP.appendChild(addDonor);
-        legendP.appendChild(document.createTextNode(" "));
-        legendP.appendChild(addSource);
-        legendP.appendChild(document.createTextNode(" "));
-        legendP.appendChild(addPhysmedia);
-        legendP.appendChild(document.createTextNode(" "));
-        legendP.appendChild(addRestriction);
-        legendP.appendChild(document.createTextNode(" "));
-        legendP.appendChild(mainForm);
         legend.appendChild(legendH3);
-        legend.appendChild(legendP);
 
         var fieldset = document.createElement("fieldset");
         fieldset.appendChild(legend);
@@ -1071,20 +1030,11 @@ $(document).ready(function() {
         var acquisitionDate = formHiddenField("acquisition-date", currentDate);
         fieldset.appendChild(acquisitionDate);
 
-        var save = document.createElement("a");
-        save.setAttribute("role", "button");
-        save.setAttribute("name", "save");
-        save.setAttribute("id", "save-acquisition");
-        save.setAttribute("class", "btn btn-primary");
-        save.appendChild(document.createTextNode("Save This Part of The Record"));
-
         var div = document.createElement("div");
         div.setAttribute("id", "submit-acquisition");
-	div.appendChild(save);
         fieldset.appendChild(div);
-
         form.appendChild(fieldset);
-        formdiv.html(form);
+        formdiv.append(form);
     }
 
     function buildPhysmediaForm() {
@@ -1291,15 +1241,8 @@ $(document).ready(function() {
             var name = value.getAttribute("name");
             newObj[0][name] = val;
         });
-        if (localStorage.getItem("Major Form") === null) {
-	        var string_data = JSON.stringify(newObj);
-        	localStorage.setItem("Major Form", string_data);
-        } else {
-		var t = JSON.parse(localStorage.getItem("Major Form"));
-		t[thingToBeEdited] = newObj[0];
-		var string_data = JSON.stringify(t);
-		localStorage.setItem("Major Form", string_data);
-       	}
+	var string_data = JSON.stringify(newObj);
+	localStorage.setItem("Major Form", string_data);
     }
 
     function savePhysmediaForm(thingToBeEdited) {
@@ -1689,7 +1632,6 @@ $(document).ready(function() {
                 } else {
                     var t = savePersonForm("donor", null);
             	}
-		return false;
 	    } else {
 	    }
 	});
@@ -1757,7 +1699,6 @@ $(document).ready(function() {
 		} else {
 		   return false;
 		}
-	    } else {
 	    }
         });
     }); 
@@ -1765,14 +1706,9 @@ $(document).ready(function() {
 
     $(function() {
         $("#save-acquisition").click(function() {
-            var p = getURLQueryParams();
-            var editable = findStringInArray(p, "item=");
-	    if (editable !== null) {
-		saveMajorFormState(editable.split("=")[1]);
-	    } else {
-            	saveMajorFormState();
-	    }
-            location.reload();
+	    saveMajorFormState();
+	    alert("Your work has been saved. From now on, if you want to recover it just click on the Review button next to the item in the Acquisiton Form section of the sidebar.");
+	    window.location.reload();
         });
     });
 
@@ -1794,8 +1730,7 @@ $(document).ready(function() {
 	    newObj[0]['notApplicable'] = true;
 	    localStorage.setItem("Donor", JSON.stringify(newObj));
 	    localStorage.setItem("Source", JSON.stringify(newObj));
-	    location.reload();
-	    return false;	
+	    window.location.reload();
         });
     });
 
@@ -1804,7 +1739,7 @@ $(document).ready(function() {
     $(function() {
         $("#new-donor-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=donor&last=" + last);
+            window.location.replace("form.html?action=donor&last=" + last);
         });
     });
 
@@ -1814,7 +1749,7 @@ $(document).ready(function() {
             if (confirmAction == true) {
                 var cancelAction = localStorage.getItem("action");
                 localStorage.clear();
-                location.replace("form.html?action=" + cancelAction);
+                window.location.replace("form.html?action=" + cancelAction);
             }
         });
     });
@@ -1822,34 +1757,27 @@ $(document).ready(function() {
     $(function() {
         $("#new-source-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=source&last=" + last);
+            window.location.replace("form.html?action=source&last=" + last);
         });
     });
 
     $(function() {
         $("#new-restriction-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=restriction&last=" + last);
+            window.location.replace("form.html?action=restriction&last=" + last);
         });
     });
 
     $(function() {
         $("#new-physmedia-button").click(function() {
-            location.replace("form.html?action=physmedia");
+            window.location.replace("form.html?action=physmedia");
         });
     });
 
     $(function() {
         $("#main-form").click(function() {
-            location.replace("form.html?action=acquisition");
+            window.location.replace("form.html?action=acquisition");
 	    var majorFormData = localStorage.getItem("Major Form");
-        });
-    });
-
-
-
-    $(function() {
-        $("#save-acquisition").click(function() {
         });
     });
 
@@ -1861,7 +1789,7 @@ $(document).ready(function() {
 
     $(function() {
         $("[id^='delete']").click(function() {
-            var check = confirm("Are you sure?");
+            var check = confirm("You are about to delete something. Once you do this, you cannot recover that data. Are you sure that you want to delete that?");
 	    if (check == true) {
             	var id = this.getAttribute("id");
             	var idParts = id.split('-');
@@ -1891,8 +1819,9 @@ $(document).ready(function() {
                     localStorage.removeItem(word);
                 } else {
                     localStorage.setItem(word, JSON.stringify(newObj));
-                }
-		location.reload();
+       		}        
+		window.location.replace("form.html?action=acquisition");
+	
 	    } else {
 
 	    }
@@ -1902,7 +1831,7 @@ $(document).ready(function() {
     $(function() {
         $("#new-donor-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=donor&last=" + last);
+            window.location.replace("form.html?action=donor&last=" + last);
         });
     });
 
@@ -1912,7 +1841,7 @@ $(document).ready(function() {
             if (confirmAction == true) {
                 var cancelAction = localStorage.getItem("action");
                 localStorage.clear();
-                location.replace("form.html?action=" + cancelAction);
+                window.location.replace("form.html?action=" + cancelAction);
             }
         });
     });
@@ -1920,26 +1849,26 @@ $(document).ready(function() {
     $(function() {
         $("#new-source-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=source&last=" + last);
+            window.location.replace("form.html?action=source&last=" + last);
         });
     });
 
     $(function() {
         $("#new-restriction-button").click(function() {
             var last = localStorage.getItem("action");
-            location.replace("form.html?action=restriction&last=" + last);
+            window.location.replace("form.html?action=restriction&last=" + last);
         });
     });
 
     $(function() {
         $("#new-physmedia-button").click(function() {
-            location.replace("form.html?action=physmedia");
+            window.location.replace("form.html?action=physmedia");
         });
     });
 
     $(function() {
         $("#main-form").click(function() {
-            location.replace("form.html?action=acquisition");
+            window.location.replace("form.html?action=acquisition");
 	    var majorFormData = localStorage.getItem("Major Form");
         });
     });
@@ -1989,7 +1918,7 @@ $(document).ready(function() {
                 localStorage.setItem(word, JSON.stringify(newObj));
 
             }
-            location.reload();
+            window.location.reload();
          });
     });
 
@@ -2048,8 +1977,6 @@ $(document).ready(function() {
        });
     });
 
-
-
     $(function() {
         $('input[name="date-files-received"]').datepicker();
     });
@@ -2065,11 +1992,13 @@ $(document).ready(function() {
     var params = getURLQueryParams();
     var id = findStringInArray(params, "item=");
     var decision = findStringInArray(params, "action=");
+
     if (decision === "") {
         decision = null;
     } else {
         decision = decision.split("action=")[1];
     }
+
     if (decision === 'accession' || decision === 'acquisition') {
         localStorage.setItem("action", decision);
     }
@@ -2083,6 +2012,7 @@ $(document).ready(function() {
     } else {
         emptyFormSwitchFunc(decision);
     }
+
     loadAList("donors-list");
     loadAList("sources-list");
     loadAList("physmedia-list");
@@ -2093,7 +2023,7 @@ $(document).ready(function() {
     var sourceFilled = localStorage.getItem("Source");
     var physmediaFilled = localStorage.getItem("Physical Media Information");
     var restrictionFilled = localStorage.getItem("Restriction Information");
-    if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null)) {
+    if (((donorFilled !== null) | (sourceFilled !== null)) & (restrictionFilled !== null) & (physmediaFilled !== null)) {
         var submit = document.createElement("button");
         submit.setAttribute("name", "save");
         submit.setAttribute("id", "submit-acquisition");

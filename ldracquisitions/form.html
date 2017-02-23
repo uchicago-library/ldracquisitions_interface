@@ -39,46 +39,50 @@
         </div>
     </nav>
     <div class="container">
-        <div class="col-lg-7" id="form-div">
-        </div>
         <div class="col-lg-5">
-
-            <h3>Your Progress Through the Form</h3>
-	    <p>As you complete each page in the form, that item will appear in the relevant list below. You can review that item (and edit it if you choose) at any time by clicking on the "Review this" button for that item. If, on the other hand, you want to delete that item you can click on the "Delete" button that is relevant to that item. This progress includes saving your work on the main form.</p>
+	    <div class="row">
+            	<h3>Your Progress Through the Form</h3>
+	    	<p>As you complete each page in the form, that item will appear in the relevant list below. You can review that item (and edit it if you choose) at any time by clicking on the "Review this" button for that item. If, on the other hand, you want to delete that item you can click on the "Delete" button that is relevant to that item. This progress includes saving your work on the main form.</p>
+	    </div>
+	    <div class="row">
+		<p><a href="#" class="btn btn-primary" role="button" id="no-donorSource-button">No Donor or Source</a> <a href="#" class="btn btn-primary" role="button" id="save-acquisition">Save Acquisition Details</a></p>
+	    </div>
             <div class="row">
-                <h3>Donors
-                </h3>
+                <h3>Acquisition Details</h3>
+                <div id="acquisition-list">
+                    <p>No acquisition record at this time.</p>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Donors <a href="#" class="btn btn-primary" role="button" id="new-donor-button">Add Donor</a></h3>
                 <div id="donors-list">
                     <p>No donors right now. If you add one, it will appear listed here.</p>
                 </div>
             </div>
             <div class="row">
-                <h3>Sources
+                <h3>Sources <a href="#" class="btn btn-primary" role="button" id="new-source-button">Add Source</a>
                 </h3>
                 <div id="sources-list">
                     <p>No sources right now. If you add one, it will appear listed here.</p>
                 </div>
 	    </div>
 	    <div class="row">
-                <h3>Restrictions
+                <h3>Restrictions <a href="#" class="btn btn-primary" role="button" id="new-restriction-button">Add Restriction</a>
                 </h3>
                 <div id="restriction-list">
                     <p>No restrictions right now. If you add one, it will appear listed here.</p>
                 </div>
             </div>
             <div class="row">
-                <h3>Physical Media
+                <h3>Physical Media <a href="#" class="btn btn-primary" role="button" id="new-physmedia-button">Add Media</a>
                 </h3>
                 <div id="physmedia-list">
                     <p>No physical media right now. If you add one, it will appear listed here.</p>
                 </div>
             </div>
-            <div class="row">
-                <h3>Acquisition Form</h3>
-                <div id="acquisition-list">
-                    <p>No acquisition record at this time.</p>
-                </div>
-            </div>
+        </div>
+
+        <div class="col-lg-7" id="form-div">
         </div>
     </div>
     </div>
