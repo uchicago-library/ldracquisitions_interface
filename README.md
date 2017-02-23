@@ -75,59 +75,6 @@ It has the following fields:
 13. Add 1 or more restrictions
 14. Add 1 or more physical media components
 
-## Accession Record
-
-### Introduction
-
-The accession record is the one that the Digital Accession Specialist creates. It is the complete record that is stored in the LDR system for every single deposit of resources.
-
-Its main purpose is to be a historical record of the deposit when it first arrived at the LDR and to provide useful statistics about the LDR's contents.
-
-It has the following fields:
-
-- all of the fields in the acquisition record
-- a formal collection title = must be a formal SPCL collection title (e.g. Brainerd, Mary J. Digital Collection.)
-- ead identifier = must be a valid SPCL EAD id (e.g. ICU.SPCL.FOO)
-- span date for the intellectual content that the resources represent = must be two ISO-8601 formatted dates
-- should the public access it = must be True or False
-- should the public discover it = must be True or False
-- fiscal year = must be a year with four numerals followed by a dash followed by a year with four numerals
-- organization = must be a department in the University of Chicago
-- prc = must be either "P" or "R" or "C" (may be obsolete)
-- type = must be a formal SPCL type designation (may be obsolete)
-- origin description = must be 1 or more sentences
-- rights = must be 1 or more sentences
-- access description = may be 1 or more sentences
-- files staged date = must be an ISO-8601 formatted date
-- files received date = must be an ISO-8601 formatted date
-
-### Description of actions performed by the user
-
-1. Modify or leave as-is accession identifier entered by the acquisition record maker
-2. Add an EAD identifier
-3. Enter the formal collection title that this record belongs to
-4. Enter the intellectual date range of the material in this accession
-5. Write a description of the contents of the accession. What is the intellectual content? Who created it? Why is it useful to the scholarly record?
-6. Check if the public should access it
-7. Check if the public should discover it
-8. Modify or leave as-is if a the reciept letter was required
-9. Modify or leave as-is if a receipt letter was sent
-10. Modify or leave as-is if a gift acknowledgement is required
-11. Modify or leave as-is if a gift acknowledgement was received
-12. Enter the fiscal year that this accession belongs in
-13. Modify or leave as-is the organization that created this record
-14. Enter a P if this collection is a Papers collection, an R if it is a Records collection, or a C if it is a general collection
-15. Enter the SPCL type that this accessoin belongs to
-16. Modify or leave as-is the origin description
-17. Enter the legal rights associated with the material in this accession
-18. Enter the access description for the material in this accessoin
-19. Enter any information that is not otherwise in the form that you believe a future DAS might need to know about the contents of this accession
-20. Enter the date that the files in this accession were staged
-21. Enter the date that the files in this accession were received by SPCL
-22. Modify or leave as-is the donors for this accessoin
-23. Modify or leave as-is the sources for this accession
-24. Modify or leave as-is the restrictions for this accesion
-25. Modify or leave as-is the physical media associated with this accession
 
 ## Donor and Source Forms
 
@@ -139,6 +86,9 @@ They have the following fields
 
 - first name
 - last name
+or 
+- instution name
+and 
 - phone number
 - email address
 - mailing street number and name
